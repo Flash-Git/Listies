@@ -1,0 +1,37 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "main": "server.ts",
+  "author": "J Quinn",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "@types/jest": "^24.0.18",
+    "@types/node": "^12.7.9",
+    "@types/react": "^16.9.4",
+    "@types/react-dom": "^16.9.1",
+    "bcryptjs": "^2.4.3",
+    "config": "^3.2.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.1.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.6.4",
+    "typescript": "^3.6.3"
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.1",
+    "nodemon": "^1.19.1",
+    "ts-node": "^8.4.1"
+  },
+  "scripts": {
+    "start": "nodemon server.ts",
+    "client": "cd client; yarn start; cd ..",
+    "clientInstall": "cd client; yarn install; cd ..",
+    "dev": "concurrently \"yarn start\" \"yarn client\"",
+    "devInstall": "yarn install; yarn clientInstall",
+    "devUpgrade": "yarn upgrade; cd client; yarn upgrade; cd .."
+  },
+  "repository": {
+    "type": "git"
+  }
+}
