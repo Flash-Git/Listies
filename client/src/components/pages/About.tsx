@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 
-const About = () => (
+const About: React.FC = () => (
   <Fragment>
     <h1>About</h1>
     <p className="my-1">Full stack React app</p>
