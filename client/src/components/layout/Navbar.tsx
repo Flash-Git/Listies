@@ -4,8 +4,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
 
 import AuthContext from "../../context/auth/AuthContext";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
-const Navbar = ({ title, icon }) => {
+interface IProps {
+  title: string;
+  icon: IconProp;
+}
+
+const Navbar = ({ title, icon }: IProps) => {
   const authContext = useContext(AuthContext);
 
   const { isAuthenticated, user, logout } = authContext;
