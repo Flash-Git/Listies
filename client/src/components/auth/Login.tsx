@@ -1,9 +1,10 @@
 import React, { useState, useContext, useEffect } from "react";
+import PropTypes from "prop-types";
 
 import AlertContext from "../../context/alert/AlertContext";
 import AuthContext from "../../context/auth/AuthContext";
 
-const Login = props => {
+const Login = ({ history }: any) => {
   const alertContext = useContext(AlertContext);
   const authContext = useContext(AuthContext);
 
@@ -18,18 +19,19 @@ const Login = props => {
   const { email, password } = user;
 
   useEffect(() => {
-    isAuthenticated && props.history.push("/");
+    isAuthenticated && history.push("/");
 
     if (error) {
       setAlert(error, "danger");
       clearErrors();
     }
     //eslint-disable-next-line
-  }, [error, isAuthenticated, props.history]);
+  }, [error, isAuthenticated, history]);
 
-  const onChange = e => setUser({ ...user, [e.target.name]: e.target.value });
+  const onChange = (e: { target: { name: string; value: string } }) =>
+    setUser({ ...user, [e.target.name]: e.target.value });
 
-  const onSubmit = e => {
+  const onSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     if (email === "" || password === "") {
       setAlert("Please fill in all fields", "danger");
@@ -68,6 +70,10 @@ const Login = props => {
       </form>
     </div>
   );
+};
+
+Login.propTypes = {
+  history: PropTypes.object.isRequired
 };
 
 export default Login;

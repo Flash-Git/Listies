@@ -3,7 +3,7 @@ import React, { useState, useContext, useEffect } from "react";
 import AlertContext from "../../context/alert/AlertContext";
 import AuthContext from "../../context/auth/AuthContext";
 
-const Register = props => {
+const Register: React.FC = ({ history }: any) => {
   const alertContext = useContext(AlertContext);
   const authContext = useContext(AuthContext);
 
@@ -20,18 +20,19 @@ const Register = props => {
   const { name, email, password, password2 } = user;
 
   useEffect(() => {
-    isAuthenticated && props.history.push("/");
+    isAuthenticated && history.push("/");
 
     if (error) {
       setAlert(error, "danger");
       clearErrors();
     }
-    //eslint-disable-next-line
-  }, [error, isAuthenticated, props.history]);
+    // eslint-disable-next-line
+  }, [error, isAuthenticated, history]);
 
-  const onChange = e => setUser({ ...user, [e.target.name]: e.target.value });
+  const onChange = (e: { target: { name: any; value: any } }) =>
+    setUser({ ...user, [e.target.name]: e.target.value });
 
-  const onSubmit = e => {
+  const onSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     if (name === "" || email === "" || password === "") {
       setAlert("Please enter all fields", "danger");
@@ -44,9 +45,7 @@ const Register = props => {
     } else {
       if (password.length > 72)
         setAlert(
-          `The server will only use the first 72 characters of your ${
-            password.length
-          } character password`,
+          `The server will only use the first 72 characters of your ${password.length} character password`,
           "dark",
           30000
         );
