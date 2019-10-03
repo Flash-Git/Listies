@@ -3,7 +3,7 @@ import { Route, Redirect } from "react-router-dom";
 
 import AuthContext from "../../context/auth/AuthContext";
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
+const PrivateRoute = ({ component: Component, ...rest }: any) => {
   const authContext = useContext(AuthContext);
   const { isAuthenticated, loading } = authContext;
 
@@ -20,4 +20,5 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     />
   );
 };
+
 export default PrivateRoute;
