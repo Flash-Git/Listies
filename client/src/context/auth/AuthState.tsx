@@ -15,8 +15,10 @@ import {
   CLEAR_ERRORS
 } from "../types";
 
-const AuthState = props => {
-  const initialState = {
+import { IState } from "./IAuth";
+
+const AuthState: React.FC = props => {
+  const initialState: IState = {
     token: localStorage.getItem("token"),
     isAuthenticated: null,
     loading: true,
@@ -30,7 +32,11 @@ const AuthState = props => {
    * Actions
    */
 
-  const register = async formData => {
+  const register = async (formData: {
+    name: string;
+    email: string;
+    password: string;
+  }) => {
     const config = {
       headers: {
         "Content-Type": "application/json"
@@ -56,7 +62,7 @@ const AuthState = props => {
     }
   };
 
-  const login = async formData => {
+  const login = async (formData: { email: string; password: string }) => {
     const config = {
       headers: {
         "Content-Type": "application/json"

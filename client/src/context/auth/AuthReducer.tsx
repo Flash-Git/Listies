@@ -9,7 +9,9 @@ import {
   CLEAR_ERRORS
 } from "../types";
 
-export default (state, action) => {
+import { IState, IAction } from "./IAuth";
+
+const AuthReducer = (state: IState, action: IAction): IState => {
   switch (action.type) {
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
@@ -34,11 +36,12 @@ export default (state, action) => {
         error: action.payload
       };
     case USER_LOADED:
+      const { _id, name, email, date } = action.payload;
       return {
         ...state,
         isAuthenticated: true,
         loading: false,
-        user: action.payload
+        user: { _id, name, email, date }
       };
     case CLEAR_ERRORS:
       return {
@@ -49,3 +52,5 @@ export default (state, action) => {
       return state;
   }
 };
+
+export default AuthReducer;
