@@ -224,6 +224,9 @@ img {
 }
 
 .alert {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   padding: 0.7rem;
   margin: 1rem 0;
   opacity: 0.9;

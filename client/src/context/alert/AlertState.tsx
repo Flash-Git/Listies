@@ -6,8 +6,10 @@ import AlertReducer from "./AlertReducer";
 
 import { SET_ALERT, REMOVE_ALERT } from "../types";
 
-const AlertState = props => {
-  const initialState = [];
+import { IAlerts } from "./IAuth";
+
+const AlertState: React.FC = props => {
+  const initialState: IAlerts = [];
 
   const [state, dispatch] = useReducer(AlertReducer, initialState);
 
@@ -15,7 +17,7 @@ const AlertState = props => {
    * Actions
    */
 
-  const setAlert = (msg, type, timeout = 5000) => {
+  const setAlert = (msg: string, type: string, timeout: number = 5000) => {
     const id = uuid.v4();
     dispatch({
       type: SET_ALERT,
@@ -25,7 +27,8 @@ const AlertState = props => {
     setTimeout(() => dispatch({ type: REMOVE_ALERT, payload: id }), timeout);
   };
 
-  const removeAlert = id => dispatch({ type: REMOVE_ALERT, payload: id });
+  const removeAlert = (id: string) =>
+    dispatch({ type: REMOVE_ALERT, payload: id });
 
   return (
     <AlertContext.Provider
