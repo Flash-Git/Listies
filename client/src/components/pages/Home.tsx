@@ -2,7 +2,7 @@ import React, { Fragment, useContext, useEffect, useState } from "react";
 
 import AuthContext from "../../context/auth/AuthContext";
 
-const Home = () => {
+const Home: React.FC = () => {
   const authContext = useContext(AuthContext);
   const { loadUser } = authContext;
 
