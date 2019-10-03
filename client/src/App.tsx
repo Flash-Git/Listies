@@ -7,6 +7,7 @@ import {
   faEnvelopeOpen,
   faPhone,
   faInfoCircle,
+  faTimesCircle,
   faSignOutAlt,
   faFileContract
 } from "@fortawesome/free-solid-svg-icons";
@@ -30,13 +31,14 @@ library.add(
   faEnvelopeOpen,
   faPhone,
   faInfoCircle,
+  faTimesCircle,
   faSignOutAlt,
   faFileContract
 );
 
 localStorage.token && setAuthToken(localStorage.token);
 
-const App = () => (
+const App: React.FC = () => (
   <AuthState>
     <AlertState>
       <Router>
