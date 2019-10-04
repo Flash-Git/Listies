@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect } from "react";
+import React, { useContext, useEffect, Fragment } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import ListContext from "../../context/list/ListContext";
@@ -10,7 +10,7 @@ import { IList } from "../../context/list/IList";
 const Lists = () => {
   const listContext = useContext(ListContext);
 
-  const { loading, lists, getLists } = listContext;
+  const { loading, lists, getLists, hidden } = listContext;
 
   useEffect(() => {
     getLists();
@@ -26,19 +26,23 @@ const Lists = () => {
   }
 
   return (
-    <div className="container">
-      {lists && !loading ? (
-        <TransitionGroup>
-          {lists.map((list: IList) => (
-            <CSSTransition key={list.id} timeout={200} classNames="item">
-              <ListItem list={list} />
-            </CSSTransition>
-          ))}
-        </TransitionGroup>
-      ) : (
-        <Spinner />
+    <Fragment>
+      {!hidden && (
+        <div className="container">
+          {lists && !loading ? (
+            <TransitionGroup>
+              {lists.map((list: IList) => (
+                <CSSTransition key={list.id} timeout={200} classNames="item">
+                  <ListItem list={list} />
+                </CSSTransition>
+              ))}
+            </TransitionGroup>
+          ) : (
+            <Spinner />
+          )}
+        </div>
       )}
-    </div>
+    </Fragment>
   );
 };
 
