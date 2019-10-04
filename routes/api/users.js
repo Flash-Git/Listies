@@ -5,47 +5,45 @@ const jwt = require("jsonwebtoken");
 const { check } = require("express-validator");
 const config = require("config");
 
-const auth = require("../middleware/auth");
-const User = require("../models/User");
+const User = require("../../models/User");
 const handleErrors = require("./handleErrors");
 
-// @route   GET api/auth
-// @desc    Get logged in user
-// @access  PRIVATE
-router.get("/", auth, async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id).select("-password");
-    res.json(user);
-  } catch (e) {
-    console.error(e.message);
-    res.status(500).send({ msg: "Server Error" });
-  }
-});
-
-// @route   POST api/auth
-// @desc    Auth user & get token
+// @route   POST api/users
+// @desc    Register a users
 // @access  PUBLIC
 router.post(
   "/",
   [
-    check("email", "Please enter your email address").isEmail(),
-    check("password", "Please enter your password").exists()
+    check("name", "Please enter a name")
+      .not()
+      .isEmpty(),
+    check("email", "Please enter a valid email address").isEmail(),
+    check(
+      "password",
+      "Please enter a password with 7 or more characters"
+    ).isLength({
+      min: 7
+    })
   ],
   async (req, res) => {
     if (handleErrors(req, res)) return;
 
-    const { email, password } = req.body;
+    const { name, email, password } = req.body;
 
     try {
       let user = await User.findOne({ email });
-      if (!user) {
-        return res.status(400).send({ msg: "Invalid Credentials" });
-      }
 
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) {
-        return res.status(400).send({ msg: "Invalid Credentials" });
+      if (user) {
+        return res.status(400).send({ msg: "User already exists" });
       }
+      user = new User({
+        name,
+        email
+      });
+
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(password, salt);
+      await user.save();
 
       //Token
       const payload = {
@@ -61,11 +59,10 @@ router.post(
         jwtSecret = config.get("jwtSecret");
       }
       jwt.sign(
-        //TODO test error handling
         payload,
         jwtSecret,
         {
-          expiresIn: 592200
+          expiresIn: 3600
         },
         (err, token) => {
           if (err) throw err;
