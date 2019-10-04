@@ -22,6 +22,7 @@ import NotFound from "./components/pages/NotFound";
 import PrivateRoute from "./components/routing/PrivateRoute";
 import AuthState from "./context/auth/AuthState";
 import AlertState from "./context/alert/AlertState";
+import ListState from "./context/list/ListState";
 import setAuthToken from "./utils/setAuthToken";
 
 import "./App.css";
@@ -41,19 +42,21 @@ localStorage.token && setAuthToken(localStorage.token);
 const App: React.FC = () => (
   <AuthState>
     <AlertState>
-      <Router>
-        <Navbar />
-        <div className="container">
-          <Alerts />
-          <Switch>
-            <PrivateRoute exact path="/" component={Home} />
-            <Route exact path="/about" component={About} />
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/login" component={Login} />
-            <Route component={NotFound} />
-          </Switch>
-        </div>
-      </Router>
+      <ListState>
+        <Router>
+          <Navbar />
+          <div className="container">
+            <Alerts />
+            <Switch>
+              <PrivateRoute exact path="/" component={Home} />
+              <Route exact path="/about" component={About} />
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/login" component={Login} />
+              <Route component={NotFound} />
+            </Switch>
+          </div>
+        </Router>
+      </ListState>
     </AlertState>
   </AuthState>
 );

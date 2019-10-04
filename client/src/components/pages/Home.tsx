@@ -1,5 +1,7 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 
+import Lists from "../lists/Lists";
+
 import AuthContext from "../../context/auth/AuthContext";
 
 const Home: React.FC = () => {
@@ -16,7 +18,7 @@ const Home: React.FC = () => {
 
   useLoad();
 
-  return <Fragment>Hello</Fragment>;
+  return <Lists />;
 };
 
 export default Home;
