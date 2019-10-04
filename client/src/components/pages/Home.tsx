@@ -1,6 +1,8 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 
 import Lists from "../lists/Lists";
+import ListForm from "../lists/ListForm";
+import Items from "../items/Items";
 
 import AuthContext from "../../context/auth/AuthContext";
 
@@ -12,13 +14,26 @@ const Home: React.FC = () => {
 
   const useLoad = () => {
     useEffect(() => {
-      !loaded && setLoaded(true) && loadUser();
+      if (loaded) return;
+
+      setLoaded(true);
+      loadUser();
     }, []);
   };
 
   useLoad();
 
-  return <Lists />;
+  return (
+    <div style={{ display: "flex", flexDirection: "row" }}>
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        <ListForm />
+        <Lists />
+      </div>
+      <div>
+        <Items />
+      </div>
+    </div>
+  );
 };
 
 export default Home;
