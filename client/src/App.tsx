@@ -6,6 +6,7 @@ import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import {
   faEnvelopeOpen,
   faPhone,
+  faBars,
   faInfoCircle,
   faTimesCircle,
   faSignOutAlt,
@@ -33,6 +34,7 @@ library.add(
   faGithub,
   faEnvelopeOpen,
   faPhone,
+  faBars,
   faInfoCircle,
   faTimesCircle,
   faSignOutAlt,
