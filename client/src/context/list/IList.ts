@@ -9,6 +9,7 @@ export type IState = {
   currentList: null | IList;
   error: null | string;
   loading: boolean;
+  hidden: boolean;
 };
 
 export interface IAction {
