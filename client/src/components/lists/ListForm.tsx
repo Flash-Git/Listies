@@ -1,4 +1,5 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { Fragment, useState, useContext, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import ListContext from "../../context/list/ListContext";
 import AlertContext from "../../context/alert/AlertContext";
@@ -8,11 +9,12 @@ const ListForm = () => {
   const alertContext = useContext(AlertContext);
 
   const {
-    currentList,
     error,
     addList,
-    clearCurrentList,
-    clearErrors
+    clearCurrentList, //todo
+    clearErrors,
+    hidden,
+    toggleHidden
   } = listContext;
 
   const { setAlert } = alertContext;
@@ -49,25 +51,40 @@ const ListForm = () => {
     clearCurrentList();
   };
 
-  //Render
+  const toggleList = () => {
+    toggleHidden();
+  };
+
+  // Render
   return (
-    <div className="container">
-      <form onSubmit={onSubmit}>
-        <h2 className="text-primary">Add New List</h2>
-        <input
-          type="text"
-          placeholder="Name"
-          name="name"
-          value={name}
-          onChange={onChange}
-        />
-        <input
-          type="submit"
-          value="Add New List"
-          className="btn btn-primary btn-block"
-        />
-      </form>
-    </div>
+    <Fragment>
+      <button
+        onClick={toggleList}
+        className="btn btn-sm btn-primary mx"
+        style={{ position: "absolute" }}
+      >
+        <FontAwesomeIcon icon={["fas", "bars"]} />
+      </button>
+      {!hidden && (
+        <div className="container">
+          <form onSubmit={onSubmit}>
+            <h2 className="text-primary">Add New List</h2>
+            <input
+              type="text"
+              placeholder="Name"
+              name="name"
+              value={name}
+              onChange={onChange}
+            />
+            <input
+              type="submit"
+              value="Add New List"
+              className="btn btn-primary btn-block"
+            />
+          </form>
+        </div>
+      )}
+    </Fragment>
   );
 };
 
