@@ -21,7 +21,7 @@ const ListState: React.FC = props => {
     lists: [],
     currentList: null,
     error: null,
-    loading: false
+    loading: true
   };
 
   const [state, dispatch] = useReducer(ListReducer, initialState);
