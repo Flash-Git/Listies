@@ -21,3 +21,10 @@ export const SET_CURRENT: string = "SET_CURRENT";
 export const CLEAR_CURRENT: string = "CLEAR_CURRENT";
 export const LIST_ERROR: string = "LIST_ERROR";
 export const DELETE_LIST: string = "DELETE_LIST";
+
+// Item
+export const LOADING: string = "LOADING";
+export const GET_ITEM: string = "GET_ITEM";
+export const ADD_ITEM: string = "ADD_ITEM";
+export const ITEM_ERROR: string = "ITEM_ERROR";
+export const DELETE_ITEM: string = "DELETE_ITEM";
