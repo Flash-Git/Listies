@@ -25,15 +25,6 @@ const ListForm = () => {
   const { name } = list;
 
   useEffect(() => {
-    if (currentList !== null) {
-      setList({ ...emptyList, ...currentList });
-    } else {
-      setList(emptyList);
-    }
-    //eslint-disable-next-line
-  }, [currentList]);
-
-  useEffect(() => {
     if (error) {
       setAlert(error, "danger");
       clearErrors();
@@ -48,11 +39,8 @@ const ListForm = () => {
   const onSubmit = (e: any) => {
     e.preventDefault();
 
-    if (currentList === null) {
-      addList(list);
-    } else {
-      //updateContact(contact);
-    }
+    addList(list);
+    //setcurrentlist
     clearAll();
   };
 
@@ -65,9 +53,7 @@ const ListForm = () => {
   return (
     <div className="container">
       <form onSubmit={onSubmit}>
-        <h2 className="text-primary">
-          {currentList ? "Edit List" : "Add New List"}
-        </h2>
+        <h2 className="text-primary">Add New List</h2>
         <input
           type="text"
           placeholder="Name"
@@ -77,7 +63,7 @@ const ListForm = () => {
         />
         <input
           type="submit"
-          value={currentList ? "Edit List" : "Add New List"}
+          value="Add New List"
           className="btn btn-primary btn-block"
         />
       </form>
