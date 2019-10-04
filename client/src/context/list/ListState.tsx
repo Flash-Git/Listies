@@ -11,7 +11,8 @@ import {
   CLEAR_CURRENT,
   LIST_ERROR,
   DELETE_LIST,
-  CLEAR_ERRORS
+  CLEAR_ERRORS,
+  TOGGLE_HIDDEN
 } from "../types";
 
 import { IState, IList } from "./IList";
@@ -21,7 +22,8 @@ const ListState: React.FC = props => {
     lists: [],
     currentList: null,
     error: null,
-    loading: true
+    loading: true,
+    hidden: false
   };
 
   const [state, dispatch] = useReducer(ListReducer, initialState);
@@ -75,6 +77,10 @@ const ListState: React.FC = props => {
 
   const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
 
+  const toggleHidden = () => {
+    dispatch({ type: TOGGLE_HIDDEN });
+  };
+
   return (
     <ListContext.Provider
       value={{
@@ -82,12 +88,14 @@ const ListState: React.FC = props => {
         currentList: state.currentList,
         error: state.error,
         loading: state.loading,
+        hidden: state.hidden,
         getLists,
         addList,
         deleteList,
         setCurrentList,
         clearCurrentList,
-        clearErrors
+        clearErrors,
+        toggleHidden
       }}
     >
       {props.children}

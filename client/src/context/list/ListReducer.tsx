@@ -5,7 +5,8 @@ import {
   CLEAR_CURRENT,
   LIST_ERROR,
   DELETE_LIST,
-  CLEAR_ERRORS
+  CLEAR_ERRORS,
+  TOGGLE_HIDDEN
 } from "../types";
 
 import { IList, IState, IAction } from "./IList";
@@ -59,6 +60,11 @@ const ListReducer = (state: IState, action: IAction): IState => {
         ...state,
         error: null,
         loading: false
+      };
+    case TOGGLE_HIDDEN:
+      return {
+        ...state,
+        hidden: !state.hidden
       };
     default:
       return state;
