@@ -24,20 +24,23 @@ const ListItem: any = ({ list }: any) => {
 
   return (
     <div className="card bg-light" style={{ width: "20rem" }}>
-      <h3 className="text-primary text-left">
-        {name}
+      <h3 className="text-left">
+        <button
+          className="btn btn-discreet text-left"
+          onClick={onEdit}
+          style={{ minWidth: "12rem" }}
+        >
+          {name}
+        </button>
         <div style={{ float: "right" }}>
-          <button
-            className="btn btn-dark mx"
-            onClick={onEdit}
-            style={{ fontSize: "0.8rem", padding: "0.2rem 0.8rem" }}
-          >
-            Edit
-          </button>
           <button
             className="btn btn-danger"
             onClick={onDelete}
-            style={{ fontSize: "0.8rem", padding: "0.2rem 0.8rem" }}
+            style={{
+              fontSize: "0.8rem",
+              padding: "0.2rem 0.8rem",
+              margin: "0"
+            }}
           >
             Delete
           </button>
