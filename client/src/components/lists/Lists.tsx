@@ -18,11 +18,15 @@ const Lists = () => {
   }, []);
 
   if (lists && lists.length === 0 && !loading) {
-    return <h4>Please add a list</h4>;
+    return (
+      <div className="container">
+        <h4>Please add a list</h4>
+      </div>
+    );
   }
 
   return (
-    <Fragment>
+    <div className="container">
       {lists && !loading ? (
         <TransitionGroup>
           {lists.map((list: IList) => (
@@ -34,7 +38,7 @@ const Lists = () => {
       ) : (
         <Spinner />
       )}
-    </Fragment>
+    </div>
   );
 };
 
