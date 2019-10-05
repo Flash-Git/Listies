@@ -1,7 +1,9 @@
 export type IItem = {
   _id?: string;
-  msg: string;
   id: undefined | string;
+  msg: string;
+  checked: boolean;
+  note: string;
 };
 
 export type IState = {
