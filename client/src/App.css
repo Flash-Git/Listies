@@ -289,6 +289,15 @@ img {
   margin: -1rem 0;
   color: var(--primary-color);
 }
+.btn-importance {
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease-in;
+  outline: none;
+  padding: 1.6rem 0.5rem;
+  margin: -0.8rem 0;
+  margin-left: -0.8rem;
+}
 
 .badge {
   font-size: 0.8rem;
