@@ -6,9 +6,13 @@ import ItemContext from "../../context/item/ItemContext";
 
 const Item: any = ({ item }: any) => {
   const itemContext = useContext(ItemContext);
-  const { deleteItem } = itemContext;
+  const { editItem, deleteItem } = itemContext;
 
-  const { id, name } = item;
+  const { id, name, checked } = item;
+
+  const toggleCheck = () => {
+    editItem({ ...item, checked: !checked });
+  };
 
   const onDelete = () => {
     deleteItem(id);
@@ -17,6 +21,7 @@ const Item: any = ({ item }: any) => {
   return (
     <div className="card bg-light" style={{ width: "20rem" }}>
       <h3 className="text-primary text-left">
+        <input type="checkbox" onChange={toggleCheck} checked={checked} />
         {name}
         <div style={{ float: "right" }}>
           <button
