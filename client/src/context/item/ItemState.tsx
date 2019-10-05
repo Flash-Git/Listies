@@ -5,8 +5,10 @@ import ItemContext from "./ItemContext";
 import ItemReducer from "./ItemReducer";
 
 import {
+  LOADING,
   GET_ITEM,
   ADD_ITEM,
+  EDIT_ITEM,
   ITEM_ERROR,
   DELETE_ITEM,
   CLEAR_ERRORS
@@ -30,7 +32,7 @@ const ItemState: React.FC = props => {
 
   const getItems = async (listId: string) => {
     try {
-      dispatch({ type: "LOAD" });
+      dispatch({ type: LOADING });
       const res = await axios.get(`/api/items/${listId}`);
       dispatch({ type: GET_ITEM, payload: res.data });
     } catch (e) {
@@ -53,6 +55,21 @@ const ItemState: React.FC = props => {
     }
   };
 
+  const editItem = async (item: IItem) => {
+    const config: any = {
+      header: {
+        "Content-Type": "application/json"
+      }
+    };
+
+    try {
+      const res = await axios.put(`/api/items/${item.id}`, item, config);
+      dispatch({ type: EDIT_ITEM, payload: res.data });
+    } catch (e) {
+      dispatch({ type: ITEM_ERROR, payload: e.response.data.msg });
+    }
+  };
+
   const deleteItem = async (itemId: string) => {
     try {
       await axios.delete(`/api/items/${itemId}`);
@@ -60,8 +77,6 @@ const ItemState: React.FC = props => {
     } catch (e) {
       dispatch({ type: ITEM_ERROR, payload: e.response.data.msg });
     }
-
-    //dispatch({ type: DELETE_LIST, payload: itemId });
   };
 
   const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
@@ -74,6 +89,7 @@ const ItemState: React.FC = props => {
         loading: state.loading,
         getItems,
         addItem,
+        editItem,
         deleteItem,
         clearErrors
       }}
