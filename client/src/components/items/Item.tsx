@@ -21,7 +21,12 @@ const Item: any = ({ item }: any) => {
   return (
     <div className="card bg-light" style={{ width: "20rem" }}>
       <h3 className="text-primary text-left">
-        <input type="checkbox" onChange={toggleCheck} checked={checked} />
+        <input
+          className="mx"
+          type="checkbox"
+          onChange={toggleCheck}
+          checked={checked}
+        />
         {name}
         <div style={{ float: "right" }}>
           <button
