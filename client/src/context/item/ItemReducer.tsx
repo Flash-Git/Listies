@@ -1,6 +1,8 @@
 import {
+  LOADING,
   GET_ITEM,
   ADD_ITEM,
+  EDIT_ITEM,
   ITEM_ERROR,
   DELETE_ITEM,
   CLEAR_ERRORS
@@ -10,7 +12,7 @@ import { IItem, IState, IAction } from "./IItem";
 
 const ListReducer = (state: IState, action: IAction): IState => {
   switch (action.type) {
-    case "LOAD":
+    case LOADING:
       return {
         ...state,
         loading: true
@@ -33,6 +35,16 @@ const ListReducer = (state: IState, action: IAction): IState => {
         items: [action.payload, ...state.items],
         loading: false
       };
+    case EDIT_ITEM:
+      action.payload.id = action.payload._id;
+      delete action.payload._id;
+      return {
+        ...state,
+        items: state.items.map(item =>
+          item.id === action.payload.id ? action.payload : item
+        ),
+        loading: false
+      };
     case DELETE_ITEM:
       return {
         ...state,
@@ -52,6 +64,7 @@ const ListReducer = (state: IState, action: IAction): IState => {
         loading: false
       };
     default:
+      console.log("default");
       return state;
   }
 };
