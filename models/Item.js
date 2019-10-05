@@ -19,6 +19,10 @@ const ItemSchema = new Schema({
     type: Boolean,
     default: false
   },
+  importance: {
+    type: Number,
+    default: 0
+  },
   note: {
     type: String,
     default: ""

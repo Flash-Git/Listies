@@ -75,12 +75,13 @@ router.put(
   async (req, res) => {
     if (handleErrors(req, res)) return;
 
-    const { name, checked, note } = req.body;
+    const { name, checked, importance, note } = req.body;
 
     // Build item object
     const itemFields = {};
     if (name !== undefined) itemFields.name = name;
     if (checked !== undefined) itemFields.checked = checked;
+    if (importance !== undefined) itemFields.importance = importance;
     if (note !== undefined) itemFields.note = note;
 
     try {
