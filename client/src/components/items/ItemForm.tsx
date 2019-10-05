@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
 
 import ItemContext from "../../context/item/ItemContext";
@@ -61,10 +61,10 @@ const ItemForm: any = ({ listId, listName }: any) => {
 
   // Render
   return (
-    <div className="container">
+    <Fragment>
       <h2 className="text-primary">{listName}</h2>
       {listId && inputFields()}
-    </div>
+    </Fragment>
   );
 };
 
