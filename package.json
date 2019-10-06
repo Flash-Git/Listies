@@ -32,9 +32,12 @@
     "dev": "concurrently \"yarn start\" \"yarn client\"",
     "devInstall": "yarn install; yarn clientInstall",
     "devUpgrade": "yarn upgrade; cd client; yarn upgrade; cd ..",
-    "heroku-postbuild": "cd client/; yarn install && yarn build && cd .."
+    "heroku-postbuild": "cd client/; yarn install && yarn run build"
   },
   "repository": {
     "type": "git"
+  },
+  "engines": {
+    "node": "8.16.1"
   }
 }
