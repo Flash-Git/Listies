@@ -61,10 +61,10 @@ const ItemForm: any = ({ listId, listName }: any) => {
 
   // Render
   return (
-    <Fragment>
+    <div style={{ width: "26rem" }}>
       <h2 className="text-primary">{listName}</h2>
       {listId && inputFields()}
-    </Fragment>
+    </div>
   );
 };
 
