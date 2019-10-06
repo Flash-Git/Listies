@@ -32,7 +32,7 @@
     "dev": "concurrently \"yarn start\" \"yarn client\"",
     "devInstall": "yarn install; yarn clientInstall",
     "devUpgrade": "yarn upgrade; cd client; yarn upgrade; cd ..",
-    "heroku-postbuild": "cd client; yarn build && cd .."
+    "heroku-postbuild": "cd client/ yarn build"
   },
   "repository": {
     "type": "git"
