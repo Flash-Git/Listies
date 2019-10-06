@@ -40,7 +40,7 @@ const Home: React.FC = () => {
         marginTop: "0.7rem"
       }}
     >
-      <div style={{ justifySelf: "flex-start" }}>
+      <div>
         <ListForm />
         <Lists />
       </div>
