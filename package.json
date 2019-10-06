@@ -12,6 +12,7 @@
     "@types/react-dom": "^16.9.1",
     "bcryptjs": "^2.4.3",
     "config": "^3.2.0",
+    "dotenv": "^8.1.0",
     "express": "^4.17.1",
     "express-validator": "^6.1.1",
     "jsonwebtoken": "^8.5.1",
@@ -31,7 +32,7 @@
     "dev": "concurrently \"yarn start\" \"yarn client\"",
     "devInstall": "yarn install; yarn clientInstall",
     "devUpgrade": "yarn upgrade; cd client; yarn upgrade; cd ..",
-    "heroku-postbuild": "yarn && cd client; yarn && yarn build && cd .."
+    "heroku-postbuild": "cd client; yarn build && cd .."
   },
   "repository": {
     "type": "git"
