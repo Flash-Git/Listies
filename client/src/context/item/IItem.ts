@@ -3,6 +3,7 @@ export type IItem = {
   id: undefined | string;
   msg: string;
   checked: boolean;
+  importance: number;
   note: string;
 };
 
