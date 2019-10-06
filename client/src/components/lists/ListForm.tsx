@@ -80,6 +80,7 @@ const ListForm = () => {
               type="submit"
               value="Add New List"
               className="btn btn-primary btn-block"
+              style={{ marginBottom: "0.5rem" }}
             />
           </form>
         </div>
