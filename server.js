@@ -2,7 +2,7 @@ const express = require("express");
 const path = require("path");
 console.log(process.env.MONGO_URI);
 
-if (process.env.NODE_ENV !== "production") require("dotenv").config();
+// if (process.env.NODE_ENV !== "production") require("dotenv").config();
 
 const connectDB = require("./config/db");
 
@@ -21,12 +21,12 @@ app.use("/api/lists", require("./routes/api/lists"));
 app.use("/api/items", require("./routes/api/items"));
 
 //Serve static assets in production
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
-  app.get("*", (req, res) =>
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
-  );
-}
+// if (process.env.NODE_ENV === "production") {
+app.use(express.static("client/build"));
+app.get("*", (req, res) =>
+  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
+);
+// }
 
 const PORT = process.env.PORT || 5000;
 
