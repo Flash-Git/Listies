@@ -17,8 +17,6 @@ app.use("/api/auth", require("./routes/api/auth"));
 app.use("/api/lists", require("./routes/api/lists"));
 app.use("/api/items", require("./routes/api/items"));
 
-//Routes to set
-
 //Serve static assets in production
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
