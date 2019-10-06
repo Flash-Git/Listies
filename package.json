@@ -24,12 +24,14 @@
     "ts-node": "^8.4.1"
   },
   "scripts": {
-    "start": "nodemon server.ts",
+    "start": "node server.js",
+    "server": "nodemon server.js",
     "client": "cd client; yarn start; cd ..",
     "clientInstall": "cd client; yarn install; cd ..",
     "dev": "concurrently \"yarn start\" \"yarn client\"",
     "devInstall": "yarn install; yarn clientInstall",
-    "devUpgrade": "yarn upgrade; cd client; yarn upgrade; cd .."
+    "devUpgrade": "yarn upgrade; cd client; yarn upgrade; cd ..",
+    "heroku-postbuild": "cd client; yarn && yarn build"
   },
   "repository": {
     "type": "git"
