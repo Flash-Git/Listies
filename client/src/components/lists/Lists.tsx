@@ -32,7 +32,7 @@ const Lists = () => {
           {lists && !loading ? (
             <TransitionGroup>
               {lists.map((list: IList) => (
-                <CSSTransition key={list.id} timeout={200} classNames="item">
+                <CSSTransition key={list.id} timeout={200}>
                   <ListItem list={list} />
                 </CSSTransition>
               ))}
