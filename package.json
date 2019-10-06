@@ -25,7 +25,7 @@
     "ts-node": "^8.4.1"
   },
   "scripts": {
-    "start": "NODE_ENV='production' node server.js",
+    "start": "node server.js",
     "server": "nodemon server.js",
     "client": "cd client; yarn start; cd ..",
     "clientInstall": "cd client; yarn install; cd ..",
