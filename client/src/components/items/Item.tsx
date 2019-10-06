@@ -52,7 +52,7 @@ const Item: any = ({ item }: any) => {
     <div
       className="card bg-light"
       style={{
-        width: "26rem",
+        width: "20rem",
         display: "flex",
         alignItems: "center"
       }}

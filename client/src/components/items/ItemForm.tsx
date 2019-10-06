@@ -61,7 +61,7 @@ const ItemForm: any = ({ listId, listName }: any) => {
 
   // Render
   return (
-    <div style={{ width: "26rem" }}>
+    <div style={{ width: "20rem" }}>
       <h2 className="text-primary">{listName}</h2>
       {listId && inputFields()}
     </div>
