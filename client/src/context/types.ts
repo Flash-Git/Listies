@@ -15,7 +15,7 @@ export const LOGOUT: string = "LOGOUT";
 export const CLEAR_ERRORS: string = "CLEAR_ERRORS";
 
 // List
-export const GET_LIST: string = "GET_LIST";
+export const GET_LISTS: string = "GET_LISTS";
 export const ADD_LIST: string = "ADD_LIST";
 export const SET_CURRENT: string = "SET_CURRENT";
 export const CLEAR_CURRENT: string = "CLEAR_CURRENT";
