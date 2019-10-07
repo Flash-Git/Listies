@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, Fragment } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import ItemContext from "../../context/item/ItemContext";
@@ -43,8 +43,24 @@ const ItemForm: any = ({ listId, listName }: any) => {
   };
 
   const inputFields = () => (
-    <form onSubmit={onSubmit}>
+    <form
+      onSubmit={onSubmit}
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: "1rem",
+        marginBottom: "1rem"
+      }}
+    >
       <input
+        style={{
+          minWidth: "5rem",
+          maxWidth: "15rem",
+          margin: "0",
+          marginBottom: "1rem"
+        }}
         type="text"
         placeholder="Name"
         name="name"
@@ -52,6 +68,11 @@ const ItemForm: any = ({ listId, listName }: any) => {
         onChange={onChange}
       />
       <input
+        style={{
+          maxWidth: "8.5rem",
+          margin: "0",
+          marginBottom: "1rem"
+        }}
         type="submit"
         value={"Add Item"}
         className="btn btn-primary btn-block"
@@ -61,7 +82,7 @@ const ItemForm: any = ({ listId, listName }: any) => {
 
   // Render
   return (
-    <div style={{ width: "20rem" }}>
+    <div className="grow-shrink">
       <h2 className="text-primary">{listName}</h2>
       {listId && inputFields()}
     </div>
