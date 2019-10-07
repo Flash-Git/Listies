@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useContext } from "react";
 import axios from "axios";
 
 import AuthContext from "./AuthContext";
@@ -15,6 +15,8 @@ import {
   CLEAR_ERRORS
 } from "../types";
 
+import ListContext from "../list/ListContext";
+
 import { IState } from "./IAuth";
 
 const AuthState: React.FC = props => {
@@ -27,6 +29,9 @@ const AuthState: React.FC = props => {
   };
 
   const [state, dispatch] = useReducer(AuthReducer, initialState);
+
+  const listContext = useContext(ListContext);
+  const { setCurrentList } = listContext;
 
   /*
    * Actions
@@ -55,6 +60,9 @@ const AuthState: React.FC = props => {
     localStorage.token && setAuthToken(localStorage.token);
 
     try {
+      const currentList = localStorage.getItem("currentList");
+      currentList && setCurrentList(JSON.parse(currentList));
+
       const res = await axios.get("/api/auth");
       dispatch({ type: USER_LOADED, payload: res.data });
     } catch (e) {
