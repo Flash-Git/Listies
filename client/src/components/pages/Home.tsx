@@ -58,13 +58,13 @@ const Home: React.FC = () => {
         <FontAwesomeIcon icon={["fas", "bars"]} />
       </button>
       {!hidden && (
-        <div className="px-2 mbot-2">
+        <div className="px-1 mbot-2">
           <ListForm />
           <Lists />
         </div>
       )}
       <div
-        className="px-2 mx-auto mbot-4"
+        className="px-1 mx-auto mbot-4"
         style={{
           maxHeight: "40rem",
           overflowY: "auto",

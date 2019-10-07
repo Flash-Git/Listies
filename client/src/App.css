@@ -308,6 +308,7 @@ img {
 
 .btn-discreet {
   font-size: 1rem;
+  padding: 0.15rem 0.5rem;
   margin: -1rem 0;
   color: var(--primary-color);
 }

@@ -70,13 +70,15 @@ const Item: any = ({ item }: any) => {
         onClick={incrementImportance}
         style={{ flexGrow: 1 }}
       >
-        <h3 className="text-primary text-left">{name}</h3>
+        <h3 className="text-primary text-left" style={{ fontSize: "90%" }}>
+          {name}
+        </h3>
       </button>
       <div style={{ marginLeft: "auto" }}>
         <button
           className="btn btn-danger mx"
           onClick={onDelete}
-          style={{ fontSize: "0.85rem", padding: "0.15rem 0.7rem" }}
+          style={{ fontSize: "0.9rem", padding: "0.15rem 0.7rem" }}
         >
           Delete
         </button>
