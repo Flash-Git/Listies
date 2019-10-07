@@ -17,10 +17,6 @@ const Lists = () => {
     //eslint-disable-next-line
   }, []);
 
-  if (lists && lists.length === 0 && !loading) {
-    return <h4>Please add a list</h4>;
-  }
-
   return (
     <Fragment>
       {lists && !loading ? (

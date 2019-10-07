@@ -20,10 +20,6 @@ const Items: any = ({ listId }: any) => {
     //eslint-disable-next-line
   }, [listId]);
 
-  if (items && items.length === 0 && !loading) {
-    return <></>;
-  }
-
   return (
     <Fragment>
       {items && !loading ? (
