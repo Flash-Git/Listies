@@ -1,23 +1,20 @@
-import React, { Fragment, useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import ListContext from "../../context/list/ListContext";
 import AlertContext from "../../context/alert/AlertContext";
 
 const ListForm = () => {
-  const listContext = useContext(ListContext);
   const alertContext = useContext(AlertContext);
+  const { setAlert } = alertContext;
 
+  const listContext = useContext(ListContext);
   const {
     error,
     addList,
     clearCurrentList, //todo
-    clearErrors,
-    hidden,
-    toggleHidden
+    clearErrors
   } = listContext;
-
-  const { setAlert } = alertContext;
 
   const emptyList = {
     name: ""
@@ -51,41 +48,50 @@ const ListForm = () => {
     clearCurrentList();
   };
 
-  const toggleList = () => {
-    toggleHidden();
-  };
+  const inputFields = () => (
+    <form
+      onSubmit={onSubmit}
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: "1rem",
+        marginBottom: "1rem"
+      }}
+    >
+      <input
+        style={{
+          minWidth: "5rem",
+          maxWidth: "15rem",
+          margin: "0",
+          marginBottom: "1rem"
+        }}
+        type="text"
+        placeholder="Name"
+        name="name"
+        value={name}
+        onChange={onChange}
+      />
+      <input
+        style={{
+          maxWidth: "8.5rem",
+          margin: "0",
+          marginBottom: "1rem"
+        }}
+        type="submit"
+        value="Add New List"
+        className="btn btn-primary btn-block"
+      />
+    </form>
+  );
 
   // Render
   return (
-    <Fragment>
-      <button
-        onClick={toggleList}
-        className="btn btn-sm btn-primary mx"
-        style={{ position: "absolute" }}
-      >
-        <FontAwesomeIcon icon={["fas", "bars"]} />
-      </button>
-      {!hidden && (
-        <div className="container">
-          <form onSubmit={onSubmit}>
-            <h2 className="text-primary">Add New List</h2>
-            <input
-              type="text"
-              placeholder="Name"
-              name="name"
-              value={name}
-              onChange={onChange}
-            />
-            <input
-              type="submit"
-              value="Add New List"
-              className="btn btn-primary btn-block"
-              style={{ marginBottom: "0.5rem" }}
-            />
-          </form>
-        </div>
-      )}
-    </Fragment>
+    <div className="grow-shrink">
+      <h2 className="text-primary">Add New List</h2>
+      {inputFields()}
+    </div>
   );
 };
 
