@@ -7,6 +7,7 @@ import ItemReducer from "./ItemReducer";
 import {
   LOADING,
   GET_ITEMS,
+  SORT_ITEMS,
   ADD_ITEM,
   EDIT_ITEM,
   ITEM_ERROR,
@@ -15,6 +16,8 @@ import {
 } from "../types";
 
 import { IState, IItem } from "./IItem";
+import Items from "../../components/items/Items";
+import { regExpLiteral } from "@babel/types";
 
 const ItemState: React.FC = props => {
   const initialState: IState = {
@@ -34,10 +37,16 @@ const ItemState: React.FC = props => {
     try {
       dispatch({ type: LOADING });
       const res = await axios.get(`/api/items/${listId}`);
-      dispatch({ type: GET_ITEMS, payload: res.data });
+      if (res.data.length > 1)
+        dispatch({ type: SORT_ITEMS, payload: res.data });
+      else dispatch({ type: GET_ITEMS, payload: res.data });
     } catch (e) {
       dispatch({ type: ITEM_ERROR, payload: e.response.data.msg });
     }
+  };
+
+  const sortItems = (items: IItem[]) => {
+    if (items.length > 1) dispatch({ type: SORT_ITEMS, payload: items });
   };
 
   const addItem = async (item: IItem, listId: string) => {
@@ -79,6 +88,11 @@ const ItemState: React.FC = props => {
     }
   };
 
+  const deleteListItems = async (listId: string) => {
+    const res = await axios.get(`/api/items/${listId}`);
+    res.data.map((item: IItem) => item._id && deleteItem(item._id));
+  };
+
   const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
 
   return (
@@ -91,6 +105,7 @@ const ItemState: React.FC = props => {
         addItem,
         editItem,
         deleteItem,
+        deleteListItems,
         clearErrors
       }}
     >

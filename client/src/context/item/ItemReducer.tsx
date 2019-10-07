@@ -1,6 +1,7 @@
 import {
   LOADING,
   GET_ITEMS,
+  SORT_ITEMS,
   ADD_ITEM,
   EDIT_ITEM,
   ITEM_ERROR,
@@ -27,6 +28,22 @@ const ListReducer = (state: IState, action: IAction): IState => {
         }),
         loading: false
       };
+    case SORT_ITEMS:
+      const filt = (item: IItem, imp: number) => item.importance === imp;
+      return {
+        ...state,
+        items: [
+          ...action.payload.filter((item: IItem) => filt(item, 2)),
+          ...action.payload.filter((item: IItem) => filt(item, 1)),
+          ...action.payload.filter((item: IItem) => filt(item, 0))
+        ].map((item: IItem) => {
+          item.id = item._id;
+          delete item._id;
+          return item;
+        }),
+        loading: false
+      };
+
     case ADD_ITEM:
       action.payload.id = action.payload._id;
       delete action.payload._id;
