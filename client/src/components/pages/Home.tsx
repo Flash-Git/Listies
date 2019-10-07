@@ -23,7 +23,7 @@ const Home: React.FC = () => {
       if (loaded) return;
 
       setLoaded(true);
-      loadUser();
+      localStorage.token && loadUser();
     }, []);
   };
   useLoad();
