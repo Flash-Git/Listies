@@ -16,8 +16,6 @@ import {
 } from "../types";
 
 import { IState, IItem } from "./IItem";
-import Items from "../../components/items/Items";
-import { regExpLiteral } from "@babel/types";
 
 const ItemState: React.FC = props => {
   const initialState: IState = {
