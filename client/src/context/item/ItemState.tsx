@@ -6,7 +6,7 @@ import ItemReducer from "./ItemReducer";
 
 import {
   LOADING,
-  GET_ITEM,
+  GET_ITEMS,
   ADD_ITEM,
   EDIT_ITEM,
   ITEM_ERROR,
@@ -34,7 +34,7 @@ const ItemState: React.FC = props => {
     try {
       dispatch({ type: LOADING });
       const res = await axios.get(`/api/items/${listId}`);
-      dispatch({ type: GET_ITEM, payload: res.data });
+      dispatch({ type: GET_ITEMS, payload: res.data });
     } catch (e) {
       dispatch({ type: ITEM_ERROR, payload: e.response.data.msg });
     }

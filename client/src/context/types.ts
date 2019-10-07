@@ -25,7 +25,7 @@ export const TOGGLE_HIDDEN: string = "TOGGLE_HIDDEN";
 
 // Item
 export const LOADING: string = "LOADING";
-export const GET_ITEM: string = "GET_ITEM";
+export const GET_ITEMS: string = "GET_ITEMS";
 export const ADD_ITEM: string = "ADD_ITEM";
 export const EDIT_ITEM: string = "EDIT_ITEM";
 export const ITEM_ERROR: string = "ITEM_ERROR";

@@ -1,6 +1,6 @@
 import {
   LOADING,
-  GET_ITEM,
+  GET_ITEMS,
   ADD_ITEM,
   EDIT_ITEM,
   ITEM_ERROR,
@@ -17,7 +17,7 @@ const ListReducer = (state: IState, action: IAction): IState => {
         ...state,
         loading: true
       };
-    case GET_ITEM:
+    case GET_ITEMS:
       return {
         ...state,
         items: action.payload.map((item: IItem) => {
