@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Lists from "../lists/Lists";
 import ListForm from "../lists/ListForm";
@@ -13,7 +14,7 @@ const Home: React.FC = () => {
   const { loadUser } = authContext;
 
   const listContext = useContext(ListContext);
-  const { currentList } = listContext;
+  const { hidden, toggleHidden, currentList } = listContext;
 
   const [loaded, setLoaded] = useState(false);
 
@@ -26,6 +27,10 @@ const Home: React.FC = () => {
     }, []);
   };
   useLoad();
+
+  const toggleList = () => {
+    toggleHidden();
+  };
 
   const listId = currentList ? currentList.id : "";
   const listName = currentList ? currentList.name : "No List Selected";
@@ -40,11 +45,27 @@ const Home: React.FC = () => {
         marginTop: "0.7rem"
       }}
     >
-      <div>
-        <ListForm />
-        <Lists />
-      </div>
-      <div style={{ margin: "0 auto", padding: "0 2rem" }}>
+      <button
+        onClick={toggleList}
+        className="btn btn-sm btn-primary mx"
+        style={{ position: "absolute", left: "1rem" }}
+      >
+        <FontAwesomeIcon icon={["fas", "bars"]} />
+      </button>
+      {!hidden && (
+        <div className="px-2 mbot-2">
+          <ListForm />
+          <Lists />
+        </div>
+      )}
+      <div
+        className="px-2 mx-auto mbot-4"
+        style={{
+          maxHeight: "40rem",
+          overflowY: "auto",
+          scrollbarWidth: "thin"
+        }}
+      >
         <ItemForm listId={listId} listName={listName} />
         <Items listId={listId} listName={listName} />
       </div>
