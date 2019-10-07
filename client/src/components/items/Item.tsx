@@ -66,7 +66,13 @@ const Item: any = ({ item }: any) => {
         onChange={toggleCheck}
         checked={checked}
       />
-      <h3 className="text-primary text-left">{name}</h3>
+      <button
+        className="btn btn-discreet text-left"
+        onClick={incrementImportance}
+        style={{ flexGrow: 1 }}
+      >
+        <h3 className="text-primary text-left">{name}</h3>
+      </button>
       <div style={{ marginLeft: "auto" }}>
         <button
           className="btn btn-danger mx"
