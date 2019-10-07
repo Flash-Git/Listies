@@ -10,7 +10,7 @@ import {
   faInfoCircle,
   faTimesCircle,
   faSignOutAlt,
-  faFileContract
+  faListUl
 } from "@fortawesome/free-solid-svg-icons";
 
 import Navbar from "./components/layout/Navbar";
@@ -38,7 +38,7 @@ library.add(
   faInfoCircle,
   faTimesCircle,
   faSignOutAlt,
-  faFileContract
+  faListUl
 );
 
 localStorage.token && setAuthToken(localStorage.token);
