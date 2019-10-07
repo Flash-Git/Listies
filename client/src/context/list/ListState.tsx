@@ -5,7 +5,7 @@ import ListContext from "./ListContext";
 import ListReducer from "./ListReducer";
 
 import {
-  GET_LIST,
+  GET_LISTS,
   ADD_LIST,
   SET_CURRENT,
   CLEAR_CURRENT,
@@ -36,7 +36,7 @@ const ListState: React.FC = props => {
   const getLists = async () => {
     try {
       const res = await axios.get("/api/lists");
-      dispatch({ type: GET_LIST, payload: res.data });
+      dispatch({ type: GET_LISTS, payload: res.data });
     } catch (e) {
       dispatch({ type: LIST_ERROR, payload: e.response.data.msg });
     }
@@ -59,11 +59,13 @@ const ListState: React.FC = props => {
 
   const deleteList = async (id: string) => {
     try {
+      // Delete items in list
       const res = await axios.get(`/api/items/${id}`);
       res.data.map(
         (item: IItem) => item._id && axios.delete(`/api/items/${item._id}`)
       );
 
+      // Delete list
       await axios.delete(`/api/lists/${id}`);
       dispatch({ type: DELETE_LIST, payload: id });
     } catch (e) {
