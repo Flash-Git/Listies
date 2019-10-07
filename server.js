@@ -1,9 +1,6 @@
 const express = require("express");
 const path = require("path");
 
-console.log("NODE_ENV");
-console.log(process.env.NODE_ENV);
-
 if (process.env.NODE_ENV !== "production") require("dotenv").config();
 
 const connectDB = require("./config/db");
