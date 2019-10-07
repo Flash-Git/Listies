@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import ListContext from "../../context/list/ListContext";
 import AlertContext from "../../context/alert/AlertContext";
