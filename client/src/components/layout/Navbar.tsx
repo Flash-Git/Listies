@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
 
 import AuthContext from "../../context/auth/AuthContext";
+
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 interface IProps {
@@ -68,8 +69,8 @@ const Navbar = ({ title, icon }: IProps) => {
 };
 
 Navbar.defaultProps = {
-  title: "Unnamed",
-  icon: ["fas", "file-contract"]
+  title: "Listies",
+  icon: ["fas", "list-ul"]
 };
 
 Navbar.propTypes = {
