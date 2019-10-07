@@ -44,10 +44,10 @@ library.add(
 localStorage.token && setAuthToken(localStorage.token);
 
 const App: React.FC = () => (
-  <AuthState>
-    <AlertState>
-      <ListState>
-        <ItemState>
+  <AlertState>
+    <ListState>
+      <ItemState>
+        <AuthState>
           <Router>
             <Navbar />
             <Alerts />
@@ -59,10 +59,10 @@ const App: React.FC = () => (
               <Route component={NotFound} />
             </Switch>
           </Router>
-        </ItemState>
-      </ListState>
-    </AlertState>
-  </AuthState>
+        </AuthState>
+      </ItemState>
+    </ListState>
+  </AlertState>
 );
 
 export default App;
