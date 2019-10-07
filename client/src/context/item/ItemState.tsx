@@ -45,10 +45,6 @@ const ItemState: React.FC = props => {
     }
   };
 
-  const sortItems = (items: IItem[]) => {
-    if (items.length > 1) dispatch({ type: SORT_ITEMS, payload: items });
-  };
-
   const addItem = async (item: IItem, listId: string) => {
     const config: any = {
       header: {
