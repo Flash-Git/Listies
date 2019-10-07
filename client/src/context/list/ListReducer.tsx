@@ -1,5 +1,5 @@
 import {
-  GET_LIST,
+  GET_LISTS,
   ADD_LIST,
   SET_CURRENT,
   CLEAR_CURRENT,
@@ -13,7 +13,7 @@ import { IList, IState, IAction } from "./IList";
 
 const ListReducer = (state: IState, action: IAction): IState => {
   switch (action.type) {
-    case GET_LIST:
+    case GET_LISTS:
       return {
         ...state,
         lists: action.payload.map((list: IList) => {
@@ -43,6 +43,7 @@ const ListReducer = (state: IState, action: IAction): IState => {
         loading: false
       };
     case SET_CURRENT:
+      localStorage.setItem("currentList", JSON.stringify(action.payload));
       return {
         ...state,
         currentList: action.payload,
