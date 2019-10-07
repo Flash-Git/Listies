@@ -61,12 +61,11 @@ router.post(
         jwtSecret = config.get("jwtSecret");
       }
       jwt.sign(
-        //TODO test error handling
         payload,
         jwtSecret,
-        {
-          expiresIn: 592200
-        },
+        // { Doesn't expire
+        //   expiresIn: 100
+        // },
         (err, token) => {
           if (err) throw err;
           res.json({ token });
