@@ -48,7 +48,12 @@ const Home: React.FC = () => {
       <button
         onClick={toggleList}
         className="btn btn-sm btn-primary mx"
-        style={{ position: "absolute", left: "1rem" }}
+        style={{
+          position: "absolute",
+          left: "1rem",
+          paddingLeft: "0.8rem",
+          paddingRight: "0.8rem"
+        }}
       >
         <FontAwesomeIcon icon={["fas", "bars"]} />
       </button>
