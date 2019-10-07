@@ -50,9 +50,8 @@ const Item: any = ({ item }: any) => {
 
   return (
     <div
-      className="card bg-light"
+      className="card bg-light grow-shrink"
       style={{
-        width: "20rem",
         display: "flex",
         alignItems: "center"
       }}
@@ -72,7 +71,7 @@ const Item: any = ({ item }: any) => {
         <button
           className="btn btn-danger mx"
           onClick={onDelete}
-          style={{ fontSize: "0.8rem", padding: "0.2rem 0.8rem" }}
+          style={{ fontSize: "0.85rem", padding: "0.15rem 0.7rem" }}
         >
           Delete
         </button>
