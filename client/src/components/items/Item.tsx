@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
 
 import ItemContext from "../../context/item/ItemContext";
