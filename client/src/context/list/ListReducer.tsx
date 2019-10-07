@@ -29,12 +29,17 @@ const ListReducer = (state: IState, action: IAction): IState => {
       return {
         ...state,
         lists: [action.payload, ...state.lists],
+        currentList: action.payload,
         loading: false
       };
     case DELETE_LIST:
       return {
         ...state,
         lists: state.lists.filter(list => list.id !== action.payload),
+        currentList:
+          state.currentList && state.currentList.id === action.payload
+            ? null
+            : state.currentList,
         loading: false
       };
     case SET_CURRENT:
