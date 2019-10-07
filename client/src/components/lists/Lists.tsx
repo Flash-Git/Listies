@@ -10,7 +10,7 @@ import { IList } from "../../context/list/IList";
 const Lists = () => {
   const listContext = useContext(ListContext);
 
-  const { loading, lists, getLists, hidden } = listContext;
+  const { loading, lists, getLists } = listContext;
 
   useEffect(() => {
     getLists();
@@ -18,29 +18,21 @@ const Lists = () => {
   }, []);
 
   if (lists && lists.length === 0 && !loading) {
-    return (
-      <div className="container">
-        <h4>Please add a list</h4>
-      </div>
-    );
+    return <h4>Please add a list</h4>;
   }
 
   return (
     <Fragment>
-      {!hidden && (
-        <div className="container">
-          {lists && !loading ? (
-            <TransitionGroup>
-              {lists.map((list: IList) => (
-                <CSSTransition key={list.id} timeout={200}>
-                  <ListItem list={list} />
-                </CSSTransition>
-              ))}
-            </TransitionGroup>
-          ) : (
-            <Spinner />
-          )}
-        </div>
+      {lists && !loading ? (
+        <TransitionGroup>
+          {lists.map((list: IList) => (
+            <CSSTransition key={list.id} timeout={200}>
+              <ListItem list={list} />
+            </CSSTransition>
+          ))}
+        </TransitionGroup>
+      ) : (
+        <Spinner />
       )}
     </Fragment>
   );
