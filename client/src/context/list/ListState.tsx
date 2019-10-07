@@ -12,7 +12,8 @@ import {
   LIST_ERROR,
   DELETE_LIST,
   CLEAR_ERRORS,
-  TOGGLE_HIDDEN
+  TOGGLE_HIDDEN,
+  SET_HIDDEN
 } from "../types";
 
 import { IState, IList } from "./IList";
@@ -88,6 +89,10 @@ const ListState: React.FC = props => {
     dispatch({ type: TOGGLE_HIDDEN });
   };
 
+  const setHidden = (hidden: boolean) => {
+    dispatch({ type: SET_HIDDEN, payload: hidden });
+  };
+
   return (
     <ListContext.Provider
       value={{
@@ -102,7 +107,8 @@ const ListState: React.FC = props => {
         setCurrentList,
         clearCurrentList,
         clearErrors,
-        toggleHidden
+        toggleHidden,
+        setHidden
       }}
     >
       {props.children}

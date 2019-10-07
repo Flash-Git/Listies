@@ -31,7 +31,7 @@ const AuthState: React.FC = props => {
   const [state, dispatch] = useReducer(AuthReducer, initialState);
 
   const listContext = useContext(ListContext);
-  const { setCurrentList } = listContext;
+  const { setCurrentList, setHidden } = listContext;
 
   /*
    * Actions
@@ -59,10 +59,12 @@ const AuthState: React.FC = props => {
   const loadUser = async () => {
     localStorage.token && setAuthToken(localStorage.token);
 
-    try {
-      const currentList = localStorage.getItem("currentList");
-      currentList && setCurrentList(JSON.parse(currentList));
+    const currentList = localStorage.getItem("currentList");
+    currentList && setCurrentList(JSON.parse(currentList));
 
+    setHidden(localStorage.getItem("hidden") === "true" ? true : false);
+
+    try {
       const res = await axios.get("/api/auth");
       dispatch({ type: USER_LOADED, payload: res.data });
     } catch (e) {

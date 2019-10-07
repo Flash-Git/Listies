@@ -6,7 +6,8 @@ import {
   LIST_ERROR,
   DELETE_LIST,
   CLEAR_ERRORS,
-  TOGGLE_HIDDEN
+  TOGGLE_HIDDEN,
+  SET_HIDDEN
 } from "../types";
 
 import { IList, IState, IAction } from "./IList";
@@ -68,9 +69,16 @@ const ListReducer = (state: IState, action: IAction): IState => {
         loading: false
       };
     case TOGGLE_HIDDEN:
+      localStorage.setItem("hidden", (!state.hidden).toString());
       return {
         ...state,
         hidden: !state.hidden
+      };
+    case SET_HIDDEN:
+      localStorage.setItem("hidden", action.payload.toString());
+      return {
+        ...state,
+        hidden: action.payload
       };
     default:
       return state;
