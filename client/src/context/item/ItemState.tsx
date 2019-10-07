@@ -88,11 +88,6 @@ const ItemState: React.FC = props => {
     }
   };
 
-  const deleteListItems = async (listId: string) => {
-    const res = await axios.get(`/api/items/${listId}`);
-    res.data.map((item: IItem) => item._id && deleteItem(item._id));
-  };
-
   const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
 
   return (
@@ -105,7 +100,6 @@ const ItemState: React.FC = props => {
         addItem,
         editItem,
         deleteItem,
-        deleteListItems,
         clearErrors
       }}
     >

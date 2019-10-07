@@ -16,6 +16,7 @@ import {
 } from "../types";
 
 import { IState, IList } from "./IList";
+import { IItem } from "../item/IItem";
 
 const ListState: React.FC = props => {
   const initialState: IState = {
@@ -58,13 +59,17 @@ const ListState: React.FC = props => {
 
   const deleteList = async (id: string) => {
     try {
+      const res = await axios.get(`/api/items/${id}`);
+      res.data.map(
+        (item: IItem) => item._id && axios.delete(`/api/items/${item._id}`)
+      );
+
       await axios.delete(`/api/lists/${id}`);
       dispatch({ type: DELETE_LIST, payload: id });
     } catch (e) {
       dispatch({ type: LIST_ERROR, payload: e.response.data.msg });
+      dispatch({ type: DELETE_LIST, payload: id });
     }
-
-    dispatch({ type: DELETE_LIST, payload: id });
   };
 
   const setCurrentList = (list: IList) => {
