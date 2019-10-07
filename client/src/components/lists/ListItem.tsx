@@ -23,29 +23,29 @@ const ListItem: any = ({ list }: any) => {
   const onEdit = () => setCurrentList(list);
 
   return (
-    <div className="card bg-light" style={{ width: "20rem" }}>
-      <h3 className="text-left">
+    <div
+      className="card bg-light grow-shrink"
+      style={{
+        display: "flex",
+        alignItems: "center"
+      }}
+    >
+      <button
+        className="btn btn-discreet text-left px"
+        onClick={onEdit}
+        style={{ flexGrow: 1 }}
+      >
+        <h3 className="text-left">{name}</h3>
+      </button>
+      <div style={{ marginLeft: "auto" }}>
         <button
-          className="btn btn-discreet text-left"
-          onClick={onEdit}
-          style={{ minWidth: "12rem" }}
+          className="btn btn-danger mx"
+          onClick={onDelete}
+          style={{ fontSize: "0.85rem", padding: "0.15rem 0.7rem" }}
         >
-          {name}
+          Delete
         </button>
-        <div style={{ float: "right" }}>
-          <button
-            className="btn btn-danger"
-            onClick={onDelete}
-            style={{
-              fontSize: "0.8rem",
-              padding: "0.2rem 0.8rem",
-              margin: "0"
-            }}
-          >
-            Delete
-          </button>
-        </div>
-      </h3>
+      </div>
     </div>
   );
 };
