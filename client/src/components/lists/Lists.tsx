@@ -52,16 +52,13 @@ const Lists = () => {
       {lists && !loading ? (
         <TransitionGroup>
           {lists.map((list: IList, i: number) => (
-            <CSSTransition
-              key={list.id}
-              timeout={200}
-              onDragOver={() => onDragOver(i)}
-            >
+            <CSSTransition key={list.id} timeout={200}>
               <div
                 className="drag"
                 draggable
                 onDragStart={e => onDragStart(e, i, list.name)}
                 onDragEnd={onDragEnd}
+                onDragOver={() => onDragOver(i)}
               >
                 <ListItem list={list} />
               </div>
