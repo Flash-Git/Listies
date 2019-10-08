@@ -23,11 +23,10 @@ const Items: any = ({ listId }: any) => {
   const initialState: IItem | any = null;
   const [draggedItem, setDraggedItem] = useState(initialState);
 
-  const onDragStart = (e: any, index: number) => {
+  const onDragStart = (e: any, index: number, name: string) => {
     setDraggedItem(items[index]);
+    e.dataTransfer.setData("text/plain", name);
     e.dataTransfer.effectAllowed = "move";
-    e.dataTransfer.setData("text/html", e.target.parentNode);
-    e.dataTransfer.setDragImage(e.target.parentNode, 20, 20);
   };
 
   const onDragOver = (index: number) => {
@@ -37,14 +36,14 @@ const Items: any = ({ listId }: any) => {
     if (draggedItem === null || draggedItem.id === draggedOverItem.id) return;
 
     // filter out the currently dragged item
-    let otherItems = items.filter(
+    let newItems = items.filter(
       (item: IItem) => draggedItem && item.id !== draggedItem.id
     );
 
     // add the dragged item after the dragged over item
-    otherItems.splice(index, 0, draggedItem);
+    newItems.splice(index, 0, draggedItem);
 
-    setItems(otherItems);
+    setItems(newItems);
   };
 
   const onDragEnd = () => {
@@ -61,15 +60,13 @@ const Items: any = ({ listId }: any) => {
               timeout={200}
               onDragOver={() => onDragOver(i)}
             >
-              <div>
-                <div
-                  className="drag"
-                  draggable
-                  onDragStart={e => onDragStart(e, i)}
-                  onDragEnd={onDragEnd}
-                >
-                  <Item item={item} />
-                </div>
+              <div
+                className="drag"
+                draggable
+                onDragStart={e => onDragStart(e, i, item.name)}
+                onDragEnd={onDragEnd}
+              >
+                <Item item={item} />
               </div>
             </CSSTransition>
           ))}

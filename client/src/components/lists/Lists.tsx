@@ -20,11 +20,10 @@ const Lists = () => {
   const initialState: IList | any = null;
   const [draggedList, setDraggedList] = useState(initialState);
 
-  const onDragStart = (e: any, index: number) => {
+  const onDragStart = (e: any, index: number, name: string) => {
     setDraggedList(lists[index]);
+    e.dataTransfer.setData("text/plain", name);
     e.dataTransfer.effectAllowed = "move";
-    e.dataTransfer.setData("text/html", e.target.parentNode);
-    e.dataTransfer.setDragImage(e.target.parentNode, 20, 20);
   };
 
   const onDragOver = (index: number) => {
@@ -34,14 +33,14 @@ const Lists = () => {
     if (draggedList === null || draggedList.id === draggedOverItem.id) return;
 
     // filter out the currently dragged item
-    let otherLists = lists.filter(
+    let newLists = lists.filter(
       (list: IList) => draggedList && list.id !== draggedList.id
     );
 
     // add the dragged item after the dragged over item
-    otherLists.splice(index, 0, draggedList);
+    newLists.splice(index, 0, draggedList);
 
-    setLists(otherLists);
+    setLists(newLists);
   };
 
   const onDragEnd = () => {
@@ -62,7 +61,7 @@ const Lists = () => {
                 <div
                   className="drag"
                   draggable
-                  onDragStart={e => onDragStart(e, i)}
+                  onDragStart={e => onDragStart(e, i, list.name)}
                   onDragEnd={onDragEnd}
                 >
                   <ListItem list={list} />
