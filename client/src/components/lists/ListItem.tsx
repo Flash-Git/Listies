@@ -23,10 +23,11 @@ const ListItem: any = ({ list }: any) => {
 
   return (
     <div
-      className="card bg-light grow-shrink"
+      className="card bg-light grow-shrink my"
       style={{
         display: "flex",
-        alignItems: "center"
+        alignItems: "center",
+        padding: "0.7rem"
       }}
     >
       <button
@@ -40,7 +41,11 @@ const ListItem: any = ({ list }: any) => {
         <button
           className="btn btn-danger mx"
           onClick={onDelete}
-          style={{ fontSize: "0.85rem", padding: "0.15rem 0.7rem" }}
+          style={{
+            fontSize: "0.85rem",
+            padding: "0.15rem 0.7rem",
+            marginRight: "0"
+          }}
         >
           Delete
         </button>

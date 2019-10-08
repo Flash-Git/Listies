@@ -78,7 +78,11 @@ const Item: any = ({ item }: any) => {
         <button
           className="btn btn-danger mx"
           onClick={onDelete}
-          style={{ fontSize: "0.9rem", padding: "0.15rem 0.7rem" }}
+          style={{
+            fontSize: "0.8rem",
+            padding: "0.1rem 0.6rem",
+            marginRight: "0"
+          }}
         >
           Delete
         </button>
