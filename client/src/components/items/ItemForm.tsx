@@ -50,8 +50,8 @@ const ItemForm: any = ({ listId, listName }: any) => {
         flexWrap: "wrap",
         alignItems: "center",
         justifyContent: "center",
-        marginTop: "1rem",
-        marginBottom: "1rem"
+        marginTop: "0.7rem",
+        marginBottom: "0.7rem"
       }}
     >
       <input
@@ -59,7 +59,7 @@ const ItemForm: any = ({ listId, listName }: any) => {
           minWidth: "5rem",
           maxWidth: "15rem",
           margin: "0",
-          marginBottom: "1rem"
+          marginBottom: "0.7rem"
         }}
         type="text"
         placeholder="Name"
@@ -69,9 +69,10 @@ const ItemForm: any = ({ listId, listName }: any) => {
       />
       <input
         style={{
-          maxWidth: "8.5rem",
+          maxWidth: "6rem",
           margin: "0",
-          marginBottom: "1rem"
+          marginBottom: "0.7rem",
+          padding: "0.1rem"
         }}
         type="submit"
         value={"Add Item"}

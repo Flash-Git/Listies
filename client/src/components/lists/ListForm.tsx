@@ -55,8 +55,8 @@ const ListForm = () => {
         flexWrap: "wrap",
         alignItems: "center",
         justifyContent: "center",
-        marginTop: "1rem",
-        marginBottom: "1rem"
+        marginTop: "0.7rem",
+        marginBottom: "0.7rem"
       }}
     >
       <input
@@ -64,7 +64,7 @@ const ListForm = () => {
           minWidth: "5rem",
           maxWidth: "15rem",
           margin: "0",
-          marginBottom: "1rem"
+          marginBottom: "0.7rem"
         }}
         type="text"
         placeholder="Name"
@@ -76,7 +76,8 @@ const ListForm = () => {
         style={{
           maxWidth: "8.5rem",
           margin: "0",
-          marginBottom: "1rem"
+          marginBottom: "0.7rem",
+          padding: "0.1rem"
         }}
         type="submit"
         value="Add New List"
