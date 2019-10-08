@@ -16,6 +16,7 @@ export const CLEAR_ERRORS: string = "CLEAR_ERRORS";
 
 // List
 export const GET_LISTS: string = "GET_LISTS";
+export const SET_LISTS: string = "SET_LISTS";
 export const ADD_LIST: string = "ADD_LIST";
 export const SET_CURRENT: string = "SET_CURRENT";
 export const CLEAR_CURRENT: string = "CLEAR_CURRENT";
@@ -27,6 +28,7 @@ export const SET_HIDDEN: string = "SET_HIDDEN";
 // Item
 export const LOADING: string = "LOADING";
 export const GET_ITEMS: string = "GET_ITEMS";
+export const SET_ITEMS: string = "SET_ITEMS";
 export const SORT_ITEMS: string = "SORT_ITEMS";
 export const ADD_ITEM: string = "ADD_ITEM";
 export const EDIT_ITEM: string = "EDIT_ITEM";
