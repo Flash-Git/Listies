@@ -6,6 +6,7 @@ import ListReducer from "./ListReducer";
 
 import {
   GET_LISTS,
+  SET_LISTS,
   ADD_LIST,
   SET_CURRENT,
   CLEAR_CURRENT,
@@ -41,6 +42,10 @@ const ListState: React.FC = props => {
     } catch (e) {
       dispatch({ type: LIST_ERROR, payload: e.response.data.msg });
     }
+  };
+
+  const setLists = async (lists: IList[]) => {
+    dispatch({ type: SET_LISTS, payload: lists });
   };
 
   const addList = async (list: IList) => {
@@ -102,6 +107,7 @@ const ListState: React.FC = props => {
         loading: state.loading,
         hidden: state.hidden,
         getLists,
+        setLists,
         addList,
         deleteList,
         setCurrentList,

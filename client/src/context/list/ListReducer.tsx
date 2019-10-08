@@ -1,5 +1,6 @@
 import {
   GET_LISTS,
+  SET_LISTS,
   ADD_LIST,
   SET_CURRENT,
   CLEAR_CURRENT,
@@ -23,6 +24,11 @@ const ListReducer = (state: IState, action: IAction): IState => {
           return list;
         }),
         loading: false
+      };
+    case SET_LISTS:
+      return {
+        ...state,
+        lists: action.payload
       };
     case ADD_LIST:
       action.payload.id = action.payload._id;
