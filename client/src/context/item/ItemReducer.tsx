@@ -1,6 +1,7 @@
 import {
   LOADING,
   GET_ITEMS,
+  SET_ITEMS,
   SORT_ITEMS,
   ADD_ITEM,
   EDIT_ITEM,
@@ -27,6 +28,11 @@ const ListReducer = (state: IState, action: IAction): IState => {
           return item;
         }),
         loading: false
+      };
+    case SET_ITEMS:
+      return {
+        ...state,
+        items: action.payload
       };
     case SORT_ITEMS:
       const filt = (item: IItem, imp: number) => item.importance === imp;

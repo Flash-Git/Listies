@@ -7,6 +7,7 @@ import ItemReducer from "./ItemReducer";
 import {
   LOADING,
   GET_ITEMS,
+  SET_ITEMS,
   SORT_ITEMS,
   ADD_ITEM,
   EDIT_ITEM,
@@ -35,12 +36,18 @@ const ItemState: React.FC = props => {
     try {
       dispatch({ type: LOADING });
       const res = await axios.get(`/api/items/${listId}`);
-      if (res.data.length > 1)
-        dispatch({ type: SORT_ITEMS, payload: res.data });
-      else dispatch({ type: GET_ITEMS, payload: res.data });
+      dispatch({ type: GET_ITEMS, payload: res.data });
     } catch (e) {
       dispatch({ type: ITEM_ERROR, payload: e.response.data.msg });
     }
+  };
+
+  const setItems = async (items: IItem[]) => {
+    dispatch({ type: SET_ITEMS, payload: items });
+  };
+
+  const sortItems = async () => {
+    if (state.items.length > 1) dispatch({ type: SORT_ITEMS });
   };
 
   const addItem = async (item: IItem, listId: string) => {
@@ -91,6 +98,7 @@ const ItemState: React.FC = props => {
         error: state.error,
         loading: state.loading,
         getItems,
+        setItems,
         addItem,
         editItem,
         deleteItem,
