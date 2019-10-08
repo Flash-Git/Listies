@@ -1,6 +1,6 @@
 export type IList = {
   _id?: string;
-  msg: string;
+  name: string;
   id: undefined | string;
 };
 

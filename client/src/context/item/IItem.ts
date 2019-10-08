@@ -1,7 +1,7 @@
 export type IItem = {
   _id?: string;
   id: undefined | string;
-  msg: string;
+  name: string;
   checked: boolean;
   importance: number;
   note: string;
