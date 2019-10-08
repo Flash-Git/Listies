@@ -57,15 +57,13 @@ const Lists = () => {
               timeout={200}
               onDragOver={() => onDragOver(i)}
             >
-              <div>
-                <div
-                  className="drag"
-                  draggable
-                  onDragStart={e => onDragStart(e, i, list.name)}
-                  onDragEnd={onDragEnd}
-                >
-                  <ListItem list={list} />
-                </div>
+              <div
+                className="drag"
+                draggable
+                onDragStart={e => onDragStart(e, i, list.name)}
+                onDragEnd={onDragEnd}
+              >
+                <ListItem list={list} />
               </div>
             </CSSTransition>
           ))}
