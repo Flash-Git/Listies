@@ -9,16 +9,17 @@ import ItemContext from "../../context/item/ItemContext";
 
 import { IItem } from "../../context/item/IItem";
 
-const Items: any = ({ listId }: any) => {
+const Items = ({ currentList }: any) => {
   const itemContext = useContext(ItemContext);
-
   const { loading, items, getItems, setItems } = itemContext;
 
+  const { id } = currentList;
+
   useEffect(() => {
-    if (listId === "") return;
-    getItems(listId);
+    if (id !== "") getItems(id);
+
     //eslint-disable-next-line
-  }, [listId]);
+  }, [currentList]);
 
   const initialState: IItem | any = null;
   const [draggedItem, setDraggedItem] = useState(initialState);

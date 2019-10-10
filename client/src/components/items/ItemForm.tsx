@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import ItemContext from "../../context/item/ItemContext";
 import AlertContext from "../../context/alert/AlertContext";
 
-const ItemForm: any = ({ listId, listName }: any) => {
+const ItemForm: any = ({ currentList }: any) => {
   const itemContext = useContext(ItemContext);
   const alertContext = useContext(AlertContext);
 
@@ -15,6 +15,14 @@ const ItemForm: any = ({ listId, listName }: any) => {
   const emptyItem = {
     name: ""
   };
+
+  const [listId, setListId] = useState("");
+  const [listName, setListName] = useState("No List Selected");
+
+  useEffect(() => {
+    setListId(currentList ? currentList.id : "");
+    setListName(currentList ? currentList.name : "No List Selected");
+  }, [currentList]);
 
   const [item, setItem] = useState(emptyItem);
   const { name } = item;
@@ -85,7 +93,7 @@ const ItemForm: any = ({ listId, listName }: any) => {
   return (
     <div className="grow-shrink">
       <h2 className="text-primary">{listName}</h2>
-      {listId && inputFields()}
+      {listId !== "" && inputFields()}
     </div>
   );
 };
