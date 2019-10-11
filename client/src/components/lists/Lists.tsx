@@ -7,15 +7,18 @@ import Spinner from "../layout/Spinner";
 
 import { IList } from "../../context/list/IList";
 
-const Lists = () => {
+const Lists: React.FC = () => {
   const listContext = useContext(ListContext);
-
   const { loading, lists, getLists, setLists } = listContext;
 
   useEffect(() => {
     getLists();
     //eslint-disable-next-line
   }, []);
+
+  /*
+  / Dragging
+  */
 
   const initialState: IList | any = null;
   const [draggedList, setDraggedList] = useState(initialState);
