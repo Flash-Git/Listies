@@ -8,7 +8,6 @@ export type IItem = {
 };
 
 export type IState = {
-  list: null | string;
   items: IItem[];
   error: null | string;
   loading: boolean;
