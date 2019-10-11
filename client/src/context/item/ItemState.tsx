@@ -13,6 +13,7 @@ import {
   EDIT_ITEM,
   ITEM_ERROR,
   DELETE_ITEM,
+  CLEAR_ITEMS,
   CLEAR_ERRORS
 } from "../types";
 
@@ -20,7 +21,6 @@ import { IState, IItem } from "./IItem";
 
 const ItemState: React.FC = props => {
   const initialState: IState = {
-    list: null,
     items: [],
     error: null,
     loading: false
@@ -33,8 +33,9 @@ const ItemState: React.FC = props => {
    */
 
   const getItems = async (listId: string) => {
+    clearItems();
+    dispatch({ type: LOADING });
     try {
-      dispatch({ type: LOADING });
       const res = await axios.get(`/api/items/${listId}`);
       dispatch({ type: GET_ITEMS, payload: res.data });
     } catch (e) {
@@ -89,6 +90,8 @@ const ItemState: React.FC = props => {
     }
   };
 
+  const clearItems = () => dispatch({ type: CLEAR_ITEMS });
+
   const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
 
   return (
@@ -102,6 +105,7 @@ const ItemState: React.FC = props => {
         addItem,
         editItem,
         deleteItem,
+        clearItems,
         clearErrors
       }}
     >
