@@ -7,12 +7,13 @@ import {
   EDIT_ITEM,
   ITEM_ERROR,
   DELETE_ITEM,
+  CLEAR_ITEMS,
   CLEAR_ERRORS
 } from "../types";
 
 import { IItem, IState, IAction } from "./IItem";
 
-const ListReducer = (state: IState, action: IAction): IState => {
+const ItemReducer = (state: IState, action: IAction): IState => {
   switch (action.type) {
     case LOADING:
       return {
@@ -49,7 +50,6 @@ const ListReducer = (state: IState, action: IAction): IState => {
         }),
         loading: false
       };
-
     case ADD_ITEM:
       action.payload.id = action.payload._id;
       delete action.payload._id;
@@ -80,6 +80,11 @@ const ListReducer = (state: IState, action: IAction): IState => {
         error: action.payload,
         loading: false
       };
+    case CLEAR_ITEMS:
+      return {
+        ...state,
+        items: []
+      };
     case CLEAR_ERRORS:
       return {
         ...state,
@@ -92,4 +97,4 @@ const ListReducer = (state: IState, action: IAction): IState => {
   }
 };
 
-export default ListReducer;
+export default ItemReducer;
