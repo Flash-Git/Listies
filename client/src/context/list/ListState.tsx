@@ -5,6 +5,7 @@ import ListContext from "./ListContext";
 import ListReducer from "./ListReducer";
 
 import {
+  LOADING,
   GET_LISTS,
   SET_LISTS,
   ADD_LIST,
@@ -12,6 +13,7 @@ import {
   CLEAR_CURRENT,
   LIST_ERROR,
   DELETE_LIST,
+  CLEAR_LISTS,
   CLEAR_ERRORS,
   TOGGLE_HIDDEN,
   SET_HIDDEN
@@ -36,6 +38,8 @@ const ListState: React.FC = props => {
    */
 
   const getLists = async () => {
+    clearLists();
+    dispatch({ type: LOADING });
     try {
       const res = await axios.get("/api/lists");
       dispatch({ type: GET_LISTS, payload: res.data });
@@ -88,6 +92,8 @@ const ListState: React.FC = props => {
     dispatch({ type: CLEAR_CURRENT });
   };
 
+  const clearLists = () => dispatch({ type: CLEAR_LISTS });
+
   const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
 
   const toggleHidden = () => {
@@ -112,6 +118,7 @@ const ListState: React.FC = props => {
         deleteList,
         setCurrentList,
         clearCurrentList,
+        clearLists,
         clearErrors,
         toggleHidden,
         setHidden
