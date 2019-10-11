@@ -22,6 +22,7 @@ export const SET_CURRENT: string = "SET_CURRENT";
 export const CLEAR_CURRENT: string = "CLEAR_CURRENT";
 export const LIST_ERROR: string = "LIST_ERROR";
 export const DELETE_LIST: string = "DELETE_LIST";
+export const CLEAR_LISTS: string = "CLEAR_LISTS";
 export const TOGGLE_HIDDEN: string = "TOGGLE_HIDDEN";
 export const SET_HIDDEN: string = "SET_HIDDEN";
 
@@ -34,3 +35,4 @@ export const ADD_ITEM: string = "ADD_ITEM";
 export const EDIT_ITEM: string = "EDIT_ITEM";
 export const ITEM_ERROR: string = "ITEM_ERROR";
 export const DELETE_ITEM: string = "DELETE_ITEM";
+export const CLEAR_ITEMS: string = "CLEAR_ITEMS";
