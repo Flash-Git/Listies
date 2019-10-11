@@ -1,4 +1,5 @@
 import {
+  LOADING,
   GET_LISTS,
   SET_LISTS,
   ADD_LIST,
@@ -6,6 +7,7 @@ import {
   CLEAR_CURRENT,
   LIST_ERROR,
   DELETE_LIST,
+  CLEAR_LISTS,
   CLEAR_ERRORS,
   TOGGLE_HIDDEN,
   SET_HIDDEN
@@ -15,6 +17,11 @@ import { IList, IState, IAction } from "./IList";
 
 const ListReducer = (state: IState, action: IAction): IState => {
   switch (action.type) {
+    case LOADING:
+      return {
+        ...state,
+        loading: true
+      };
     case GET_LISTS:
       return {
         ...state,
@@ -43,10 +50,11 @@ const ListReducer = (state: IState, action: IAction): IState => {
       return {
         ...state,
         lists: state.lists.filter(list => list.id !== action.payload),
-        currentList:
-          state.currentList && state.currentList.id === action.payload
+        currentList: state.currentList
+          ? state.currentList.id === action.payload
             ? null
-            : state.currentList,
+            : state.currentList
+          : null,
         loading: false
       };
     case SET_CURRENT:
@@ -57,6 +65,7 @@ const ListReducer = (state: IState, action: IAction): IState => {
         loading: false
       };
     case CLEAR_CURRENT:
+      localStorage.removeItem("currentList");
       return {
         ...state,
         currentList: null,
@@ -67,6 +76,11 @@ const ListReducer = (state: IState, action: IAction): IState => {
         ...state,
         error: action.payload,
         loading: false
+      };
+    case CLEAR_LISTS:
+      return {
+        ...state,
+        lists: []
       };
     case CLEAR_ERRORS:
       return {
