@@ -1,19 +1,21 @@
 import React, { useState, useContext, useEffect } from "react";
 
-import ListContext from "../../context/list/ListContext";
 import AlertContext from "../../context/alert/AlertContext";
+import ListContext from "../../context/list/ListContext";
 
 const ListForm = () => {
   const alertContext = useContext(AlertContext);
   const { setAlert } = alertContext;
 
   const listContext = useContext(ListContext);
-  const {
-    error,
-    addList,
-    clearCurrentList, //todo
-    clearErrors
-  } = listContext;
+  const { error, addList, clearCurrentList, clearErrors } = listContext;
+
+  useEffect(() => {
+    if (!error) return;
+    setAlert(error, "danger");
+    clearErrors();
+    //eslint-disable-next-line
+  }, [error]);
 
   const emptyList = {
     name: ""
@@ -21,14 +23,6 @@ const ListForm = () => {
 
   const [list, setList] = useState(emptyList);
   const { name } = list;
-
-  useEffect(() => {
-    if (error) {
-      setAlert(error, "danger");
-      clearErrors();
-    }
-    //eslint-disable-next-line
-  }, [error]);
 
   //Input
   const onChange = (e: any) =>
