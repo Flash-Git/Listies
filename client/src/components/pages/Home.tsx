@@ -32,9 +32,6 @@ const Home: React.FC = () => {
     toggleHidden();
   };
 
-  const listId = currentList ? currentList.id : "";
-  const listName = currentList ? currentList.name : "No List Selected";
-
   return (
     <div
       style={{
@@ -71,8 +68,8 @@ const Home: React.FC = () => {
           scrollbarWidth: "thin"
         }}
       >
-        <ItemForm listId={listId} listName={listName} />
-        <Items listId={listId} listName={listName} />
+        <ItemForm currentList={currentList} />
+        <Items currentList={currentList} />
       </div>
     </div>
   );
