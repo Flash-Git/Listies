@@ -6,16 +6,12 @@ import AlertContext from "../../context/alert/AlertContext";
 
 const ItemForm: any = ({ currentList }: any) => {
   const itemContext = useContext(ItemContext);
-  const alertContext = useContext(AlertContext);
-
   const { error, addItem, clearErrors } = itemContext;
 
+  const alertContext = useContext(AlertContext);
   const { setAlert } = alertContext;
 
-  const emptyItem = {
-    name: ""
-  };
-
+  // List
   const [listId, setListId] = useState("");
   const [listName, setListName] = useState("No List Selected");
 
@@ -24,14 +20,17 @@ const ItemForm: any = ({ currentList }: any) => {
     setListName(currentList ? currentList.name : "No List Selected");
   }, [currentList]);
 
+  const emptyItem = {
+    name: ""
+  };
+
   const [item, setItem] = useState(emptyItem);
   const { name } = item;
 
   useEffect(() => {
-    if (error) {
-      setAlert(error, "danger");
-      clearErrors();
-    }
+    if (!error) return;
+    setAlert(error, "danger");
+    clearErrors();
     //eslint-disable-next-line
   }, [error]);
 
@@ -93,14 +92,13 @@ const ItemForm: any = ({ currentList }: any) => {
   return (
     <div className="grow-shrink">
       <h2 className="text-primary">{listName}</h2>
-      {listId !== "" && inputFields()}
+      {currentList && inputFields()}
     </div>
   );
 };
 
 ItemForm.propTypes = {
-  listName: PropTypes.string,
-  listId: PropTypes.string
+  currentList: PropTypes.object
 };
 
 export default ItemForm;
