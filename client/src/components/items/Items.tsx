@@ -9,17 +9,19 @@ import ItemContext from "../../context/item/ItemContext";
 
 import { IItem } from "../../context/item/IItem";
 
-const Items = ({ currentList }: any) => {
+const Items: any = ({ currentList }: any) => {
   const itemContext = useContext(ItemContext);
-  const { loading, items, getItems, setItems } = itemContext;
-
-  const { id } = currentList;
+  const { loading, items, getItems, setItems, clearItems } = itemContext;
 
   useEffect(() => {
-    if (id !== "") getItems(id);
+    currentList ? getItems(currentList.id) : clearItems();
 
     //eslint-disable-next-line
   }, [currentList]);
+
+  /*
+  / Dragging
+  */
 
   const initialState: IItem | any = null;
   const [draggedItem, setDraggedItem] = useState(initialState);
@@ -77,7 +79,7 @@ const Items = ({ currentList }: any) => {
 };
 
 Item.propTypes = {
-  listId: PropTypes.object
+  currentList: PropTypes.object
 };
 
 export default Items;
