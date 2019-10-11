@@ -55,7 +55,16 @@ const Home: React.FC = () => {
         <FontAwesomeIcon icon={["fas", "bars"]} />
       </button>
       {!hidden && (
-        <div className="px-1 mbot-2">
+        <div
+          className="px-1 mbot-2"
+          style={{
+            maxHeight: "60rem",
+            overflowY: "auto",
+            scrollbarWidth: "thin",
+            flexBasis: "23rem",
+            maxWidth: "30rem"
+          }}
+        >
           <ListForm />
           <Lists />
         </div>
@@ -63,9 +72,11 @@ const Home: React.FC = () => {
       <div
         className="px-1 mx-auto mbot-4"
         style={{
-          maxHeight: "40rem",
+          maxHeight: "60rem",
           overflowY: "auto",
-          scrollbarWidth: "thin"
+          scrollbarWidth: "thin",
+          flexBasis: "23rem",
+          maxWidth: "30rem"
         }}
       >
         <ItemForm currentList={currentList} />
