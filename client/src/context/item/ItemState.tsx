@@ -72,19 +72,20 @@ const ItemState: React.FC = props => {
         "Content-Type": "application/json"
       }
     };
+    dispatch({ type: EDIT_ITEM, payload: item });
 
     try {
-      const res = await axios.put(`/api/items/${item.id}`, item, config);
-      dispatch({ type: EDIT_ITEM, payload: res.data });
+      await axios.put(`/api/items/${item.id}`, item, config);
     } catch (e) {
       dispatch({ type: ITEM_ERROR, payload: e.response.data.msg });
     }
   };
 
   const deleteItem = async (itemId: string) => {
+    dispatch({ type: DELETE_ITEM, payload: itemId });
+
     try {
       await axios.delete(`/api/items/${itemId}`);
-      dispatch({ type: DELETE_ITEM, payload: itemId });
     } catch (e) {
       dispatch({ type: ITEM_ERROR, payload: e.response.data.msg });
     }

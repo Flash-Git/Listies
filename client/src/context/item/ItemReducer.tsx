@@ -59,8 +59,6 @@ const ItemReducer = (state: IState, action: IAction): IState => {
         loading: false
       };
     case EDIT_ITEM:
-      action.payload.id = action.payload._id;
-      delete action.payload._id;
       return {
         ...state,
         items: state.items.map(item =>
