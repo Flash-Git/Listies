@@ -58,7 +58,7 @@ const Item: any = ({ item }: any) => {
       {importanceButton()}
       <input
         style={{
-          transform: "scale(1.5)"
+          transform: "scale(1.4)"
         }}
         className="mx-1"
         type="checkbox"
