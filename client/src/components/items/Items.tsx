@@ -65,9 +65,6 @@ const Items: any = ({ currentList }: any) => {
                 onDragStart={e => onDragStart(e, i, item.name)}
                 onDragEnd={onDragEnd}
                 onDragOver={() => onDragOver(i)}
-                onTouchStart={e => onDragStart(e, i, item.name)}
-                onTouchMove={() => onDragOver(i)}
-                onTouchEnd={onDragEnd}
               >
                 <Item item={item} />
               </div>
