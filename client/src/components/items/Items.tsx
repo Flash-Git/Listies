@@ -46,7 +46,7 @@ const Items: any = ({ currentList }: any) => {
     // add the dragged item after the dragged over item
     newItems.splice(index, 0, draggedItem);
 
-    setItems(newItems);
+    setItems(newItems, currentList.id);
   };
 
   const onDragEnd = () => {
