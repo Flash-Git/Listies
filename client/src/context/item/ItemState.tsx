@@ -33,18 +33,39 @@ const ItemState: React.FC = props => {
    */
 
   const getItems = async (listId: string) => {
+    //TODO clean up
     clearItems();
     dispatch({ type: LOADING });
     try {
       const res = await axios.get(`/api/items/${listId}`);
-      dispatch({ type: GET_ITEMS, payload: res.data });
+      if (!localStorage["list" + listId]) {
+        dispatch({ type: GET_ITEMS, payload: res.data });
+        return;
+      }
+      const items: IItem[] = [];
+      const newItems: IItem[] = res.data.map((item: IItem) => {
+        return item;
+      });
+
+      const localItemIds = JSON.parse(localStorage["list" + listId]);
+
+      for (let i = 0; i < localItemIds.length; i++) {
+        for (let j = 0; j < newItems.length; j++) {
+          if (localItemIds[i] !== newItems[j]._id) continue;
+          items.push(newItems[j]);
+          newItems.splice(j, 1);
+          j--;
+          break;
+        }
+      }
+      dispatch({ type: GET_ITEMS, payload: newItems.concat(items) });
     } catch (e) {
       dispatch({ type: ITEM_ERROR, payload: e.response.data.msg });
     }
   };
 
-  const setItems = async (items: IItem[]) => {
-    dispatch({ type: SET_ITEMS, payload: items });
+  const setItems = async (items: IItem[], listId: string) => {
+    dispatch({ type: SET_ITEMS, payload: { items, listId } });
   };
 
   const sortItems = async () => {
@@ -60,7 +81,7 @@ const ItemState: React.FC = props => {
 
     try {
       const res = await axios.post(`/api/items/${listId}`, item, config);
-      dispatch({ type: ADD_ITEM, payload: res.data });
+      dispatch({ type: ADD_ITEM, payload: { item: res.data, listId } });
     } catch (e) {
       dispatch({ type: ITEM_ERROR, payload: e.response.data.msg });
     }

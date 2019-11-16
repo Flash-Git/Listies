@@ -31,9 +31,17 @@ const ItemReducer = (state: IState, action: IAction): IState => {
         loading: false
       };
     case SET_ITEMS:
+      localStorage.setItem(
+        "list" + action.payload.listId,
+        JSON.stringify(
+          action.payload.items.map((item: any) => {
+            return item.id;
+          })
+        )
+      );
       return {
         ...state,
-        items: action.payload
+        items: action.payload.items
       };
     case SORT_ITEMS:
       const filt = (item: IItem, imp: number) => item.importance === imp;
@@ -51,13 +59,21 @@ const ItemReducer = (state: IState, action: IAction): IState => {
         loading: false
       };
     case ADD_ITEM:
-      action.payload.id = action.payload._id;
-      delete action.payload._id;
-      return {
+      action.payload.item.id = action.payload.item._id;
+      delete action.payload.item._id;
+
+      const newState = {
         ...state,
-        items: [action.payload, ...state.items],
+        items: [action.payload.item, ...state.items],
         loading: false
       };
+      const ids: String[] = [];
+      newState.items.map(item => {
+        ids.push(item.id);
+        return item;
+      });
+      localStorage.setItem("list" + action.payload.listId, JSON.stringify(ids));
+      return newState;
     case EDIT_ITEM:
       return {
         ...state,
