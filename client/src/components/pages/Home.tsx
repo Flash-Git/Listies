@@ -58,7 +58,7 @@ const Home: React.FC = () => {
         <div
           className="px-1 mbot-2"
           style={{
-            maxHeight: "60rem",
+            maxHeight: "40rem",
             overflowY: "auto",
             scrollbarWidth: "thin",
             flexBasis: "23rem",
@@ -72,7 +72,7 @@ const Home: React.FC = () => {
       <div
         className="px-1 mx-auto mbot-4"
         style={{
-          maxHeight: "60rem",
+          // maxHeight: "60rem",
           overflowY: "auto",
           scrollbarWidth: "thin",
           flexBasis: "23rem",
