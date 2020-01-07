@@ -1,4 +1,4 @@
-import React, { useReducer, useContext } from "react";
+import React, { FC, useReducer, useContext } from "react";
 import axios from "axios";
 
 import AuthContext from "./AuthContext";
@@ -19,7 +19,7 @@ import ListContext from "../list/ListContext";
 
 import { IState } from "./IAuth";
 
-const AuthState: React.FC = props => {
+const AuthState: FC = props => {
   const initialState: IState = {
     token: localStorage.getItem("token"),
     isAuthenticated: null,
