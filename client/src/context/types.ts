@@ -1,8 +1,9 @@
 // App
 
 // Alert
-export const SET_ALERT: string = "SET_ALERT";
+export const ADD_ALERT: string = "ADD_ALERT";
 export const REMOVE_ALERT: string = "REMOVE_ALERT";
+export const CLEAR_ALERTS: string = "REMOVE_ALERT";
 
 // Auth
 export const REGISTER_SUCCESS: string = "REGISTER_SUCCESS";
