@@ -36,8 +36,5 @@
   },
   "repository": {
     "type": "git"
-  },
-  "engines": {
-    "node": "^8.16.1"
   }
 }
