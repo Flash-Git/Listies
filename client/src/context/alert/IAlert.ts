@@ -1,3 +1,8 @@
+export interface IAction {
+  payload?: any;
+  type: string;
+}
+
 export type IAlert = {
   msg: string;
   type: string;
@@ -6,7 +11,10 @@ export type IAlert = {
 
 export type IAlerts = IAlert[];
 
-export interface IAction {
-  payload?: any;
-  type: string;
+export interface AddAlert {
+  (
+    msg: string,
+    type: "primary" | "light" | "dark" | "danger" | "success" | "white",
+    timeout?: number
+  ): void;
 }

@@ -1,13 +1,15 @@
-import { SET_ALERT, REMOVE_ALERT } from "../types";
+import { ADD_ALERT, REMOVE_ALERT, CLEAR_ALERTS } from "../types";
 
-import { IAlerts, IAction } from "./IAlert";
+import { IAction, IAlerts } from "./IAlert";
 
 const AlertReducer = (state: IAlerts, action: IAction): IAlerts => {
   switch (action.type) {
-    case SET_ALERT:
+    case ADD_ALERT:
       return [...state, action.payload];
     case REMOVE_ALERT:
       return state.filter(alert => alert.id !== action.payload);
+    case CLEAR_ALERTS:
+      return [];
     default:
       return state;
   }

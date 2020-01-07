@@ -1,14 +1,14 @@
-import React, { useReducer } from "react";
+import React, { FC, useReducer } from "react";
 import uuid from "uuid";
 
 import AlertContext from "./AlertContext";
 import AlertReducer from "./AlertReducer";
 
-import { SET_ALERT, REMOVE_ALERT } from "../types";
+import { ADD_ALERT, REMOVE_ALERT, CLEAR_ALERTS } from "../types";
 
-import { IAlerts } from "./IAlert";
+import { IAlerts, AddAlert } from "./IAlert";
 
-const AlertState: React.FC = props => {
+const AlertState: FC = props => {
   const initialState: IAlerts = [];
 
   const [state, dispatch] = useReducer(AlertReducer, initialState);
@@ -17,10 +17,10 @@ const AlertState: React.FC = props => {
    * Actions
    */
 
-  const setAlert = (msg: string, type: string, timeout: number = 5000) => {
+  const addAlert: AddAlert = (msg, type, timeout = 5000) => {
     const id = uuid.v4();
     dispatch({
-      type: SET_ALERT,
+      type: ADD_ALERT,
       payload: { msg, type, id }
     });
 
@@ -30,12 +30,15 @@ const AlertState: React.FC = props => {
   const removeAlert = (id: string) =>
     dispatch({ type: REMOVE_ALERT, payload: id });
 
+  const clearAlerts = () => dispatch({ type: CLEAR_ALERTS });
+
   return (
     <AlertContext.Provider
       value={{
         alerts: state,
-        setAlert,
-        removeAlert
+        addAlert,
+        removeAlert,
+        clearAlerts
       }}
     >
       {props.children}
