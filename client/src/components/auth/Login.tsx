@@ -8,7 +8,7 @@ const Login = ({ history }: any) => {
   const alertContext = useContext(AlertContext);
   const authContext = useContext(AuthContext);
 
-  const { setAlert } = alertContext;
+  const { addAlert, clearAlerts } = alertContext;
   const { isAuthenticated, error, login, clearErrors } = authContext;
 
   const [user, setUser] = useState({
@@ -22,7 +22,7 @@ const Login = ({ history }: any) => {
     isAuthenticated && history.push("/");
 
     if (error) {
-      setAlert(error, "danger");
+      addAlert(error, "danger");
       clearErrors();
     }
     //eslint-disable-next-line
@@ -34,7 +34,7 @@ const Login = ({ history }: any) => {
   const onSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     if (email === "" || password === "") {
-      setAlert("Please fill in all fields", "danger");
+      addAlert("Please fill in all fields", "danger");
     } else {
       login({
         email,

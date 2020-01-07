@@ -9,7 +9,7 @@ const ItemForm: any = ({ currentList }: any) => {
   const { error, addItem, clearErrors } = itemContext;
 
   const alertContext = useContext(AlertContext);
-  const { setAlert } = alertContext;
+  const { addAlert } = alertContext;
 
   // List
   const [listId, setListId] = useState("");
@@ -29,7 +29,7 @@ const ItemForm: any = ({ currentList }: any) => {
 
   useEffect(() => {
     if (!error) return;
-    setAlert(error, "danger");
+    addAlert(error, "danger");
     clearErrors();
     //eslint-disable-next-line
   }, [error]);
