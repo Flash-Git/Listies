@@ -22,8 +22,8 @@ const Home: FC = () => {
     if (loaded) return;
 
     setLoaded(true);
-    localStorage.token && loadUser();
-  }, [loaded, setLoaded]);
+    loadUser();
+  }, [loaded, setLoaded, loadUser]);
 
   const toggleList = () => {
     toggleHidden();
