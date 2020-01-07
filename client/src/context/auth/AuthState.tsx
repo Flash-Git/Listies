@@ -68,7 +68,7 @@ const AuthState: FC = props => {
       const res = await axios.get("/api/auth");
       dispatch({ type: USER_LOADED, payload: res.data });
     } catch (e) {
-      dispatch({ type: AUTH_ERROR });
+      dispatch({ type: AUTH_ERROR, payload: e.msg });
     }
   };
 
