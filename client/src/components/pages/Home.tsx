@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Lists from "../lists/Lists";
@@ -9,7 +9,7 @@ import ItemForm from "../items/ItemForm";
 import AuthContext from "../../context/auth/AuthContext";
 import ListContext from "../../context/list/ListContext";
 
-const Home: React.FC = () => {
+const Home: FC = () => {
   const authContext = useContext(AuthContext);
   const { loadUser } = authContext;
 
@@ -18,15 +18,12 @@ const Home: React.FC = () => {
 
   const [loaded, setLoaded] = useState(false);
 
-  const useLoad = () => {
-    useEffect(() => {
-      if (loaded) return;
+  useEffect(() => {
+    if (loaded) return;
 
-      setLoaded(true);
-      localStorage.token && loadUser();
-    }, []);
-  };
-  useLoad();
+    setLoaded(true);
+    localStorage.token && loadUser();
+  }, [loaded, setLoaded]);
 
   const toggleList = () => {
     toggleHidden();
