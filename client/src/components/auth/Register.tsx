@@ -7,7 +7,7 @@ const Register: FC = ({ history }: any) => {
   const alertContext = useContext(AlertContext);
   const authContext = useContext(AuthContext);
 
-  const { setAlert } = alertContext;
+  const { addAlert, clearAlerts } = alertContext;
   const { isAuthenticated, error, register, clearErrors } = authContext;
 
   const [user, setUser] = useState({
@@ -23,7 +23,7 @@ const Register: FC = ({ history }: any) => {
     isAuthenticated && history.push("/");
 
     if (error) {
-      setAlert(error, "danger");
+      addAlert(error, "danger");
       clearErrors();
     }
     // eslint-disable-next-line
@@ -35,16 +35,16 @@ const Register: FC = ({ history }: any) => {
   const onSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     if (name === "" || email === "" || password === "") {
-      setAlert("Please enter all fields", "danger");
+      addAlert("Please enter all fields", "danger");
     } else if (password !== password2) {
-      setAlert("Passwords do not match", "danger");
+      addAlert("Passwords do not match", "danger");
     } else if (password.length < 7) {
-      setAlert("Passwords must be at least 7 characters long", "danger");
+      addAlert("Passwords must be at least 7 characters long", "danger");
     } else if (!email.includes("@")) {
-      setAlert("Emails must be valid", "danger");
+      addAlert("Emails must be valid", "danger");
     } else {
       if (password.length > 72)
-        setAlert(
+        addAlert(
           `The server will only use the first 72 characters of your ${password.length} character password`,
           "dark",
           30000
