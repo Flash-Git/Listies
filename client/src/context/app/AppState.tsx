@@ -10,13 +10,18 @@ import { IApp } from "./IApp";
 const AppState: FC = props => {
   const initialState: IApp = {};
 
+  // eslint-disable-next-line
   const [state, dispatch] = useReducer(AppReducer, initialState);
 
   /*
    * Actions
    */
 
-  return <AppContext.Provider value={{}}>{props.children}</AppContext.Provider>;
+  return (
+    <AppContext.Provider value={{ state }}>
+      {props.children}
+    </AppContext.Provider>
+  );
 };
 
 export default AppState;
