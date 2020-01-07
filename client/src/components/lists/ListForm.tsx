@@ -5,14 +5,14 @@ import ListContext from "../../context/list/ListContext";
 
 const ListForm = () => {
   const alertContext = useContext(AlertContext);
-  const { setAlert } = alertContext;
+  const { addAlert } = alertContext;
 
   const listContext = useContext(ListContext);
   const { error, addList, clearCurrentList, clearErrors } = listContext;
 
   useEffect(() => {
     if (!error) return;
-    setAlert(error, "danger");
+    addAlert(error, "danger");
     clearErrors();
     //eslint-disable-next-line
   }, [error]);
