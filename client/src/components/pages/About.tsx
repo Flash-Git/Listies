@@ -1,6 +1,6 @@
-import React from "react";
+import React, { FC } from "react";
 
-const About: React.FC = () => (
+const About: FC = () => (
   <div className="container">
     <h1>About</h1>
     <p className="my-1">Full stack React app</p>
