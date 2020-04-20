@@ -1,15 +1,16 @@
-import React, { useContext, useEffect, useState, Fragment } from "react";
+import React, { useContext, useEffect, useState, Fragment, FC } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import PropTypes from "prop-types";
 
 import Item from "./Item";
 import Spinner from "../layout/Spinner";
+import Exporter from "../layout/Exporter";
 
 import ItemContext from "../../context/item/ItemContext";
 
 import { IItem } from "../../context/item/IItem";
 
-const Items: any = ({ currentList }: any) => {
+const Items: FC<any> = ({ currentList }) => {
   const itemContext = useContext(ItemContext);
   const { loading, items, getItems, setItems, clearItems } = itemContext;
 
@@ -57,12 +58,13 @@ const Items: any = ({ currentList }: any) => {
     <Fragment>
       {items && !loading ? (
         <TransitionGroup>
+          <Exporter currentList={currentList} />
           {items.map((item: IItem, i: number) => (
             <CSSTransition key={item.id} timeout={200}>
               <div
                 className="drag"
                 draggable
-                onDragStart={e => onDragStart(e, i, item.name)}
+                onDragStart={(e) => onDragStart(e, i, item.name)}
                 onDragEnd={onDragEnd}
                 onDragOver={() => onDragOver(i)}
               >
@@ -79,7 +81,7 @@ const Items: any = ({ currentList }: any) => {
 };
 
 Item.propTypes = {
-  currentList: PropTypes.object
+  currentList: PropTypes.object,
 };
 
 export default Items;
