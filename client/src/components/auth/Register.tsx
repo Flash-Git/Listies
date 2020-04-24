@@ -3,7 +3,11 @@ import React, { FC, useState, useContext, useEffect } from "react";
 import AlertContext from "../../context/alert/AlertContext";
 import AuthContext from "../../context/auth/AuthContext";
 
-const Register: FC = ({ history }: any) => {
+interface Props {
+  history: any;
+}
+
+const Register: FC<Props> = ({ history }) => {
   const alertContext = useContext(AlertContext);
   const authContext = useContext(AuthContext);
 
@@ -14,20 +18,26 @@ const Register: FC = ({ history }: any) => {
     name: "",
     email: "",
     password: "",
-    password2: ""
+    password2: "",
   });
 
   const { name, email, password, password2 } = user;
 
   useEffect(() => {
     isAuthenticated && history.push("/");
+    clearAlerts();
 
+    // eslint-disable-next-line
+  }, [isAuthenticated, history]);
+
+  useEffect(() => {
     if (error) {
       addAlert(error, "danger");
       clearErrors();
     }
+
     // eslint-disable-next-line
-  }, [error, isAuthenticated, history]);
+  }, [error]);
 
   const onChange = (e: { target: { name: any; value: any } }) =>
     setUser({ ...user, [e.target.name]: e.target.value });

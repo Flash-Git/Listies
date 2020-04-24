@@ -1,10 +1,14 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { FC, useState, useContext, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import AlertContext from "../../context/alert/AlertContext";
 import AuthContext from "../../context/auth/AuthContext";
 
-const Login = ({ history }: any) => {
+interface Props {
+  history: any;
+}
+
+const Login: FC<Props> = ({ history }) => {
   const alertContext = useContext(AlertContext);
   const authContext = useContext(AuthContext);
 
@@ -13,20 +17,27 @@ const Login = ({ history }: any) => {
 
   const [user, setUser] = useState({
     email: "",
-    password: ""
+    password: "",
   });
 
   const { email, password } = user;
 
   useEffect(() => {
     isAuthenticated && history.push("/");
+    clearAlerts();
 
+    //eslint-disable-next-line
+  }, [isAuthenticated, history]);
+
+  useEffect(() => {
     if (error) {
+      console.log("if err");
       addAlert(error, "danger");
       clearErrors();
     }
+
     //eslint-disable-next-line
-  }, [error, isAuthenticated, history]);
+  }, [error]);
 
   const onChange = (e: { target: { name: string; value: string } }) =>
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -38,7 +49,7 @@ const Login = ({ history }: any) => {
     } else {
       login({
         email,
-        password
+        password,
       });
     }
   };
@@ -73,7 +84,7 @@ const Login = ({ history }: any) => {
 };
 
 Login.propTypes = {
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
 };
 
 export default Login;

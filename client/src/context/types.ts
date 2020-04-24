@@ -3,7 +3,7 @@
 // Alert
 export const ADD_ALERT: string = "ADD_ALERT";
 export const REMOVE_ALERT: string = "REMOVE_ALERT";
-export const CLEAR_ALERTS: string = "REMOVE_ALERT";
+export const CLEAR_ALERTS: string = "CLEAR_ALERTS";
 
 // Auth
 export const REGISTER_SUCCESS: string = "REGISTER_SUCCESS";
