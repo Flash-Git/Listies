@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useState, Fragment } from "react";
+import React, { useContext, useEffect, useState, Fragment, FC } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import ListContext from "../../context/list/ListContext";
 import ListItem from "./ListItem";
 import Spinner from "../layout/Spinner";
 
-import { IList } from "../../context/list/IList";
+import { List } from "context";
 
-const Lists: React.FC = () => {
+const Lists: FC = () => {
   const listContext = useContext(ListContext);
   const { loading, lists, getLists, setLists } = listContext;
 
@@ -20,7 +20,7 @@ const Lists: React.FC = () => {
   / Dragging
   */
 
-  const initialState: IList | any = null;
+  const initialState: List | any = null;
   const [draggedList, setDraggedList] = useState(initialState);
 
   const onDragStart = (e: any, index: number, name: string) => {
@@ -37,7 +37,7 @@ const Lists: React.FC = () => {
 
     // filter out the currently dragged item
     let newLists = lists.filter(
-      (list: IList) => draggedList && list.id !== draggedList.id
+      (list: List) => draggedList && list.id !== draggedList.id
     );
 
     // add the dragged item after the dragged over item
@@ -54,12 +54,12 @@ const Lists: React.FC = () => {
     <Fragment>
       {lists && !loading ? (
         <TransitionGroup>
-          {lists.map((list: IList, i: number) => (
+          {lists.map((list: List, i: number) => (
             <CSSTransition key={list.id} timeout={200}>
               <div
                 className="drag"
                 draggable
-                onDragStart={e => onDragStart(e, i, list.name)}
+                onDragStart={(e) => onDragStart(e, i, list.name)}
                 onDragEnd={onDragEnd}
                 onDragOver={() => onDragOver(i)}
               >

@@ -30,6 +30,24 @@ declare module "context" {
   };
 
   /*
+   * List
+   */
+
+  export type List = {
+    _id?: string;
+    name: string;
+    id: undefined | string;
+  };
+
+  export type ListState = {
+    lists: IList[];
+    currentList: null | IList;
+    error: null | string;
+    loading: boolean;
+    hidden: boolean;
+  };
+
+  /*
    *Alerts
    */
 

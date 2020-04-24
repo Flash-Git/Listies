@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer, FC } from "react";
 import axios from "axios";
 
 import ListContext from "./ListContext";
@@ -16,19 +16,18 @@ import {
   CLEAR_LISTS,
   CLEAR_ERRORS,
   TOGGLE_HIDDEN,
-  SET_HIDDEN
+  SET_HIDDEN,
 } from "../types";
 
-import { IState, IList } from "./IList";
-import { IItem } from "../item/IItem";
+import { Item, List, ListState as IListState } from "context";
 
-const ListState: React.FC = props => {
-  const initialState: IState = {
+const ListState: FC = (props) => {
+  const initialState: IListState = {
     lists: [],
     currentList: null,
     error: null,
     loading: true,
-    hidden: false
+    hidden: false,
   };
 
   const [state, dispatch] = useReducer(ListReducer, initialState);
@@ -48,15 +47,15 @@ const ListState: React.FC = props => {
     }
   };
 
-  const setLists = async (lists: IList[]) => {
+  const setLists = async (lists: List[]) => {
     dispatch({ type: SET_LISTS, payload: lists });
   };
 
-  const addList = async (list: IList) => {
+  const addList = async (list: List) => {
     const config: any = {
       header: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     };
 
     try {
@@ -72,7 +71,7 @@ const ListState: React.FC = props => {
       // Delete items in list
       const res = await axios.get(`/api/items/${id}`);
       res.data.map(
-        (item: IItem) => item._id && axios.delete(`/api/items/${item._id}`)
+        (item: Item) => item._id && axios.delete(`/api/items/${item._id}`)
       );
 
       // Delete list
@@ -84,7 +83,7 @@ const ListState: React.FC = props => {
     }
   };
 
-  const setCurrentList = (list: IList) => {
+  const setCurrentList = (list: List) => {
     dispatch({ type: SET_CURRENT, payload: list });
   };
 
@@ -121,7 +120,7 @@ const ListState: React.FC = props => {
         clearLists,
         clearErrors,
         toggleHidden,
-        setHidden
+        setHidden,
       }}
     >
       {props.children}

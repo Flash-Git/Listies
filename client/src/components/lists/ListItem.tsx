@@ -1,15 +1,19 @@
-import React, { useContext } from "react";
-import PropTypes from "prop-types";
+import React, { useContext, FC } from "react";
 
 import ListContext from "../../context/list/ListContext";
+import { List } from "context";
 
-const ListItem: any = ({ list }: any) => {
+interface Props {
+  list: List;
+}
+
+const ListItem: FC<Props> = ({ list }) => {
   const listContext = useContext(ListContext);
   const {
     currentList,
     deleteList,
     setCurrentList,
-    clearCurrentList
+    clearCurrentList,
   } = listContext;
 
   const { id, name } = list;
@@ -27,7 +31,7 @@ const ListItem: any = ({ list }: any) => {
       style={{
         display: "flex",
         alignItems: "center",
-        padding: "0.7rem"
+        padding: "0.7rem",
       }}
     >
       <button
@@ -44,7 +48,7 @@ const ListItem: any = ({ list }: any) => {
           style={{
             fontSize: "0.85rem",
             padding: "0.15rem 0.7rem",
-            marginRight: "0"
+            marginRight: "0",
           }}
         >
           Delete
@@ -52,10 +56,6 @@ const ListItem: any = ({ list }: any) => {
       </div>
     </div>
   );
-};
-
-ListItem.propTypes = {
-  list: PropTypes.object.isRequired
 };
 
 export default ListItem;
