@@ -53,7 +53,7 @@ const App: FC = () => (
         <ItemState>
           <AuthState>
             <Router>
-              <Navbar />
+              <Navbar title={"Listies"} icon={["fas", "list-ul"]} />
               <Alerts />
               <Switch>
                 <PrivateRoute exact path="/" component={Home} />

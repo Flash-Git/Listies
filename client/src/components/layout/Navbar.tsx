@@ -1,18 +1,17 @@
-import React, { Fragment, useContext } from "react";
+import React, { Fragment, useContext, FC } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import PropTypes from "prop-types";
 
 import AuthContext from "../../context/auth/AuthContext";
 
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
-interface IProps {
+interface Props {
   title: string;
   icon: IconProp;
 }
 
-const Navbar = ({ title, icon }: IProps) => {
+const Navbar: FC<Props> = ({ title, icon }) => {
   const authContext = useContext(AuthContext);
 
   const { isAuthenticated, user, logout } = authContext;
@@ -66,16 +65,6 @@ const Navbar = ({ title, icon }: IProps) => {
       <ul>{isAuthenticated ? authLinks : guestLinks}</ul>
     </nav>
   );
-};
-
-Navbar.defaultProps = {
-  title: "Listies",
-  icon: ["fas", "list-ul"]
-};
-
-Navbar.propTypes = {
-  title: PropTypes.string.isRequired,
-  icon: PropTypes.array.isRequired
 };
 
 export default Navbar;
