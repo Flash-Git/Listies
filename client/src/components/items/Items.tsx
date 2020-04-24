@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState, Fragment, FC } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import PropTypes from "prop-types";
 
 import Item from "./Item";
 import Spinner from "../layout/Spinner";
@@ -8,9 +7,13 @@ import Exporter from "../layout/Exporter";
 
 import ItemContext from "../../context/item/ItemContext";
 
-import { IItem } from "../../context/item/IItem";
+import { Item as ItemType } from "context";
 
-const Items: FC<any> = ({ currentList }) => {
+interface Props {
+  currentList: { name: string; id: string };
+}
+
+const Items: FC<Props> = ({ currentList }) => {
   const itemContext = useContext(ItemContext);
   const { loading, items, getItems, setItems, clearItems } = itemContext;
 
@@ -24,7 +27,7 @@ const Items: FC<any> = ({ currentList }) => {
   / Dragging
   */
 
-  const initialState: IItem | any = null;
+  const initialState: ItemType | any = null;
   const [draggedItem, setDraggedItem] = useState(initialState);
 
   const onDragStart = (e: any, index: number, name: string) => {
@@ -41,7 +44,7 @@ const Items: FC<any> = ({ currentList }) => {
 
     // filter out the currently dragged item
     let newItems = items.filter(
-      (item: IItem) => draggedItem && item.id !== draggedItem.id
+      (item: ItemType) => draggedItem && item.id !== draggedItem.id
     );
 
     // add the dragged item after the dragged over item
@@ -59,7 +62,7 @@ const Items: FC<any> = ({ currentList }) => {
       {items && !loading ? (
         <TransitionGroup>
           <Exporter currentList={currentList} />
-          {items.map((item: IItem, i: number) => (
+          {items.map((item: ItemType, i: number) => (
             <CSSTransition key={item.id} timeout={200}>
               <div
                 className="drag"
@@ -78,10 +81,6 @@ const Items: FC<any> = ({ currentList }) => {
       )}
     </Fragment>
   );
-};
-
-Item.propTypes = {
-  currentList: PropTypes.object,
 };
 
 export default Items;

@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { FC, useReducer } from "react";
 import axios from "axios";
 
 import ItemContext from "./ItemContext";
@@ -14,16 +14,16 @@ import {
   ITEM_ERROR,
   DELETE_ITEM,
   CLEAR_ITEMS,
-  CLEAR_ERRORS
+  CLEAR_ERRORS,
 } from "../types";
 
-import { IState, IItem } from "./IItem";
+import { ItemState as ItemStateType, Item } from "context";
 
-const ItemState: React.FC = props => {
-  const initialState: IState = {
+const ItemState: FC = (props) => {
+  const initialState: ItemStateType = {
     items: [],
     error: null,
-    loading: false
+    loading: false,
   };
 
   const [state, dispatch] = useReducer(ItemReducer, initialState);
@@ -42,8 +42,8 @@ const ItemState: React.FC = props => {
         dispatch({ type: GET_ITEMS, payload: res.data });
         return;
       }
-      const items: IItem[] = [];
-      const newItems: IItem[] = res.data.map((item: IItem) => {
+      const items: Item[] = [];
+      const newItems: Item[] = res.data.map((item: Item) => {
         return item;
       });
 
@@ -64,7 +64,7 @@ const ItemState: React.FC = props => {
     }
   };
 
-  const setItems = async (items: IItem[], listId: string) => {
+  const setItems = async (items: Item[], listId: string) => {
     dispatch({ type: SET_ITEMS, payload: { items, listId } });
   };
 
@@ -72,11 +72,11 @@ const ItemState: React.FC = props => {
     if (state.items.length > 1) dispatch({ type: SORT_ITEMS });
   };
 
-  const addItem = async (item: IItem, listId: string) => {
+  const addItem = async (item: Item, listId: string) => {
     const config: any = {
       header: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     };
 
     try {
@@ -87,11 +87,11 @@ const ItemState: React.FC = props => {
     }
   };
 
-  const editItem = async (item: IItem) => {
+  const editItem = async (item: Item) => {
     const config: any = {
       header: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     };
     dispatch({ type: EDIT_ITEM, payload: item });
 
@@ -128,7 +128,7 @@ const ItemState: React.FC = props => {
         editItem,
         deleteItem,
         clearItems,
-        clearErrors
+        clearErrors,
       }}
     >
       {props.children}

@@ -10,6 +10,25 @@ declare module "context" {
   export type App = {};
 
   /*
+   * Items
+   */
+
+  export type Item = {
+    _id?: string;
+    id: undefined | string;
+    name: string;
+    checked: boolean;
+    importance: number;
+    note: string;
+  };
+
+  export type ItemState = {
+    items: IItem[];
+    error: null | string;
+    loading: boolean;
+  };
+
+  /*
    *Alerts
    */
   export type Alert = {

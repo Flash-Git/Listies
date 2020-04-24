@@ -8,27 +8,27 @@ import {
   ITEM_ERROR,
   DELETE_ITEM,
   CLEAR_ITEMS,
-  CLEAR_ERRORS
+  CLEAR_ERRORS,
 } from "../types";
 
-import { IItem, IState, IAction } from "./IItem";
+import { Item, ItemState, Action } from "context";
 
-const ItemReducer = (state: IState, action: IAction): IState => {
+const ItemReducer = (state: ItemState, action: Action): ItemState => {
   switch (action.type) {
     case LOADING:
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     case GET_ITEMS:
       return {
         ...state,
-        items: action.payload.map((item: IItem) => {
+        items: action.payload.map((item: Item) => {
           item.id = item._id;
           delete item._id;
           return item;
         }),
-        loading: false
+        loading: false,
       };
     case SET_ITEMS:
       localStorage.setItem(
@@ -41,22 +41,22 @@ const ItemReducer = (state: IState, action: IAction): IState => {
       );
       return {
         ...state,
-        items: action.payload.items
+        items: action.payload.items,
       };
     case SORT_ITEMS:
-      const filt = (item: IItem, imp: number) => item.importance === imp;
+      const filt = (item: Item, imp: number) => item.importance === imp;
       return {
         ...state,
         items: [
-          ...action.payload.filter((item: IItem) => filt(item, 2)),
-          ...action.payload.filter((item: IItem) => filt(item, 1)),
-          ...action.payload.filter((item: IItem) => filt(item, 0))
-        ].map((item: IItem) => {
+          ...action.payload.filter((item: Item) => filt(item, 2)),
+          ...action.payload.filter((item: Item) => filt(item, 1)),
+          ...action.payload.filter((item: Item) => filt(item, 0)),
+        ].map((item: Item) => {
           item.id = item._id;
           delete item._id;
           return item;
         }),
-        loading: false
+        loading: false,
       };
     case ADD_ITEM:
       action.payload.item.id = action.payload.item._id;
@@ -65,10 +65,10 @@ const ItemReducer = (state: IState, action: IAction): IState => {
       const newState = {
         ...state,
         items: [action.payload.item, ...state.items],
-        loading: false
+        loading: false,
       };
       const ids: String[] = [];
-      newState.items.map(item => {
+      newState.items.map((item) => {
         ids.push(item.id);
         return item;
       });
@@ -77,33 +77,33 @@ const ItemReducer = (state: IState, action: IAction): IState => {
     case EDIT_ITEM:
       return {
         ...state,
-        items: state.items.map(item =>
+        items: state.items.map((item) =>
           item.id === action.payload.id ? action.payload : item
         ),
-        loading: false
+        loading: false,
       };
     case DELETE_ITEM:
       return {
         ...state,
-        items: state.items.filter(item => item.id !== action.payload),
-        loading: false
+        items: state.items.filter((item) => item.id !== action.payload),
+        loading: false,
       };
     case ITEM_ERROR:
       return {
         ...state,
         error: action.payload,
-        loading: false
+        loading: false,
       };
     case CLEAR_ITEMS:
       return {
         ...state,
-        items: []
+        items: [],
       };
     case CLEAR_ERRORS:
       return {
         ...state,
         error: null,
-        loading: false
+        loading: false,
       };
     default:
       console.log("default");
