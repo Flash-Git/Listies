@@ -1,10 +1,13 @@
-import React, { useState, useContext, useEffect } from "react";
-import PropTypes from "prop-types";
+import React, { useState, useContext, useEffect, FC } from "react";
 
 import ItemContext from "../../context/item/ItemContext";
 import AlertContext from "../../context/alert/AlertContext";
 
-const ItemForm: any = ({ currentList }: any) => {
+interface Props {
+  currentList: { name: string; id: string };
+}
+
+const ItemForm: FC<Props> = ({ currentList }) => {
   const itemContext = useContext(ItemContext);
   const { error, addItem, clearErrors } = itemContext;
 
@@ -21,7 +24,7 @@ const ItemForm: any = ({ currentList }: any) => {
   }, [currentList]);
 
   const emptyItem = {
-    name: ""
+    name: "",
   };
 
   const [item, setItem] = useState(emptyItem);
@@ -31,6 +34,7 @@ const ItemForm: any = ({ currentList }: any) => {
     if (!error) return;
     addAlert(error, "danger");
     clearErrors();
+
     //eslint-disable-next-line
   }, [error]);
 
@@ -58,7 +62,7 @@ const ItemForm: any = ({ currentList }: any) => {
         alignItems: "center",
         justifyContent: "center",
         marginTop: "0.7rem",
-        marginBottom: "0.7rem"
+        marginBottom: "0.7rem",
       }}
     >
       <input
@@ -66,7 +70,7 @@ const ItemForm: any = ({ currentList }: any) => {
           minWidth: "5rem",
           maxWidth: "15rem",
           margin: "0",
-          marginBottom: "0.7rem"
+          marginBottom: "0.7rem",
         }}
         type="text"
         placeholder="Name"
@@ -79,7 +83,7 @@ const ItemForm: any = ({ currentList }: any) => {
           maxWidth: "6rem",
           margin: "0",
           marginBottom: "0.7rem",
-          padding: "0.1rem"
+          padding: "0.1rem",
         }}
         type="submit"
         value={"Add Item"}
@@ -95,10 +99,6 @@ const ItemForm: any = ({ currentList }: any) => {
       {currentList && inputFields()}
     </div>
   );
-};
-
-ItemForm.propTypes = {
-  currentList: PropTypes.object
 };
 
 export default ItemForm;

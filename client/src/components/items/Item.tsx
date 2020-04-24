@@ -1,9 +1,13 @@
-import React, { useContext } from "react";
-import PropTypes from "prop-types";
+import React, { useContext, FC } from "react";
 
 import ItemContext from "../../context/item/ItemContext";
+import { Item as IItem } from "context";
 
-const Item: any = ({ item }: any) => {
+interface Props {
+  item: IItem;
+}
+
+const Item: FC<Props> = ({ item }) => {
   const itemContext = useContext(ItemContext);
   const { editItem, deleteItem } = itemContext;
 
@@ -41,7 +45,7 @@ const Item: any = ({ item }: any) => {
         onClick={incrementImportance}
         className="btn-importance"
         style={{
-          backgroundColor
+          backgroundColor,
         }}
       ></button>
     );
@@ -52,13 +56,13 @@ const Item: any = ({ item }: any) => {
       className="card bg-light grow-shrink"
       style={{
         display: "flex",
-        alignItems: "center"
+        alignItems: "center",
       }}
     >
       {importanceButton()}
       <input
         style={{
-          transform: "scale(1.4)"
+          transform: "scale(1.4)",
         }}
         className="mx-1"
         type="checkbox"
@@ -81,7 +85,7 @@ const Item: any = ({ item }: any) => {
           style={{
             fontSize: "0.8rem",
             padding: "0.1rem 0.6rem",
-            marginRight: "0"
+            marginRight: "0",
           }}
         >
           Delete
@@ -89,10 +93,6 @@ const Item: any = ({ item }: any) => {
       </div>
     </div>
   );
-};
-
-Item.propTypes = {
-  item: PropTypes.object.isRequired
 };
 
 export default Item;
