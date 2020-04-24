@@ -7,6 +7,7 @@ declare module "context" {
   /*
    * App
    */
+
   export type App = {};
 
   /*
@@ -31,6 +32,7 @@ declare module "context" {
   /*
    *Alerts
    */
+
   export type Alert = {
     msg: string;
     type: string;
@@ -45,10 +47,26 @@ declare module "context" {
     timeout?: number
   ) => void;
 
+  export type RemoveAlert = (id: string) => void;
+
   export type ClearAlerts = () => void;
 
   export interface AlertContext extends Alerts {
+    alerts: Alerts;
     addAlert: AddAlert;
+    removeAlert: RemoveAlert;
     clearAlerts: ClearAlerts;
+  }
+
+  /*
+   * Auth
+   */
+
+  export interface Auth {
+    token: null | string;
+    isAuthenticated: null | boolean;
+    loading: boolean;
+    user: any;
+    error: null | string;
   }
 }

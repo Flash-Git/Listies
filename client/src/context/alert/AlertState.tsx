@@ -6,7 +6,7 @@ import AlertReducer from "./AlertReducer";
 
 import { ADD_ALERT, REMOVE_ALERT, CLEAR_ALERTS } from "../types";
 
-import { Alerts, AddAlert } from "context";
+import { Alerts, AddAlert, RemoveAlert, ClearAlerts } from "context";
 
 const AlertState: FC = (props) => {
   const initialState: Alerts = [];
@@ -27,10 +27,10 @@ const AlertState: FC = (props) => {
     setTimeout(() => dispatch({ type: REMOVE_ALERT, payload: id }), timeout);
   };
 
-  const removeAlert = (id: string) =>
+  const removeAlert: RemoveAlert = (id: string) =>
     dispatch({ type: REMOVE_ALERT, payload: id });
 
-  const clearAlerts = () => dispatch({ type: CLEAR_ALERTS });
+  const clearAlerts: ClearAlerts = () => dispatch({ type: CLEAR_ALERTS });
 
   return (
     <AlertContext.Provider

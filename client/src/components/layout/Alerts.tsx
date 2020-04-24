@@ -2,10 +2,10 @@ import React, { FC, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import AlertContext from "../../context/alert/AlertContext";
-import { Alert } from "context";
+import { Alert, AlertContext as IAlertContext } from "context";
 
 const Alerts: FC = () => {
-  const alertContext = useContext(AlertContext);
+  const alertContext: IAlertContext = useContext(AlertContext);
   const { alerts, removeAlert } = alertContext;
 
   return (
