@@ -1,7 +1,7 @@
-import React, { Fragment } from "react";
+import React, { FC, Fragment } from "react";
 import spinner from "./spinner.gif";
 
-const Spinner: React.FC = () => (
+const Spinner: FC = () => (
   <Fragment>
     <img
       src={spinner}
