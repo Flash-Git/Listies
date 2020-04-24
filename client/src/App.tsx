@@ -5,12 +5,13 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import {
   faEnvelopeOpen,
+  faExclamationCircle,
   faPhone,
   faBars,
   faInfoCircle,
   faTimesCircle,
   faSignOutAlt,
-  faListUl
+  faListUl,
 } from "@fortawesome/free-solid-svg-icons";
 
 import Navbar from "./components/layout/Navbar";
@@ -34,6 +35,7 @@ import "./App.css";
 library.add(
   faGithub,
   faEnvelopeOpen,
+  faExclamationCircle,
   faPhone,
   faBars,
   faInfoCircle,
