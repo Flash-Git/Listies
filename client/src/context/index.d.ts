@@ -5,6 +5,11 @@ declare module "context" {
   };
 
   /*
+   * App
+   */
+  export type App = {};
+
+  /*
    *Alerts
    */
   export type Alert = {

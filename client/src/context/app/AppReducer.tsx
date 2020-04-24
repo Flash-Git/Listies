@@ -1,8 +1,8 @@
 // import {  } from "../types";
 
-import { IAction, IApp } from "./IApp";
+import { Action, App } from "context";
 
-const AlertReducer = (state: IApp, action: IAction): IApp => {
+const AlertReducer = (state: App, action: Action): App => {
   switch (action.type) {
     default:
       return state;

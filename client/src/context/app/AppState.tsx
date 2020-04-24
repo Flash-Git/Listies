@@ -5,10 +5,10 @@ import AppReducer from "./AppReducer";
 
 // import {  } from "../types";
 
-import { IApp } from "./IApp";
+import { App } from "context";
 
-const AppState: FC = props => {
-  const initialState: IApp = {};
+const AppState: FC = (props) => {
+  const initialState: App = {};
 
   // eslint-disable-next-line
   const [state, dispatch] = useReducer(AppReducer, initialState);
