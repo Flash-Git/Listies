@@ -6,10 +6,10 @@ import AlertReducer from "./AlertReducer";
 
 import { ADD_ALERT, REMOVE_ALERT, CLEAR_ALERTS } from "../types";
 
-import { IAlerts, AddAlert } from "./IAlert";
+import { Alerts, AddAlert } from "context";
 
-const AlertState: FC = props => {
-  const initialState: IAlerts = [];
+const AlertState: FC = (props) => {
+  const initialState: Alerts = [];
 
   const [state, dispatch] = useReducer(AlertReducer, initialState);
 
@@ -21,7 +21,7 @@ const AlertState: FC = props => {
     const id = uuid.v4();
     dispatch({
       type: ADD_ALERT,
-      payload: { msg, type, id }
+      payload: { msg, type, id },
     });
 
     setTimeout(() => dispatch({ type: REMOVE_ALERT, payload: id }), timeout);
@@ -38,7 +38,7 @@ const AlertState: FC = props => {
         alerts: state,
         addAlert,
         removeAlert,
-        clearAlerts
+        clearAlerts,
       }}
     >
       {props.children}
