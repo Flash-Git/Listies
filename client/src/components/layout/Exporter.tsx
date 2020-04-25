@@ -2,6 +2,7 @@ import React, { FC, useContext, Fragment } from "react";
 
 import ItemContext from "../../context/item/ItemContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Item } from "context";
 
 interface Props {
   currentList: { name: string };
@@ -12,12 +13,18 @@ const Exporter: FC<Props> = ({ currentList }) => {
   const { items } = itemContext;
 
   const exportList = () => {
-    const printObj = currentList.name + ":\n" + JSON.stringify(items, null, 2);
+    // const printObj = currentList.name + ":\n" + JSON.stringify(items, null, 2);
+    const printObj =
+      currentList.name +
+      ":\n" +
+      items.map((item: Item) => {
+        return item.name + ", \n";
+      });
 
     const element = document.createElement("a");
     const file = new Blob([printObj], { type: "text/plain" });
     element.href = URL.createObjectURL(file);
-    element.download = "myFile.txt";
+    element.download = `${currentList.name}.txt`;
     document.body.appendChild(element);
     element.click();
   };
