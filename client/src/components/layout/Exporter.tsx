@@ -18,7 +18,7 @@ const Exporter: FC<Props> = ({ currentList }) => {
       currentList.name +
       ":\n" +
       items.map((item: Item) => {
-        return item.name + ", \n";
+        return "\n" + item.name;
       });
 
     const element = document.createElement("a");
