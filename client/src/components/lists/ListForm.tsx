@@ -31,6 +31,7 @@ const ListForm: FC = () => {
   const onSubmit = (e: any) => {
     e.preventDefault();
 
+    name.trim();
     addList(list);
     //setcurrentlist
     clearAll();

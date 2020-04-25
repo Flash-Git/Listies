@@ -46,6 +46,7 @@ const ItemForm: FC<Props> = ({ currentList }) => {
   const onSubmit = (e: any) => {
     e.preventDefault();
 
+    name.trim();
     addItem(item, listId);
     clearAll();
   };
