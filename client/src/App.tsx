@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import {
+  faDownload,
   faEnvelopeOpen,
   faExclamationCircle,
   faPhone,
@@ -33,6 +34,7 @@ import setAuthToken from "./utils/setAuthToken";
 import "./App.css";
 
 library.add(
+  faDownload,
   faGithub,
   faEnvelopeOpen,
   faExclamationCircle,

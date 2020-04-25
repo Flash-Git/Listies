@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect, FC } from "react";
 
 import ItemContext from "../../context/item/ItemContext";
 import AlertContext from "../../context/alert/AlertContext";
+import Exporter from "../layout/Exporter";
 
 interface Props {
   currentList: { name: string; id: string };
@@ -95,6 +96,7 @@ const ItemForm: FC<Props> = ({ currentList }) => {
   // Render
   return (
     <div className="grow-shrink">
+      <Exporter currentList={currentList} />
       <h2 className="text-primary">{listName}</h2>
       {currentList && inputFields()}
     </div>

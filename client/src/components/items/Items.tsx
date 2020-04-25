@@ -3,7 +3,6 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import Item from "./Item";
 import Spinner from "../layout/Spinner";
-import Exporter from "../layout/Exporter";
 
 import ItemContext from "../../context/item/ItemContext";
 
@@ -61,7 +60,6 @@ const Items: FC<Props> = ({ currentList }) => {
     <Fragment>
       {items && !loading ? (
         <TransitionGroup>
-          <Exporter currentList={currentList} />
           {items.map((item: ItemType, i: number) => (
             <CSSTransition key={item.id} timeout={200}>
               <div
