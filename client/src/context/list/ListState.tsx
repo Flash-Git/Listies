@@ -66,16 +66,17 @@ const ListState: FC = (props) => {
     }
   };
 
-  const deleteList = async (id: string) => {
+  const deleteList = async (id: string, accessCode: string) => {
     try {
       // Delete items in list
-      const res = await axios.get(`/api/items/${id}`);
-      res.data.map(
-        (item: Item) => item._id && axios.delete(`/api/items/${item._id}`)
-      );
+      // const res = await axios.get(`/api/items/${id}`);
+      // Deletes all associated items
+      // res.data.map(
+      //   (item: Item) => item._id && axios.delete(`/api/items/${item._id}`)
+      // );
 
       // Delete list
-      await axios.delete(`/api/lists/${id}`);
+      await axios.delete(`/api/lists/${accessCode}`);
       dispatch({ type: DELETE_LIST, payload: id });
     } catch (e) {
       dispatch({ type: LIST_ERROR, payload: e.response.data.msg });

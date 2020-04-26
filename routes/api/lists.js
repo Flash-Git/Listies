@@ -8,6 +8,7 @@ const auth = require("../../middleware/auth");
 
 // Models
 const List = require("../../models/List");
+const User = require("../../models/User");
 
 // @route   GET api/lists
 // @desc    Get all user's lists
@@ -15,9 +16,15 @@ const List = require("../../models/List");
 router.get("/", auth, async (req, res) => {
   try {
     //Get lists by most recent
-    const lists = await List.find({ user: req.user.id }).sort({
-      date: -1
-    });
+    const user = await User.findById(req.user.id);
+    const lists = await Promise.all(
+      user.accessCodes.map((accessCode) => {
+        return List.findOne({ accessCode }).sort({
+          date: -1,
+        });
+      })
+    );
+
     res.json(lists);
   } catch (e) {
     console.error(e.message);
@@ -30,22 +37,33 @@ router.get("/", auth, async (req, res) => {
 // @access  PRIVATE
 router.post(
   "/",
-  [
-    auth,
-    [
-      check("name", "Please enter a name")
-        .not()
-        .isEmpty()
-    ]
-  ],
+  [auth, [check("name", "Please enter a name").not().isEmpty()]],
   async (req, res) => {
     if (handleErrors(req, res)) return;
 
-    const { name } = req.body;
+    const { name, accessCode } = req.body;
     try {
+      // Check if list exists
+
+      const existingList =
+        accessCode === "" ? "" : await List.findOne({ accessCode });
+
+      if (existingList) {
+        await User.findById(req.user.id).updateOne({
+          $push: { accessCodes: existingList.accessCode },
+        });
+        res.json(existingList);
+
+        return;
+      }
+
       const newList = new List({
         name,
-        user: req.user.id
+        accessCode: accessCode,
+        user: req.user.id,
+      });
+      await User.findById(req.user.id).updateOne({
+        $push: { accessCodes: accessCode },
       });
 
       const list = await newList.save();
@@ -62,14 +80,19 @@ router.post(
 // @access  PRIVATE
 router.delete("/:id", auth, async (req, res) => {
   try {
-    let list = await List.findById(req.params.id);
-    if (!list) return res.status(404).send({ msg: "List not found" });
+    // let list = await List.findById(req.params.id);
+    // if (!list) return res.status(404).send({ msg: "List not found" });
 
     //Validate that user owns list
-    if (list.user.toString() !== req.user.id) {
-      return res.status(401).send({ msg: "Unauthorized request" });
-    }
-    await List.findByIdAndRemove(req.params.id);
+    // if (list.user.toString() !== req.user.id) {
+    //   return res.status(401).send({ msg: "Unauthorized request" });
+    // }
+    // await List.findByIdAndRemove(req.params.id);
+
+    await User.findByIdAndUpdate(req.user.id, {
+      $pull: { accessCodes: req.params.id },
+    });
+
     res.send({ msg: "List removed" });
   } catch (e) {
     console.error(e.message);

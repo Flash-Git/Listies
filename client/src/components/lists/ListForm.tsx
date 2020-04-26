@@ -20,11 +20,19 @@ const ListForm: FC = () => {
 
   const emptyList: List = {
     name: "",
+    accessCode: "",
     id: "",
   };
 
+  const [toggled, setToggled] = useState(false);
+
   const [list, setList] = useState(emptyList);
-  const { name } = list;
+
+  const { name, accessCode } = list;
+
+  const toggleForm = () => {
+    setToggled((toggled) => !toggled);
+  };
 
   //Input
   const onChange = (e: any) =>
@@ -69,6 +77,19 @@ const ListForm: FC = () => {
       />
       <input
         style={{
+          minWidth: "5rem",
+          maxWidth: "15rem",
+          margin: "0",
+          marginBottom: "0.7rem",
+        }}
+        type="text"
+        placeholder="Access Code"
+        name="accessCode"
+        value={accessCode}
+        onChange={onChange}
+      />
+      <input
+        style={{
           maxWidth: "8.5rem",
           margin: "0",
           marginBottom: "0.7rem",
@@ -84,7 +105,9 @@ const ListForm: FC = () => {
   // Render
   return (
     <div className="grow-shrink">
-      <h2 className="text-primary">Add New List</h2>
+      <h2 onClick={toggleForm} className="text-primary">
+        {toggled ? "Add Existing List" : "Add New List"}
+      </h2>
       {inputFields()}
     </div>
   );

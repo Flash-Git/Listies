@@ -4,8 +4,10 @@ import ItemContext from "../../context/item/ItemContext";
 import AlertContext from "../../context/alert/AlertContext";
 import Exporter from "../layout/Exporter";
 
+import { List } from "context";
+
 interface Props {
-  currentList: { name: string; id: string };
+  currentList: List;
 }
 
 const ItemForm: FC<Props> = ({ currentList }) => {

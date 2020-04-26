@@ -46,6 +46,7 @@ declare module "context" {
   export type List = {
     _id?: string;
     name: string;
+    accessCode: string;
     id: string;
   };
 
@@ -61,7 +62,7 @@ declare module "context" {
     getLists: () => void;
     setLists: (lists: List[]) => void;
     addList: (list: List) => void;
-    deleteList: (id: string) => void;
+    deleteList: (id: string, accessCode: string) => void;
     setCurrentList: (list: List) => void;
     clearCurrentList: () => void;
     clearLists: () => void;
