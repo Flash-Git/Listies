@@ -6,14 +6,14 @@ import Spinner from "../layout/Spinner";
 
 import ItemContext from "../../context/item/ItemContext";
 
-import { Item as ItemType } from "context";
+import { Item as IItem, ItemContext as IItemContext, List } from "context";
 
 interface Props {
-  currentList: { name: string; id: string };
+  currentList: List;
 }
 
 const Items: FC<Props> = ({ currentList }) => {
-  const itemContext = useContext(ItemContext);
+  const itemContext: IItemContext = useContext(ItemContext);
   const { loading, items, getItems, setItems, clearItems } = itemContext;
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const Items: FC<Props> = ({ currentList }) => {
   / Dragging
   */
 
-  const initialState: ItemType | any = null;
+  const initialState: IItem | any = null;
   const [draggedItem, setDraggedItem] = useState(initialState);
 
   const onDragStart = (e: any, index: number, name: string) => {
@@ -43,7 +43,7 @@ const Items: FC<Props> = ({ currentList }) => {
 
     // filter out the currently dragged item
     let newItems = items.filter(
-      (item: ItemType) => draggedItem && item.id !== draggedItem.id
+      (item: IItem) => draggedItem && item.id !== draggedItem.id
     );
 
     // add the dragged item after the dragged over item
@@ -60,7 +60,7 @@ const Items: FC<Props> = ({ currentList }) => {
     <Fragment>
       {items && !loading ? (
         <TransitionGroup>
-          {items.map((item: ItemType, i: number) => (
+          {items.map((item: IItem, i: number) => (
             <CSSTransition key={item.id} timeout={200}>
               <div
                 className="drag"

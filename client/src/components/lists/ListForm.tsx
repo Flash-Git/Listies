@@ -2,12 +2,13 @@ import React, { useState, useContext, useEffect, FC } from "react";
 
 import AlertContext from "../../context/alert/AlertContext";
 import ListContext from "../../context/list/ListContext";
+import { ListContext as IListContext, List } from "context";
 
 const ListForm: FC = () => {
   const alertContext = useContext(AlertContext);
   const { addAlert } = alertContext;
 
-  const listContext = useContext(ListContext);
+  const listContext: IListContext = useContext(ListContext);
   const { error, addList, clearCurrentList, clearErrors } = listContext;
 
   useEffect(() => {
@@ -17,8 +18,9 @@ const ListForm: FC = () => {
     //eslint-disable-next-line
   }, [error]);
 
-  const emptyList = {
+  const emptyList: List = {
     name: "",
+    id: "",
   };
 
   const [list, setList] = useState(emptyList);

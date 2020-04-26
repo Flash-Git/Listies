@@ -6,13 +6,15 @@ import AuthContext from "../../context/auth/AuthContext";
 
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
+import { AuthContext as IAuthContext } from "context";
+
 interface Props {
   title: string;
   icon: IconProp;
 }
 
 const Navbar: FC<Props> = ({ title, icon }) => {
-  const authContext = useContext(AuthContext);
+  const authContext: IAuthContext = useContext(AuthContext);
 
   const { isAuthenticated, user, logout } = authContext;
 

@@ -9,11 +9,16 @@ import ItemForm from "../items/ItemForm";
 import AuthContext from "../../context/auth/AuthContext";
 import ListContext from "../../context/list/ListContext";
 
+import {
+  AuthContext as IAuthContext,
+  ListContext as IListContext,
+} from "context";
+
 const Home: FC = () => {
-  const authContext = useContext(AuthContext);
+  const authContext: IAuthContext = useContext(AuthContext);
   const { loadUser } = authContext;
 
-  const listContext = useContext(ListContext);
+  const listContext: IListContext = useContext(ListContext);
   const { hidden, toggleHidden, currentList } = listContext;
 
   const [loaded, setLoaded] = useState(false);
@@ -36,7 +41,7 @@ const Home: FC = () => {
         flexDirection: "row",
         justifyContent: "space-evenly",
         flexWrap: "wrap",
-        marginTop: "0.7rem"
+        marginTop: "0.7rem",
       }}
     >
       <button
@@ -46,7 +51,7 @@ const Home: FC = () => {
           position: "absolute",
           left: "1rem",
           paddingLeft: "0.8rem",
-          paddingRight: "0.8rem"
+          paddingRight: "0.8rem",
         }}
       >
         <FontAwesomeIcon icon={["fas", "bars"]} />
@@ -59,7 +64,7 @@ const Home: FC = () => {
             overflowY: "auto",
             scrollbarWidth: "thin",
             flexBasis: "23rem",
-            maxWidth: "30rem"
+            maxWidth: "30rem",
           }}
         >
           <ListForm />
@@ -73,7 +78,7 @@ const Home: FC = () => {
           overflowY: "auto",
           scrollbarWidth: "thin",
           flexBasis: "23rem",
-          maxWidth: "30rem"
+          maxWidth: "30rem",
         }}
       >
         <ItemForm currentList={currentList} />

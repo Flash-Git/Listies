@@ -4,13 +4,18 @@ import PropTypes from "prop-types";
 import AlertContext from "../../context/alert/AlertContext";
 import AuthContext from "../../context/auth/AuthContext";
 
+import {
+  AuthContext as IAuthContext,
+  AlertContext as IAlertContext,
+} from "context";
+
 interface Props {
   history: any;
 }
 
 const Login: FC<Props> = ({ history }) => {
-  const alertContext = useContext(AlertContext);
-  const authContext = useContext(AuthContext);
+  const alertContext: IAlertContext = useContext(AlertContext);
+  const authContext: IAuthContext = useContext(AuthContext);
 
   const { addAlert, clearAlerts } = alertContext;
   const { isAuthenticated, error, login, clearErrors } = authContext;

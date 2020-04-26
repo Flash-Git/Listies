@@ -17,10 +17,10 @@ import {
 
 import ListContext from "../list/ListContext";
 
-import { Auth } from "context";
+import { AuthState as IAuthState } from "context";
 
 const AuthState: FC = (props) => {
-  const initialState: Auth = {
+  const initialState: IAuthState = {
     token: localStorage.getItem("token"),
     isAuthenticated: null,
     loading: true,

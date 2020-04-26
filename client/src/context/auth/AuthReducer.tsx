@@ -9,9 +9,9 @@ import {
   CLEAR_ERRORS,
 } from "../types";
 
-import { Auth, Action } from "context";
+import { AuthState, Action } from "context";
 
-const AuthReducer = (state: Auth, action: Action): Auth => {
+const AuthReducer = (state: AuthState, action: Action): AuthState => {
   switch (action.type) {
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:

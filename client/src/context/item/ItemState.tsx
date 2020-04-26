@@ -4,6 +4,8 @@ import axios from "axios";
 import ItemContext from "./ItemContext";
 import ItemReducer from "./ItemReducer";
 
+import { Item, ItemState as IItemState } from "context";
+
 import {
   LOADING,
   GET_ITEMS,
@@ -17,10 +19,8 @@ import {
   CLEAR_ERRORS,
 } from "../types";
 
-import { ItemState as ItemStateType, Item } from "context";
-
 const ItemState: FC = (props) => {
-  const initialState: ItemStateType = {
+  const initialState: IItemState = {
     items: [],
     error: null,
     loading: false,

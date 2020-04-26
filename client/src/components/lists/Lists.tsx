@@ -5,10 +5,10 @@ import ListContext from "../../context/list/ListContext";
 import ListItem from "./ListItem";
 import Spinner from "../layout/Spinner";
 
-import { List } from "context";
+import { List, ListContext as IListContext } from "context";
 
 const Lists: FC = () => {
-  const listContext = useContext(ListContext);
+  const listContext: IListContext = useContext(ListContext);
   const { loading, lists, getLists, setLists } = listContext;
 
   useEffect(() => {

@@ -2,14 +2,15 @@ import React, { FC, useContext, Fragment } from "react";
 
 import ItemContext from "../../context/item/ItemContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Item } from "context";
+
+import { Item, List, ItemContext as IImportContext } from "context";
 
 interface Props {
-  currentList: { name: string };
+  currentList: List;
 }
 
 const Exporter: FC<Props> = ({ currentList }) => {
-  const itemContext = useContext(ItemContext);
+  const itemContext: IImportContext = useContext(ItemContext);
   const { items } = itemContext;
 
   const exportList = () => {

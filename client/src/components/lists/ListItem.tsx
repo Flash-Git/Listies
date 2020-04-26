@@ -1,14 +1,14 @@
 import React, { useContext, FC } from "react";
 
 import ListContext from "../../context/list/ListContext";
-import { List } from "context";
+import { List, ListContext as IListContext } from "context";
 
 interface Props {
   list: List;
 }
 
 const ListItem: FC<Props> = ({ list }) => {
-  const listContext = useContext(ListContext);
+  const listContext: IListContext = useContext(ListContext);
   const {
     currentList,
     deleteList,
