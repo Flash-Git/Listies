@@ -20,8 +20,7 @@ const Lists: FC = () => {
   / Dragging
   */
 
-  const initialState: List | any = null;
-  const [draggedList, setDraggedList] = useState(initialState);
+  const [draggedList, setDraggedList] = useState<List | null>(null);
 
   const onDragStart = (e: any, index: number, name: string) => {
     setDraggedList(lists[index]);

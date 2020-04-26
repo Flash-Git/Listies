@@ -30,7 +30,9 @@ const Exporter: FC<Props> = ({ currentList }) => {
     element.click();
   };
 
-  return currentList ? (
+  if (!currentList) return null;
+
+  return (
     <button
       className="btn btn-link m-2"
       style={{ float: "right", height: "2.4rem", color: "#003699" }}
@@ -38,8 +40,6 @@ const Exporter: FC<Props> = ({ currentList }) => {
     >
       <FontAwesomeIcon style={{ height: "100%" }} icon={["fas", "download"]} />
     </button>
-  ) : (
-    <Fragment></Fragment>
   );
 };
 
