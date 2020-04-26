@@ -23,8 +23,8 @@ const Items: FC<Props> = ({ currentList }) => {
   }, [currentList]);
 
   /*
-  / Dragging
-  */
+   * Dragging
+   */
 
   const initialState: IItem | any = null;
   const [draggedItem, setDraggedItem] = useState(initialState);

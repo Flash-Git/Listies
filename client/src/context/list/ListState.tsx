@@ -19,7 +19,7 @@ import {
   SET_HIDDEN,
 } from "../types";
 
-import { Item, List, ListState as IListState } from "context";
+import { List, ListState as IListState } from "context";
 
 const ListState: FC = (props) => {
   const initialState: IListState = {
