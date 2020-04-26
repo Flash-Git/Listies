@@ -26,8 +26,7 @@ const Items: FC<Props> = ({ currentList }) => {
    * Dragging
    */
 
-  const initialState: IItem | any = null;
-  const [draggedItem, setDraggedItem] = useState(initialState);
+  const [draggedItem, setDraggedItem] = useState<IItem | null>(null);
 
   const onDragStart = (e: any, index: number, name: string) => {
     setDraggedItem(items[index]);
