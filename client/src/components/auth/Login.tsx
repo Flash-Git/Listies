@@ -1,5 +1,4 @@
 import React, { FC, useState, useContext, useEffect } from "react";
-import PropTypes from "prop-types";
 
 import AlertContext from "../../context/alert/AlertContext";
 import AuthContext from "../../context/auth/AuthContext";
@@ -36,7 +35,6 @@ const Login: FC<Props> = ({ history }) => {
 
   useEffect(() => {
     if (error) {
-      console.log("if err");
       addAlert(error, "danger");
       clearErrors();
     }
@@ -86,10 +84,6 @@ const Login: FC<Props> = ({ history }) => {
       </form>
     </div>
   );
-};
-
-Login.propTypes = {
-  history: PropTypes.object.isRequired,
 };
 
 export default Login;
