@@ -98,7 +98,7 @@ img {
 /* Cards */
 .card {
   padding: 0.3rem;
-  border: #ccc 1px dotted;
+  border: #ccc 1px solid;
   margin: 0.4rem 0;
 }
 

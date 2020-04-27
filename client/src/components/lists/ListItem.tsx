@@ -34,7 +34,7 @@ const ListItem: FC<Props> = ({ list }) => {
         alignItems: "center",
         padding: "0.7rem",
         background: "#fff",
-        boxShadow: "0 0 4px -2px rgba(0,0,0,0.35)"
+        boxShadow: "0 0 2px 0px rgba(0,0,0,0.35)"
       }}
     >
       <button
