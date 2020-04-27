@@ -13,6 +13,7 @@ import {
   faTimesCircle,
   faSignOutAlt,
   faListUl,
+  faTimes
 } from "@fortawesome/free-solid-svg-icons";
 
 import Navbar from "./components/layout/Navbar";
@@ -43,7 +44,8 @@ library.add(
   faInfoCircle,
   faTimesCircle,
   faSignOutAlt,
-  faListUl
+  faListUl,
+  faTimes
 );
 
 localStorage.token && setAuthToken(localStorage.token);

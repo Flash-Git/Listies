@@ -2,6 +2,7 @@ import React, { useContext, FC } from "react";
 
 import ItemContext from "../../context/item/ItemContext";
 import { Item as IItem } from "context";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface Props {
   item: IItem;
@@ -45,7 +46,7 @@ const Item: FC<Props> = ({ item }) => {
         onClick={incrementImportance}
         className="btn-importance"
         style={{
-          backgroundColor,
+          backgroundColor
         }}
       ></button>
     );
@@ -53,16 +54,18 @@ const Item: FC<Props> = ({ item }) => {
 
   return (
     <div
-      className="card bg-light grow-shrink"
+      className="card grow-shrink"
       style={{
         display: "flex",
         alignItems: "center",
+        borderRadius: "0.25rem",
+        boxShadow: "0 0 3.5px -2px rgba(0,0,0,0.35)"
       }}
     >
       {importanceButton()}
       <input
         style={{
-          transform: "scale(1.4)",
+          transform: "scale(1.25)"
         }}
         className="mx-1"
         type="checkbox"
@@ -72,23 +75,40 @@ const Item: FC<Props> = ({ item }) => {
       <button
         className="btn btn-discreet text-left"
         onClick={incrementImportance}
-        style={{ flexGrow: 1 }}
+        style={{
+          margin: 0,
+          padding: 0,
+          flexGrow: 1,
+          flexShrink: 1,
+          background: "#fff",
+          maxWidth: "14.8rem"
+        }}
       >
-        <h3 className="text-primary text-left" style={{ fontSize: "90%" }}>
+        <h3
+          className="text-primary text-left"
+          style={{ fontSize: "90%", wordWrap: "break-word" }}
+        >
           {name}
         </h3>
       </button>
-      <div style={{ marginLeft: "auto" }}>
+      <div>
         <button
-          className="btn btn-danger mx"
+          className="btn"
           onClick={onDelete}
           style={{
-            fontSize: "0.8rem",
-            padding: "0.1rem 0.6rem",
-            marginRight: "0",
+            fontSize: "1rem",
+            padding: "0.2rem 0.2rem",
+            marginLeft: "0.5rem",
+            // padding: "0.1rem 0.6rem",
+            // marginRight: "0",
+            background: "#fff",
+            color: "red",
+            alignSelf: "flex-end",
+            justifySelf: "center"
           }}
         >
-          Delete
+          {/* Delete */}
+          <FontAwesomeIcon icon={["fas", "times"]} />
         </button>
       </div>
     </div>
