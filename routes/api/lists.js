@@ -17,14 +17,15 @@ router.get("/", auth, async (req, res) => {
   try {
     //Get lists by most recent
     const user = await User.findById(req.user.id);
-    const lists = await Promise.all(
-      user.accessCodes.map((accessCode) => {
+    let lists = await Promise.all(
+      user.accessCodes.map(accessCode => {
         return List.findOne({ accessCode }).sort({
-          date: -1,
+          date: -1
         });
       })
     );
 
+    lists = lists.filter(list => list !== null);
     res.json(lists);
   } catch (e) {
     console.error(e.message);
@@ -50,7 +51,7 @@ router.post(
 
       if (existingList) {
         await User.findById(req.user.id).updateOne({
-          $push: { accessCodes: existingList.accessCode },
+          $push: { accessCodes: existingList.accessCode }
         });
         res.json(existingList);
 
@@ -60,10 +61,10 @@ router.post(
       const newList = new List({
         name,
         accessCode: accessCode,
-        user: req.user.id,
+        user: req.user.id
       });
       await User.findById(req.user.id).updateOne({
-        $push: { accessCodes: accessCode },
+        $push: { accessCodes: accessCode }
       });
 
       const list = await newList.save();
@@ -90,7 +91,7 @@ router.delete("/:id", auth, async (req, res) => {
     // await List.findByIdAndRemove(req.params.id);
 
     await User.findByIdAndUpdate(req.user.id, {
-      $pull: { accessCodes: req.params.id },
+      $pull: { accessCodes: req.params.id }
     });
 
     res.send({ msg: "List removed" });
