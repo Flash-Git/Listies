@@ -8,6 +8,8 @@ import ItemContext from "../../context/item/ItemContext";
 
 import { Item as IItem, ItemContext as IItemContext, List } from "context";
 
+import socketIOClient from "socket.io-client";
+
 interface Props {
   currentList: List;
 }
@@ -15,6 +17,18 @@ interface Props {
 const Items: FC<Props> = ({ currentList }) => {
   const itemContext: IItemContext = useContext(ItemContext);
   const { loading, items, getItems, setItems, clearItems } = itemContext;
+  console.log(currentList);
+
+  useEffect(() => {
+    // const socket = socketIOClient("http://localhost:5000");
+    const socket = socketIOClient();
+    socket.on("FromAPI", () => {
+      console.log(currentList);
+
+      currentList && getItems(currentList.id);
+    });
+    //   //eslint-disable-next-line
+  }, [currentList]);
 
   useEffect(() => {
     currentList ? getItems(currentList.id) : clearItems();
@@ -64,7 +78,7 @@ const Items: FC<Props> = ({ currentList }) => {
               <div
                 className="drag"
                 draggable
-                onDragStart={(e) => onDragStart(e, i, item.name)}
+                onDragStart={e => onDragStart(e, i, item.name)}
                 onDragEnd={onDragEnd}
                 onDragOver={() => onDragOver(i)}
               >

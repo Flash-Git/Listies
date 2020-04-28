@@ -27,7 +27,7 @@ const ItemForm: FC<Props> = ({ currentList }) => {
   }, [currentList]);
 
   const emptyItem = {
-    name: "",
+    name: ""
   };
 
   const [item, setItem] = useState(emptyItem);
@@ -65,7 +65,7 @@ const ItemForm: FC<Props> = ({ currentList }) => {
         alignItems: "center",
         justifyContent: "center",
         marginTop: "0.7rem",
-        marginBottom: "0.7rem",
+        marginBottom: "0.7rem"
       }}
     >
       <input
@@ -73,7 +73,7 @@ const ItemForm: FC<Props> = ({ currentList }) => {
           minWidth: "5rem",
           maxWidth: "15rem",
           margin: "0",
-          marginBottom: "0.7rem",
+          marginBottom: "0.7rem"
         }}
         type="text"
         placeholder="Name"
@@ -86,7 +86,7 @@ const ItemForm: FC<Props> = ({ currentList }) => {
           maxWidth: "6rem",
           margin: "0",
           marginBottom: "0.7rem",
-          padding: "0.1rem",
+          padding: "0.1rem"
         }}
         type="submit"
         value={"Add Item"}

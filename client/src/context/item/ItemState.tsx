@@ -16,14 +16,14 @@ import {
   ITEM_ERROR,
   DELETE_ITEM,
   CLEAR_ITEMS,
-  CLEAR_ERRORS,
+  CLEAR_ERRORS
 } from "../types";
 
-const ItemState: FC = (props) => {
+const ItemState: FC = props => {
   const initialState: IItemState = {
     items: [],
     error: null,
-    loading: false,
+    loading: false
   };
 
   const [state, dispatch] = useReducer(ItemReducer, initialState);
@@ -75,8 +75,8 @@ const ItemState: FC = (props) => {
   const addItem = async (item: Item, listId: string) => {
     const config: any = {
       header: {
-        "Content-Type": "application/json",
-      },
+        "Content-Type": "application/json"
+      }
     };
 
     try {
@@ -90,8 +90,8 @@ const ItemState: FC = (props) => {
   const editItem = async (item: Item) => {
     const config: any = {
       header: {
-        "Content-Type": "application/json",
-      },
+        "Content-Type": "application/json"
+      }
     };
     dispatch({ type: EDIT_ITEM, payload: item });
 
@@ -128,7 +128,7 @@ const ItemState: FC = (props) => {
         editItem,
         deleteItem,
         clearItems,
-        clearErrors,
+        clearErrors
       }}
     >
       {props.children}
