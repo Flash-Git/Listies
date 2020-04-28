@@ -12,7 +12,7 @@ const Item = require("../../models/Item");
 module.exports = getSocket => {
   const getApiAndEmit = socket => {
     // Emitting a new message. Will be consumed by the client
-    socket.emit("FromAPI");
+    sockets.map(socket => socket.emit("FromAPI"));
   };
 
   // @route   GET api/items/:id

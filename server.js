@@ -14,7 +14,7 @@ connectDB();
 //Init Middleware
 app.use(express.json({ extended: false }));
 
-const getSocket = () => socket;
+const getSocket = () => sockets;
 
 //Define Routes
 app.use("/api/users", require("./routes/api/users"));
@@ -42,17 +42,14 @@ const io = socketIo(server);
 
 // let interval;
 
-let socket;
-
-setSocket = newSocket => {
-  socket = newSocket;
-};
+let sockets = [];
 
 io.on("connection", socket => {
   console.log("New client connected");
-  setSocket(socket);
+  sockets.push(socket);
   socket.on("disconnect", () => {
     console.log("Client disconnected");
+    sockets.filter(s => s != socket);
   });
 });
 
