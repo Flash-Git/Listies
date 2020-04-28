@@ -10,7 +10,7 @@ const auth = require("../../middleware/auth");
 const Item = require("../../models/Item");
 
 module.exports = getSocket => {
-  const getApiAndEmit = socket => {
+  const getApiAndEmit = sockets => {
     // Emitting a new message. Will be consumed by the client
     sockets.map(socket => socket.emit("FromAPI"));
   };
