@@ -2,7 +2,6 @@ import React, { useContext, FC } from "react";
 
 import ListContext from "../../context/list/ListContext";
 import { List, ListContext as IListContext } from "context";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface Props {
   list: List;
