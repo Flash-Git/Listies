@@ -4,15 +4,15 @@ import ItemContext from "../../context/item/ItemContext";
 import AlertContext from "../../context/alert/AlertContext";
 import Exporter from "../layout/Exporter";
 
-import { List } from "context";
+import { Item, List, ItemContext as IItemContext } from "context";
 
 interface Props {
   currentList: List;
 }
 
 const ItemForm: FC<Props> = ({ currentList }) => {
-  const itemContext = useContext(ItemContext);
-  const { error, addItem, clearErrors } = itemContext;
+  const itemContext = useContext(ItemContext); //IItemContext
+  const { error, pushItem, clearErrors } = itemContext;
 
   const alertContext = useContext(AlertContext);
   const { addAlert } = alertContext;
@@ -48,7 +48,7 @@ const ItemForm: FC<Props> = ({ currentList }) => {
   const onSubmit = (e: any) => {
     e.preventDefault();
 
-    addItem({ ...item, name: name.trim() }, listId);
+    pushItem({ ...item, name: name.trim() }, listId);
     clearAll();
   };
 

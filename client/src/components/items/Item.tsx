@@ -1,7 +1,7 @@
 import React, { useContext, FC } from "react";
 
 import ItemContext from "../../context/item/ItemContext";
-import { Item as IItem } from "context";
+import { Item as IItem, ItemContext as IItemContext } from "context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface Props {
@@ -9,21 +9,21 @@ interface Props {
 }
 
 const Item: FC<Props> = ({ item }) => {
-  const itemContext = useContext(ItemContext);
-  const { editItem, deleteItem } = itemContext;
+  const itemContext: IItemContext = useContext(ItemContext);
+  const { pushEditItem, pushDeleteItem } = itemContext;
 
   const { id, name, checked, importance } = item;
 
   const toggleCheck = () => {
-    editItem({ ...item, checked: !checked });
+    pushEditItem({ ...item, checked: !checked });
   };
 
   const incrementImportance = () => {
-    editItem({ ...item, importance: (importance + 1) % 3 });
+    pushEditItem({ ...item, importance: (importance + 1) % 3 });
   };
 
   const onDelete = () => {
-    deleteItem(id);
+    pushDeleteItem(id);
   };
 
   const importanceButton = () => {

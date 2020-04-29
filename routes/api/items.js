@@ -10,11 +10,6 @@ const auth = require("../../middleware/auth");
 const Item = require("../../models/Item");
 
 module.exports = getSocket => {
-  const getApiAndEmit = sockets => {
-    // Emitting a new message. Will be consumed by the client
-    sockets.map(socket => socket.emit("FromAPI"));
-  };
-
   // @route   GET api/items/:id
   // @desc    Get all list's items
   // @access  PRIVATE
@@ -52,7 +47,10 @@ module.exports = getSocket => {
         });
 
         const item = await newItem.save();
-        getApiAndEmit(getSocket());
+
+        // Emit
+        getSocket().map(socket => socket.emit("addItem", item));
+
         res.json(item);
       } catch (e) {
         console.error(e.message);
@@ -98,7 +96,10 @@ module.exports = getSocket => {
             new: true // Create it if it doesn't exist
           }
         );
-        getApiAndEmit(getSocket());
+
+        // Emit
+        getSocket().map(socket => socket.emit("editItem", item));
+
         res.json(item);
       } catch (e) {
         console.error(e.message);
@@ -112,7 +113,8 @@ module.exports = getSocket => {
   // @access  PRIVATE
   router.delete("/:itemId", auth, async (req, res) => {
     try {
-      let item = await Item.findById(req.params.itemId);
+      const { itemId } = req.params;
+      let item = await Item.findById(itemId);
       if (!item) return res.status(404).send({ msg: "Item not found" });
 
       // Validate that user owns item
@@ -120,8 +122,11 @@ module.exports = getSocket => {
       //   return res.status(401).send({ msg: "Unauthorized request" });
       // }
 
-      await Item.findByIdAndRemove(req.params.itemId);
-      getApiAndEmit(getSocket());
+      await Item.findByIdAndRemove(itemId);
+
+      // Emit
+      getSocket().map(socket => socket.emit("deleteItem", itemId));
+
       res.send({ msg: "Item removed" });
     } catch (e) {
       console.error(e.message);

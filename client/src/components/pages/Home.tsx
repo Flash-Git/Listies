@@ -1,20 +1,27 @@
 import React, { FC, useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import { useMountEffect } from "../../functions/hooks";
+
 import Lists from "../lists/Lists";
 import ListForm from "../lists/ListForm";
 import Items from "../items/Items";
 import ItemForm from "../items/ItemForm";
 
+import AppContext from "../../context/app/AppContext";
 import AuthContext from "../../context/auth/AuthContext";
 import ListContext from "../../context/list/ListContext";
 
 import {
+  AppContext as IAppContext,
   AuthContext as IAuthContext,
-  ListContext as IListContext,
+  ListContext as IListContext
 } from "context";
 
 const Home: FC = () => {
+  const appContext: IAppContext = useContext(AppContext);
+  const { initialiseSocket } = appContext;
+
   const authContext: IAuthContext = useContext(AuthContext);
   const { loadUser } = authContext;
 
@@ -22,6 +29,10 @@ const Home: FC = () => {
   const { hidden, toggleHidden, currentList } = listContext;
 
   const [loaded, setLoaded] = useState(false);
+
+  useMountEffect(() => {
+    initialiseSocket();
+  });
 
   useEffect(() => {
     if (loaded) return;
@@ -41,7 +52,7 @@ const Home: FC = () => {
         flexDirection: "row",
         justifyContent: "space-evenly",
         flexWrap: "wrap",
-        marginTop: "0.7rem",
+        marginTop: "0.7rem"
       }}
     >
       <button
@@ -51,7 +62,7 @@ const Home: FC = () => {
           position: "absolute",
           left: "1rem",
           paddingLeft: "0.8rem",
-          paddingRight: "0.8rem",
+          paddingRight: "0.8rem"
         }}
       >
         <FontAwesomeIcon icon={["fas", "bars"]} />
@@ -64,7 +75,7 @@ const Home: FC = () => {
             overflowY: "auto",
             scrollbarWidth: "thin",
             flexBasis: "23rem",
-            maxWidth: "30rem",
+            maxWidth: "30rem"
           }}
         >
           <ListForm />
@@ -78,7 +89,7 @@ const Home: FC = () => {
           overflowY: "auto",
           scrollbarWidth: "thin",
           flexBasis: "23rem",
-          maxWidth: "30rem",
+          maxWidth: "30rem"
         }}
       >
         <ItemForm currentList={currentList} />

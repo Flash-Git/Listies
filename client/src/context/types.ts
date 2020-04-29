@@ -1,4 +1,5 @@
 // App
+export const SET_SOCKET: string = "SET_SOCKET";
 
 // Alert
 export const ADD_ALERT: string = "ADD_ALERT";

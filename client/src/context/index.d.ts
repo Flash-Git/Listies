@@ -8,7 +8,20 @@ declare module "context" {
    * App
    */
 
-  export type App = {};
+  export type Socket = any;
+
+  export type SetSocket = (socket: Socket) => void;
+
+  export type InitialiseSocket = () => void;
+
+  export type AppState = {
+    socket: Socket;
+  };
+
+  export interface AppContext extends AppState {
+    setSocket: (socket: Socket) => void;
+    initialiseSocket: () => void;
+  }
 
   /*
    * Items
@@ -32,9 +45,12 @@ declare module "context" {
   export interface ItemContext extends ItemState {
     getItems: (listId: string) => void;
     setItems: (items: Item[], listId: string) => void;
+    pushItem: (item: Item, listId: string) => void;
     addItem: (item: Item, listId: string) => void;
     editItem: (item: Item) => void;
+    pushEditItem: (item: Item) => void;
     deleteItem: (itemId: string) => void;
+    pushDeleteItem: (itemId: string) => void;
     clearItems: () => void;
     clearErrors: () => void;
   }

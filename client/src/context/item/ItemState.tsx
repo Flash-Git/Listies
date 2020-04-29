@@ -72,7 +72,7 @@ const ItemState: FC = props => {
     if (state.items.length > 1) dispatch({ type: SORT_ITEMS });
   };
 
-  const addItem = async (item: Item, listId: string) => {
+  const pushItem = async (item: Item, listId: string) => {
     const config: any = {
       header: {
         "Content-Type": "application/json"
@@ -81,20 +81,25 @@ const ItemState: FC = props => {
 
     try {
       const res = await axios.post(`/api/items/${listId}`, item, config);
-      dispatch({ type: ADD_ITEM, payload: { item: res.data, listId } });
+      addItem(res.data, listId);
     } catch (e) {
       dispatch({ type: ITEM_ERROR, payload: e.response.data.msg });
     }
   };
 
-  const editItem = async (item: Item) => {
+  const addItem = async (item: Item, listId: string) => {
+    console.log("listId: " + listId);
+    dispatch({ type: ADD_ITEM, payload: { item, listId } });
+  };
+
+  const pushEditItem = async (item: Item) => {
     const config: any = {
       header: {
         "Content-Type": "application/json"
       }
     };
-    dispatch({ type: EDIT_ITEM, payload: item });
 
+    editItem(item);
     try {
       await axios.put(`/api/items/${item.id}`, item, config);
     } catch (e) {
@@ -102,14 +107,23 @@ const ItemState: FC = props => {
     }
   };
 
-  const deleteItem = async (itemId: string) => {
-    dispatch({ type: DELETE_ITEM, payload: itemId });
+  const editItem = async (item: Item) => {
+    dispatch({ type: EDIT_ITEM, payload: item });
+  };
+
+  const pushDeleteItem = async (itemId: string) => {
+    console.log("delete item: ", itemId);
+    deleteItem(itemId);
 
     try {
       await axios.delete(`/api/items/${itemId}`);
     } catch (e) {
       dispatch({ type: ITEM_ERROR, payload: e.response.data.msg });
     }
+  };
+
+  const deleteItem = async (itemId: string) => {
+    dispatch({ type: DELETE_ITEM, payload: itemId });
   };
 
   const clearItems = () => dispatch({ type: CLEAR_ITEMS });
@@ -124,8 +138,11 @@ const ItemState: FC = props => {
         loading: state.loading,
         getItems,
         setItems,
+        pushItem,
         addItem,
         editItem,
+        pushDeleteItem,
+        pushEditItem,
         deleteItem,
         clearItems,
         clearErrors

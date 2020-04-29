@@ -1,27 +1,56 @@
 import React, { FC, useReducer } from "react";
+import socketIOClient from "socket.io-client";
 
 import AppContext from "./AppContext";
 import AppReducer from "./AppReducer";
 
-// import {  } from "../types";
+import { SET_SOCKET } from "../types";
 
-import { App } from "context";
+import {
+  AppState as IAppState,
+  SetSocket,
+  InitialiseSocket,
+  Socket
+} from "context";
 
-const AppState: FC = (props) => {
-  const initialState: App = {};
+const AppState: FC = props => {
+  const initialState: IAppState = {
+    socket
+  };
 
-  // eslint-disable-next-line
   const [state, dispatch] = useReducer(AppReducer, initialState);
 
   /*
    * Actions
    */
 
+  const setSocket: SetSocket = (socket: Socket) => {
+    state.socket.close();
+
+    dispatch({
+      type: SET_SOCKET,
+      payload: socket
+    });
+  };
+
+  const initialiseSocket: InitialiseSocket = () => {
+    const socket = socketIOClient();
+
+    dispatch({
+      type: SET_SOCKET,
+      payload: socket
+    });
+  };
+
   return (
-    <AppContext.Provider value={{ state }}>
+    <AppContext.Provider
+      value={{ socket: state.socket, setSocket, initialiseSocket }}
+    >
       {props.children}
     </AppContext.Provider>
   );
 };
 
 export default AppState;
+
+const socket = socketIOClient();

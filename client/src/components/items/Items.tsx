@@ -3,32 +3,51 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import Item from "./Item";
 import Spinner from "../layout/Spinner";
+import { useMountEffect } from "../../functions/hooks";
 
+import AppContext from "../../context/app/AppContext";
 import ItemContext from "../../context/item/ItemContext";
 
-import { Item as IItem, ItemContext as IItemContext, List } from "context";
-
-import socketIOClient from "socket.io-client";
+import {
+  AppContext as IAppContext,
+  Item as IItem,
+  List,
+  ItemContext as IItemContext
+} from "context";
 
 interface Props {
   currentList: List;
 }
 
 const Items: FC<Props> = ({ currentList }) => {
+  const appContext: IAppContext = useContext(AppContext);
+  const { socket } = appContext;
+
   const itemContext: IItemContext = useContext(ItemContext);
-  const { loading, items, getItems, setItems, clearItems } = itemContext;
-  console.log(currentList);
+  const {
+    loading,
+    items,
+    addItem,
+    editItem,
+    getItems,
+    setItems,
+    deleteItem,
+    clearItems
+  } = itemContext;
 
-  useEffect(() => {
-    // const socket = socketIOClient("http://localhost:5000");
-    const socket = socketIOClient();
-    socket.on("FromAPI", () => {
-      console.log(currentList);
+  const getListId = () => currentList && currentList.id;
 
-      currentList && getItems(currentList.id);
+  useMountEffect(() => {
+    socket.on("addItem", (item: IItem) => {
+      addItem(item, getListId());
     });
-    //   //eslint-disable-next-line
-  }, [currentList]);
+    socket.on("editItem", (item: IItem) => {
+      editItem(item);
+    });
+    socket.on("deleteItem", (itemId: string) => {
+      deleteItem(itemId);
+    });
+  });
 
   useEffect(() => {
     currentList ? getItems(currentList.id) : clearItems();
