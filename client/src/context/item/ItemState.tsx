@@ -88,7 +88,6 @@ const ItemState: FC = props => {
   };
 
   const addItem = async (item: Item, listId: string) => {
-    console.log("listId: " + listId);
     dispatch({ type: ADD_ITEM, payload: { item, listId } });
   };
 
