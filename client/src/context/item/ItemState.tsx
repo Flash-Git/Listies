@@ -112,7 +112,6 @@ const ItemState: FC = props => {
   };
 
   const pushDeleteItem = async (itemId: string) => {
-    console.log("delete item: ", itemId);
     deleteItem(itemId);
 
     try {
