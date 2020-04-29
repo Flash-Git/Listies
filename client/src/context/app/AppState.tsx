@@ -24,6 +24,10 @@ const AppState: FC = props => {
    * Actions
    */
 
+  const resetSocket: SetSocket = () => {
+    state.socket.close();
+  };
+
   const setSocket: SetSocket = (socket: Socket) => {
     state.socket.close();
 
@@ -44,7 +48,7 @@ const AppState: FC = props => {
 
   return (
     <AppContext.Provider
-      value={{ socket: state.socket, setSocket, initialiseSocket }}
+      value={{ socket: state.socket, resetSocket, setSocket, initialiseSocket }}
     >
       {props.children}
     </AppContext.Provider>

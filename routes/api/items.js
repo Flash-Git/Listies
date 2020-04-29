@@ -34,11 +34,13 @@ module.exports = getSocket => {
   // @access  PRIVATE
   router.post(
     "/:id",
-    [auth, [check("name", "Please enter a name").not().isEmpty()]],
+    [auth, [check("item.name", "Please enter a name").not().isEmpty()]],
     async (req, res) => {
       if (handleErrors(req, res)) return;
 
-      const { name } = req.body;
+      const { name } = req.body.item;
+      const listId = req.body.listId;
+
       try {
         const newItem = new Item({
           name,
@@ -49,7 +51,7 @@ module.exports = getSocket => {
         const item = await newItem.save();
 
         // Emit
-        getSocket().map(socket => socket.emit("addItem", item));
+        getSocket().map(socket => socket.emit("addItem", item, listId));
 
         res.json(item);
       } catch (e) {

@@ -35,11 +35,9 @@ const Items: FC<Props> = ({ currentList }) => {
     clearItems
   } = itemContext;
 
-  const getListId = () => currentList && currentList.id;
-
   useMountEffect(() => {
-    socket.on("addItem", (item: IItem) => {
-      addItem(item, getListId());
+    socket.on("addItem", (item: IItem, listId: string) => {
+      addItem({ ...item, list: listId }, listId);
     });
     socket.on("editItem", (item: IItem) => {
       editItem(item);
@@ -54,6 +52,15 @@ const Items: FC<Props> = ({ currentList }) => {
 
     //eslint-disable-next-line
   }, [currentList]);
+
+  // TODO fixing is worse than not sending in first place
+  useEffect(() => {
+    const newItems = items.filter((item: IItem) => {
+      return item.list === null || item.list === currentList.id;
+    });
+
+    if (items.length !== newItems.length) setItems(newItems, currentList.id);
+  }, [items]);
 
   /*
    * Dragging

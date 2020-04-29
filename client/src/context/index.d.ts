@@ -19,6 +19,7 @@ declare module "context" {
   };
 
   export interface AppContext extends AppState {
+    resetSocket: () => void;
     setSocket: (socket: Socket) => void;
     initialiseSocket: () => void;
   }
@@ -34,6 +35,7 @@ declare module "context" {
     checked: boolean;
     importance: number;
     note: string;
+    list: string;
   };
 
   export type ItemState = {

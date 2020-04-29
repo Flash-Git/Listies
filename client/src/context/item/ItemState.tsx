@@ -80,7 +80,11 @@ const ItemState: FC = props => {
     };
 
     try {
-      const res = await axios.post(`/api/items/${listId}`, item, config);
+      const res = await axios.post(
+        `/api/items/${listId}`,
+        { item, listId },
+        config
+      );
       addItem(res.data, listId);
     } catch (e) {
       dispatch({ type: ITEM_ERROR, payload: e.response.data.msg });
