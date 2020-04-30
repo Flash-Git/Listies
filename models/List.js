@@ -8,8 +8,8 @@ const ListSchema = new Schema({
     ref: "users"
   },
   accessCode: {
-    type: String
-    // required: true
+    type: String,
+    default: ""
   },
   name: {
     type: String,
@@ -18,6 +18,10 @@ const ListSchema = new Schema({
   date: {
     type: Date,
     default: Date.now
+  },
+  count: {
+    type: Number,
+    default: 1
   }
 });
 

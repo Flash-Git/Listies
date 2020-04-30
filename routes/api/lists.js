@@ -65,6 +65,10 @@ router.post(
         await User.findById(req.user.id).updateOne({
           $push: { accessCodes: exists.accessCode }
         });
+
+        await List.findByIdAndUpdate(exists.id, {
+          count: ++exists.count
+        });
         return;
       }
 
@@ -96,18 +100,16 @@ router.delete("/:id", auth, async (req, res) => {
     if (!list) return res.status(404).send({ msg: "List not found" });
 
     const accessCode = list.accessCode;
-    // Local list
-    if (!accessCode) {
-      //Validate that user owns list
-      if (list.user.toString() !== req.user.id)
-        return res.status(401).send({ msg: "Unauthorized request" });
 
+    // Local list
+    if (!accessCode || list.count - 1 < 1) {
       await List.findByIdAndRemove(listId);
       // Shared list
     } else {
       await User.findByIdAndUpdate(req.user.id, {
         $pull: { accessCodes: accessCode }
       });
+      await List.findByIdAndUpdate(listId, { count: --list.count });
     }
 
     res.send({ msg: "List removed" });
