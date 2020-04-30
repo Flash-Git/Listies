@@ -71,7 +71,7 @@ const Home: FC = () => {
         <div
           className="px-1 mbot-2"
           style={{
-            maxHeight: "40rem",
+            // maxHeight: "40rem",
             overflowY: "auto",
             scrollbarWidth: "thin",
             flexBasis: "23rem",
