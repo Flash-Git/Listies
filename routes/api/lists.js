@@ -45,7 +45,6 @@ router.post(
     const { name, accessCode } = req.body;
     try {
       // Check if list exists
-
       const existingList =
         accessCode === "" ? "" : await List.findOne({ accessCode });
 
@@ -81,19 +80,21 @@ router.post(
 // @access  PRIVATE
 router.delete("/:id", auth, async (req, res) => {
   try {
-    // let list = await List.findById(req.params.id);
-    // if (!list) return res.status(404).send({ msg: "List not found" });
+    const listId = req.params.id;
 
-    //Validate that user owns list
-    // if (list.user.toString() !== req.user.id) {
-    //   return res.status(401).send({ msg: "Unauthorized request" });
-    // }
-    // await List.findByIdAndRemove(req.params.id);
+    const list = await List.findById(listId);
+    if (!list) return res.status(404).send({ msg: "List not found" });
 
-    const accessCode = req.params.id;
+    const accessCode = list.accessCode;
 
+    // Local list
     if (!accessCode) {
-      await List.findByIdAndRemove(accessCode);
+      //Validate that user owns list
+      if (list.user.toString() !== req.user.id)
+        return res.status(401).send({ msg: "Unauthorized request" });
+
+      await List.findByIdAndRemove(listId);
+      // Shared list
     } else {
       await User.findByIdAndUpdate(req.user.id, {
         $pull: { accessCodes: accessCode }
