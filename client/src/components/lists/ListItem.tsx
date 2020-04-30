@@ -16,11 +16,11 @@ const ListItem: FC<Props> = ({ list }) => {
     clearCurrentList
   } = listContext;
 
-  const { id, name, accessCode } = list;
+  const { id, name } = list;
 
   const onDelete = () => {
     if (currentList && currentList.id === list.id) clearCurrentList();
-    deleteList(id, accessCode);
+    deleteList(id);
   };
 
   const onEdit = () => setCurrentList(list);

@@ -35,7 +35,6 @@ declare module "context" {
     checked: boolean;
     importance: number;
     note: string;
-    list: string;
   };
 
   export type ItemState = {
@@ -80,7 +79,7 @@ declare module "context" {
     getLists: () => void;
     setLists: (lists: List[]) => void;
     addList: (list: List) => void;
-    deleteList: (id: string, accessCode: string) => void;
+    deleteList: (id: string) => void;
     setCurrentList: (list: List) => void;
     clearCurrentList: () => void;
     clearLists: () => void;

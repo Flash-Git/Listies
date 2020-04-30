@@ -16,18 +16,18 @@ import {
   CLEAR_LISTS,
   CLEAR_ERRORS,
   TOGGLE_HIDDEN,
-  SET_HIDDEN,
+  SET_HIDDEN
 } from "../types";
 
 import { List, ListState as IListState } from "context";
 
-const ListState: FC = (props) => {
+const ListState: FC = props => {
   const initialState: IListState = {
     lists: [],
     currentList: null,
     error: null,
     loading: true,
-    hidden: false,
+    hidden: false
   };
 
   const [state, dispatch] = useReducer(ListReducer, initialState);
@@ -54,8 +54,8 @@ const ListState: FC = (props) => {
   const addList = async (list: List) => {
     const config: any = {
       header: {
-        "Content-Type": "application/json",
-      },
+        "Content-Type": "application/json"
+      }
     };
 
     try {
@@ -66,7 +66,7 @@ const ListState: FC = (props) => {
     }
   };
 
-  const deleteList = async (id: string, accessCode: string) => {
+  const deleteList = async (id: string) => {
     try {
       // Delete items in list
       // const res = await axios.get(`/api/items/${id}`);
@@ -76,7 +76,7 @@ const ListState: FC = (props) => {
       // );
 
       // Delete list
-      await axios.delete(`/api/lists/${accessCode}`);
+      await axios.delete(`/api/lists/${id}`);
       dispatch({ type: DELETE_LIST, payload: id });
     } catch (e) {
       dispatch({ type: LIST_ERROR, payload: e.response.data.msg });
@@ -121,7 +121,7 @@ const ListState: FC = (props) => {
         clearLists,
         clearErrors,
         toggleHidden,
-        setHidden,
+        setHidden
       }}
     >
       {props.children}

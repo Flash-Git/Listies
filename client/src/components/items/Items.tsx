@@ -39,7 +39,7 @@ const Items: FC<Props> = ({ currentList }) => {
     socket.on("addItem", (item: IItem, listId: string) => {
       // Cannot access currentList prop
       if (JSON.parse(localStorage["currentList"]).id !== listId) return;
-      addItem({ ...item, list: listId }, listId);
+      addItem(item, listId);
     });
     socket.on("editItem", (item: IItem) => {
       editItem(item);
