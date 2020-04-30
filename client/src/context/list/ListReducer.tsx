@@ -10,7 +10,7 @@ import {
   CLEAR_LISTS,
   CLEAR_ERRORS,
   TOGGLE_HIDDEN,
-  SET_HIDDEN,
+  SET_HIDDEN
 } from "../types";
 
 import { List, ListState, Action } from "context";
@@ -20,7 +20,7 @@ const ListReducer = (state: ListState, action: Action): ListState => {
     case LOADING:
       return {
         ...state,
-        loading: true,
+        loading: true
       };
     case GET_LISTS:
       return {
@@ -30,12 +30,12 @@ const ListReducer = (state: ListState, action: Action): ListState => {
           delete list._id;
           return list;
         }),
-        loading: false,
+        loading: false
       };
     case SET_LISTS:
       return {
         ...state,
-        lists: action.payload,
+        lists: action.payload
       };
     case ADD_LIST:
       action.payload.id = action.payload._id;
@@ -44,61 +44,61 @@ const ListReducer = (state: ListState, action: Action): ListState => {
         ...state,
         lists: [action.payload, ...state.lists],
         currentList: action.payload,
-        loading: false,
+        loading: false
       };
     case DELETE_LIST:
       return {
         ...state,
-        lists: state.lists.filter((list) => list.id !== action.payload),
+        lists: state.lists.filter(list => list.id !== action.payload),
         currentList: state.currentList
           ? state.currentList.id === action.payload
             ? null
             : state.currentList
           : null,
-        loading: false,
+        loading: false
       };
     case SET_CURRENT:
       localStorage.setItem("currentList", JSON.stringify(action.payload));
       return {
         ...state,
         currentList: action.payload,
-        loading: false,
+        loading: false
       };
     case CLEAR_CURRENT:
       localStorage.removeItem("currentList");
       return {
         ...state,
         currentList: null,
-        loading: false,
+        loading: false
       };
     case LIST_ERROR:
       return {
         ...state,
         error: action.payload,
-        loading: false,
+        loading: false
       };
     case CLEAR_LISTS:
       return {
         ...state,
-        lists: [],
+        lists: []
       };
     case CLEAR_ERRORS:
       return {
         ...state,
         error: null,
-        loading: false,
+        loading: false
       };
     case TOGGLE_HIDDEN:
       localStorage.setItem("hidden", (!state.hidden).toString());
       return {
         ...state,
-        hidden: !state.hidden,
+        hidden: !state.hidden
       };
     case SET_HIDDEN:
       localStorage.setItem("hidden", action.payload.toString());
       return {
         ...state,
-        hidden: action.payload,
+        hidden: action.payload
       };
     default:
       return state;
