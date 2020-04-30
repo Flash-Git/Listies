@@ -90,9 +90,15 @@ router.delete("/:id", auth, async (req, res) => {
     // }
     // await List.findByIdAndRemove(req.params.id);
 
-    await User.findByIdAndUpdate(req.user.id, {
-      $pull: { accessCodes: req.params.id }
-    });
+    const accessCode = req.params.id;
+
+    if (!accessCode) {
+      await List.findByIdAndRemove(accessCode);
+    } else {
+      await User.findByIdAndUpdate(req.user.id, {
+        $pull: { accessCodes: accessCode }
+      });
+    }
 
     res.send({ msg: "List removed" });
   } catch (e) {
