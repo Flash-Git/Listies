@@ -61,6 +61,7 @@ const ListState: FC = props => {
     try {
       const res = await axios.post("/api/lists", list, config);
       dispatch({ type: ADD_LIST, payload: res.data });
+      setCurrentList(res.data);
     } catch (e) {
       dispatch({ type: LIST_ERROR, payload: e.response.data.msg });
     }

@@ -24,9 +24,10 @@ router.get("/", auth, async (req, res) => {
         });
       })
     );
+    let personalLists = await List.find({ user: req.user.id });
 
     lists = lists.filter(list => list !== null);
-    res.json(lists);
+    res.json([...lists, ...personalLists]);
   } catch (e) {
     console.error(e.message);
     res.status(500).send({ msg: "Server Error" });
@@ -44,30 +45,39 @@ router.post(
 
     const { name, accessCode } = req.body;
     try {
-      // Check if list exists
-      const existingList =
-        accessCode === "" ? "" : await List.findOne({ accessCode });
-
-      if (existingList) {
-        await User.findById(req.user.id).updateOne({
-          $push: { accessCodes: existingList.accessCode }
-        });
-        res.json(existingList);
-
-        return;
-      }
-
       const newList = new List({
         name,
         accessCode: accessCode,
         user: req.user.id
       });
-      await User.findById(req.user.id).updateOne({
-        $push: { accessCodes: accessCode }
-      });
+
+      const checkList = async accessCode => {
+        if (accessCode === "") return null;
+        const existingList = await List.findOne({ accessCode });
+        return existingList;
+      };
+
+      const exists = await checkList(accessCode);
+
+      // Existing public list
+      if (exists) {
+        res.json(exists);
+        await User.findById(req.user.id).updateOne({
+          $push: { accessCodes: exists.accessCode }
+        });
+        return;
+      }
 
       const list = await newList.save();
       res.json(list);
+
+      // New private list
+      if (accessCode === "") return;
+
+      // New public list
+      await User.findById(req.user.id).updateOne({
+        $push: { accessCodes: accessCode }
+      });
     } catch (e) {
       console.error(e.message);
       res.status(500).send({ msg: "Server Error" });
@@ -86,7 +96,6 @@ router.delete("/:id", auth, async (req, res) => {
     if (!list) return res.status(404).send({ msg: "List not found" });
 
     const accessCode = list.accessCode;
-
     // Local list
     if (!accessCode) {
       //Validate that user owns list

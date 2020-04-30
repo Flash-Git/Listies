@@ -38,7 +38,8 @@ const Items: FC<Props> = ({ currentList }) => {
   useMountEffect(() => {
     socket.on("addItem", (item: IItem, listId: string) => {
       // Cannot access currentList prop
-      if (JSON.parse(localStorage["currentList"]).id !== listId) return;
+      const lsList = JSON.parse(localStorage["currentList"]);
+      if (!lsList || lsList.id !== listId) return;
       addItem(item, listId);
     });
     socket.on("editItem", (item: IItem) => {

@@ -43,7 +43,6 @@ const ListReducer = (state: ListState, action: Action): ListState => {
       return {
         ...state,
         lists: [action.payload, ...state.lists],
-        currentList: action.payload,
         loading: false
       };
     case DELETE_LIST:
