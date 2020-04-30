@@ -1,8 +1,8 @@
 import React, { useContext, FC } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import ItemContext from "../../context/item/ItemContext";
 import { Item as IItem, ItemContext as IItemContext } from "context";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface Props {
   item: IItem;

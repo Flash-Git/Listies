@@ -6,7 +6,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  CLEAR_ERRORS,
+  CLEAR_ERRORS
 } from "../types";
 
 import { AuthState, Action } from "context";
@@ -20,7 +20,7 @@ const AuthReducer = (state: AuthState, action: Action): AuthState => {
         ...state,
         ...action.payload,
         isAuthenticated: true,
-        loading: false,
+        loading: false
       };
     case REGISTER_FAIL:
     case AUTH_ERROR:
@@ -33,7 +33,7 @@ const AuthReducer = (state: AuthState, action: Action): AuthState => {
         isAuthenticated: false,
         loading: false,
         user: null,
-        error: action.payload,
+        error: action.payload
       };
     case USER_LOADED:
       const { _id, name, email, date } = action.payload;
@@ -41,12 +41,12 @@ const AuthReducer = (state: AuthState, action: Action): AuthState => {
         ...state,
         isAuthenticated: true,
         loading: false,
-        user: { _id, name, email, date },
+        user: { _id, name, email, date }
       };
     case CLEAR_ERRORS:
       return {
         ...state,
-        error: null,
+        error: null
       };
     default:
       return state;

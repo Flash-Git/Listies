@@ -26,7 +26,7 @@ const Alerts: FC = () => {
                 padding: "0.5rem 1rem",
                 margin: "-0.5rem",
                 border: "none",
-                background: "none",
+                background: "none"
               }}
               className={`alert-${type} btn`}
               onClick={() => removeAlert(id)}

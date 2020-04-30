@@ -5,20 +5,20 @@ const Schema = mongoose.Schema;
 const ListSchema = new Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "users",
+    ref: "users"
   },
   accessCode: {
-    type: String,
+    type: String
     // required: true
   },
   name: {
     type: String,
-    required: true,
+    required: true
   },
   date: {
     type: Date,
-    default: Date.now,
-  },
+    default: Date.now
+  }
 });
 
 module.exports = List = mongoose.model("list", ListSchema);

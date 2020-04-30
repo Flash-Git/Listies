@@ -7,7 +7,7 @@ import ListContext from "../../context/list/ListContext";
 import {
   AuthContext as IAuthContext,
   AlertContext as IAlertContext,
-  ListContext as IListContext,
+  ListContext as IListContext
 } from "context";
 
 interface Props {
@@ -25,7 +25,7 @@ const Login: FC<Props> = ({ history }) => {
 
   const [user, setUser] = useState({
     email: "",
-    password: "",
+    password: ""
   });
 
   const { email, password } = user;
@@ -57,7 +57,7 @@ const Login: FC<Props> = ({ history }) => {
     } else {
       login({
         email,
-        password,
+        password
       });
     }
   };

@@ -58,7 +58,7 @@ const Lists: FC = () => {
               <div
                 className="drag"
                 draggable
-                onDragStart={(e) => onDragStart(e, i, list.name)}
+                onDragStart={e => onDragStart(e, i, list.name)}
                 onDragEnd={onDragEnd}
                 onDragOver={() => onDragOver(i)}
               >

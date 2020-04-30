@@ -21,7 +21,7 @@ const ListForm: FC = () => {
   const emptyList: List = {
     name: "",
     accessCode: "",
-    id: "",
+    id: ""
   };
 
   const [toggled, setToggled] = useState(false);
@@ -31,7 +31,7 @@ const ListForm: FC = () => {
   const { name, accessCode } = list;
 
   const toggleForm = () => {
-    setToggled((toggled) => !toggled);
+    setToggled(toggled => !toggled);
   };
 
   //Input
@@ -59,7 +59,7 @@ const ListForm: FC = () => {
         alignItems: "center",
         justifyContent: "center",
         marginTop: "0.7rem",
-        marginBottom: "0.7rem",
+        marginBottom: "0.7rem"
       }}
     >
       <input
@@ -67,7 +67,7 @@ const ListForm: FC = () => {
           minWidth: "5rem",
           maxWidth: "15rem",
           margin: "0",
-          marginBottom: "0.7rem",
+          marginBottom: "0.7rem"
         }}
         type="text"
         placeholder="Name"
@@ -80,7 +80,7 @@ const ListForm: FC = () => {
           minWidth: "5rem",
           maxWidth: "15rem",
           margin: "0",
-          marginBottom: "0.7rem",
+          marginBottom: "0.7rem"
         }}
         type="text"
         placeholder="Access Code"
@@ -93,7 +93,7 @@ const ListForm: FC = () => {
           maxWidth: "8.5rem",
           margin: "0",
           marginBottom: "0.7rem",
-          padding: "0.1rem",
+          padding: "0.1rem"
         }}
         type="submit"
         value="Add New List"

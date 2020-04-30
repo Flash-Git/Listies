@@ -12,20 +12,20 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  CLEAR_ERRORS,
+  CLEAR_ERRORS
 } from "../types";
 
 import ListContext from "../list/ListContext";
 
 import { AuthState as IAuthState } from "context";
 
-const AuthState: FC = (props) => {
+const AuthState: FC = props => {
   const initialState: IAuthState = {
     token: localStorage.getItem("token"),
     isAuthenticated: null,
     loading: true,
     user: null,
-    error: null,
+    error: null
   };
 
   const [state, dispatch] = useReducer(AuthReducer, initialState);
@@ -44,8 +44,8 @@ const AuthState: FC = (props) => {
   }) => {
     const config = {
       headers: {
-        "Content-Type": "application/json",
-      },
+        "Content-Type": "application/json"
+      }
     };
     try {
       const res = await axios.post("/api/users", formData, config);
@@ -75,8 +75,8 @@ const AuthState: FC = (props) => {
   const login = async (formData: { email: string; password: string }) => {
     const config = {
       headers: {
-        "Content-Type": "application/json",
-      },
+        "Content-Type": "application/json"
+      }
     };
     try {
       const res = await axios.post("/api/auth", formData, config);
@@ -103,7 +103,7 @@ const AuthState: FC = (props) => {
         loadUser,
         login,
         logout,
-        clearErrors,
+        clearErrors
       }}
     >
       {props.children}
