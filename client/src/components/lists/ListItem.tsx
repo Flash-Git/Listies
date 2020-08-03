@@ -23,7 +23,7 @@ const ListItem: FC<Props> = ({ list }) => {
     deleteList(id);
   };
 
-  const onEdit = () => setCurrentList(list);
+  const onSelect = () => setCurrentList(list);
 
   return (
     <div
@@ -38,7 +38,7 @@ const ListItem: FC<Props> = ({ list }) => {
     >
       <button
         className="btn btn-discreet text-left px"
-        onClick={onEdit}
+        onClick={onSelect}
         style={{ flexGrow: 1, background: "#fff" }}
       >
         <h3 className="text-left">{name}</h3>
