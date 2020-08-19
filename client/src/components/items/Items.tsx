@@ -89,29 +89,27 @@ const Items: FC<Props> = ({ currentList }) => {
     setDraggedItem(null);
   };
 
-  return (
-    <Fragment>
-      {items && !loading ? (
-        <TransitionGroup>
-          {items.map((item: IItem, i: number) => (
-            <CSSTransition key={item.id} timeout={200}>
-              <div
-                className="drag"
-                draggable
-                onDragStart={e => onDragStart(e, i, item.name)}
-                onDragEnd={onDragEnd}
-                onDragOver={() => onDragOver(i)}
-              >
-                <Item item={item} />
-              </div>
-            </CSSTransition>
-          ))}
-        </TransitionGroup>
-      ) : (
-        <Spinner />
-      )}
-    </Fragment>
-  );
+  if (items && !loading) {
+    return (
+      <TransitionGroup>
+        {items.map((item: IItem, i: number) => (
+          <CSSTransition key={item.id} timeout={200}>
+            <div
+              className="drag"
+              draggable
+              onDragStart={e => onDragStart(e, i, item.name)}
+              onDragEnd={onDragEnd}
+              onDragOver={() => onDragOver(i)}
+            >
+              <Item item={item} />
+            </div>
+          </CSSTransition>
+        ))}
+      </TransitionGroup>
+    );
+  }
+
+  return <Spinner />;
 };
 
 export default Items;

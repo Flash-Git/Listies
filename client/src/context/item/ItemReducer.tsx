@@ -48,9 +48,9 @@ const ItemReducer = (state: ItemState, action: Action): ItemState => {
       return {
         ...state,
         items: [
-          ...action.payload.filter((item: Item) => filt(item, 2)),
-          ...action.payload.filter((item: Item) => filt(item, 1)),
-          ...action.payload.filter((item: Item) => filt(item, 0))
+          ...state.items.filter((item: Item) => filt(item, 2)),
+          ...state.items.filter((item: Item) => filt(item, 1)),
+          ...state.items.filter((item: Item) => filt(item, 0))
         ].map((item: Item) => {
           item.id = item._id as string;
           delete item._id;

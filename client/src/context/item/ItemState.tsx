@@ -146,6 +146,7 @@ const ItemState: FC = props => {
         pushDeleteItem,
         pushEditItem,
         deleteItem,
+        sortItems,
         clearItems,
         clearErrors
       }}

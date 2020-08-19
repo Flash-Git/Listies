@@ -52,6 +52,7 @@ declare module "context" {
     pushEditItem: (item: Item) => void;
     deleteItem: (itemId: string) => void;
     pushDeleteItem: (itemId: string) => void;
+    sortItems: () => void;
     clearItems: () => void;
     clearErrors: () => void;
   }
