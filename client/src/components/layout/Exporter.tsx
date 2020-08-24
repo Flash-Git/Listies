@@ -34,7 +34,7 @@ const Exporter: FC<Props> = ({ currentList }) => {
 
   return (
     <button
-      className="btn btn-link m-2"
+      className="btn btn-link"
       style={{ float: "right", height: "2.4rem", color: "#003699" }}
       onClick={exportList}
     >
