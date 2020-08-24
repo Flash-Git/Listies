@@ -99,15 +99,22 @@ const ItemForm: FC<Props> = ({ currentList }) => {
   // Render
   return (
     <div className="grow-shrink">
+      <Exporter currentList={currentList} />
       <button
-        className="btn btn-link m-2"
-        style={{ float: "left", height: "2.4rem", color: "#003699" }}
+        className="btn btn-link"
+        style={{
+          float: "right",
+          marginRight: "1rem",
+          height: "2.4rem",
+          color: "#003699"
+        }}
         onClick={sortItems}
       >
         <FontAwesomeIcon style={{ height: "100%" }} icon={["fas", "sort-up"]} />
       </button>
-      <Exporter currentList={currentList} />
-      <h2 className="text-primary">{listName}</h2>
+      <h2 className="text-primary" style={{ marginLeft: "2.5rem" }}>
+        {listName}
+      </h2>
       {currentList && inputFields()}
     </div>
   );
