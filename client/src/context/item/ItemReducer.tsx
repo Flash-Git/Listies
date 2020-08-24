@@ -51,12 +51,7 @@ const ItemReducer = (state: ItemState, action: Action): ItemState => {
           ...state.items.filter((item: Item) => filt(item, 2)),
           ...state.items.filter((item: Item) => filt(item, 1)),
           ...state.items.filter((item: Item) => filt(item, 0))
-        ].map((item: Item) => {
-          item.id = item._id as string;
-          delete item._id;
-          return item;
-        }),
-        loading: false
+        ]
       };
     case ADD_ITEM:
       action.payload.item.id = action.payload.item._id;
