@@ -45,12 +45,19 @@ const ItemReducer = (state: ItemState, action: Action): ItemState => {
       };
     case SORT_ITEMS:
       const filt = (item: Item, imp: number) => item.importance === imp;
+
+      const unChecked = state.items.filter(item => item.checked === false);
+      const checked = state.items.filter(item => item.checked === true);
+
       return {
         ...state,
         items: [
-          ...state.items.filter((item: Item) => filt(item, 2)),
-          ...state.items.filter((item: Item) => filt(item, 1)),
-          ...state.items.filter((item: Item) => filt(item, 0))
+          ...unChecked.filter((item: Item) => filt(item, 2)),
+          ...unChecked.filter((item: Item) => filt(item, 1)),
+          ...unChecked.filter((item: Item) => filt(item, 0)),
+          ...checked.filter((item: Item) => filt(item, 2)),
+          ...checked.filter((item: Item) => filt(item, 1)),
+          ...checked.filter((item: Item) => filt(item, 0))
         ]
       };
     case ADD_ITEM:
