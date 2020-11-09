@@ -26,7 +26,7 @@ const ListReducer = (state: ListState, action: Action): ListState => {
       return {
         ...state,
         lists: action.payload.map((list: List) => {
-          if(list._id !== undefined) {
+          if (list._id !== undefined) {
             list.id = list._id;
             delete list._id;
           }

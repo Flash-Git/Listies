@@ -5,7 +5,11 @@ import ItemContext from "../../context/item/ItemContext";
 import AlertContext from "../../context/alert/AlertContext";
 import Exporter from "../layout/Exporter";
 
-import { List, ItemContext as IItemContext, AlertContext as IAlertContext } from "context";
+import {
+  List,
+  ItemContext as IItemContext,
+  AlertContext as IAlertContext
+} from "context";
 
 interface Props {
   currentList: List;

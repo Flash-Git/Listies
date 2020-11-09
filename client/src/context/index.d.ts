@@ -46,7 +46,7 @@ declare module "context" {
   export interface ItemContext extends ItemState {
     getItems: (listId: string) => void;
     setItems: (items: Item[], listId: string) => void;
-    pushItem: ({name: string}, listId: string) => void;
+    pushItem: ({ name: string }, listId: string) => void;
     addItem: (item: Item, listId: string) => void;
     editItem: (item: Item) => void;
     pushEditItem: (item: Item) => void;

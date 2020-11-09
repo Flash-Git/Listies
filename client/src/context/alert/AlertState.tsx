@@ -1,5 +1,5 @@
 import React, { FC, useReducer } from "react";
-import {v4 as uuid} from "uuid";
+import { v4 as uuid } from "uuid";
 
 import AlertContext from "./AlertContext";
 import AlertReducer from "./AlertReducer";
