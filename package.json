@@ -27,7 +27,7 @@
     "dev": "concurrently \"yarn start\" \"yarn client\"",
     "devInstall": "yarn install; yarn clientInstall",
     "devUpgrade": "yarn upgrade; cd client; yarn upgrade",
-    "heroku-postbuild": "cd client && yarn && yarn run build"
+    "heroku-postbuild": "cd client; yarn && yarn build"
   },
   "repository": {
     "type": "git"
