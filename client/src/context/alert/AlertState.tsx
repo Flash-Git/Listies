@@ -1,5 +1,5 @@
 import React, { FC, useReducer } from "react";
-import uuid from "uuid";
+import {v4 as uuid} from "uuid";
 
 import AlertContext from "./AlertContext";
 import AlertReducer from "./AlertReducer";
@@ -18,7 +18,7 @@ const AlertState: FC = props => {
    */
 
   const addAlert: AddAlert = (msg, type, timeout = 5000) => {
-    const id = uuid.v4();
+    const id = uuid();
     dispatch({
       type: ADD_ALERT,
       payload: { msg, type, id }
