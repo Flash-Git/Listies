@@ -5,17 +5,17 @@ import ItemContext from "../../context/item/ItemContext";
 import AlertContext from "../../context/alert/AlertContext";
 import Exporter from "../layout/Exporter";
 
-import { Item, List, ItemContext as IItemContext } from "context";
+import { List, ItemContext as IItemContext, AlertContext as IAlertContext } from "context";
 
 interface Props {
   currentList: List;
 }
 
 const ItemForm: FC<Props> = ({ currentList }) => {
-  const itemContext = useContext(ItemContext); //IItemContext
+  const itemContext: IItemContext = useContext(ItemContext); //IItemContext
   const { error, pushItem, sortItems, clearErrors } = itemContext;
 
-  const alertContext = useContext(AlertContext);
+  const alertContext: IAlertContext = useContext(AlertContext);
   const { addAlert } = alertContext;
 
   // List

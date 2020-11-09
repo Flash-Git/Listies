@@ -17,7 +17,7 @@ import {
 
 import ListContext from "../list/ListContext";
 
-import { AuthState as IAuthState } from "context";
+import { AuthState as IAuthState, ListContext as IListContext } from "context";
 
 const AuthState: FC = props => {
   const initialState: IAuthState = {
@@ -30,7 +30,7 @@ const AuthState: FC = props => {
 
   const [state, dispatch] = useReducer(AuthReducer, initialState);
 
-  const listContext = useContext(ListContext);
+  const listContext: IListContext = useContext(ListContext);
   const { setCurrentList, setHidden } = listContext;
 
   /*

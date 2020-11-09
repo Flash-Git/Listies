@@ -24,8 +24,10 @@ const ItemReducer = (state: ItemState, action: Action): ItemState => {
       return {
         ...state,
         items: action.payload.map((item: Item) => {
-          item.id = item._id as string;
-          delete item._id;
+          if(item._id !== undefined) {
+            item.id = item._id;
+            delete item._id;
+          }
           return item;
         }),
         loading: false

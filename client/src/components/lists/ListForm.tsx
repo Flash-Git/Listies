@@ -2,10 +2,10 @@ import React, { useState, useContext, useEffect, FC } from "react";
 
 import AlertContext from "../../context/alert/AlertContext";
 import ListContext from "../../context/list/ListContext";
-import { ListContext as IListContext, List } from "context";
+import { List, AlertContext as IAlertContext, ListContext as IListContext } from "context";
 
 const ListForm: FC = () => {
-  const alertContext = useContext(AlertContext);
+  const alertContext: IAlertContext = useContext(AlertContext);
   const { addAlert } = alertContext;
 
   const listContext: IListContext = useContext(ListContext);

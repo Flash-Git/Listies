@@ -72,7 +72,7 @@ const ItemState: FC = props => {
     if (state.items.length > 1) dispatch({ type: SORT_ITEMS });
   };
 
-  const pushItem = async (item: Item, listId: string) => {
+  const pushItem = async (item: {name: string}, listId: string) => {
     const config: any = {
       header: {
         "Content-Type": "application/json"
