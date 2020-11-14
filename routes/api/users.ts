@@ -1,15 +1,15 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const { check } = require("express-validator");
-const config = require("config");
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { check } from "express-validator";
+import config from "config";
 
-const User = require("../../models/User");
+import User from "../../models/User";
 const handleErrors = require("./handleErrors");
 
 // @route   POST api/users
-// @desc    Register a users
+// @desc    Register a user
 // @access  PUBLIC
 router.post(
   "/",

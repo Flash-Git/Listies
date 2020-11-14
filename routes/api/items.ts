@@ -1,4 +1,4 @@
-express = require("express");
+import express from "express";
 const router = express.Router();
 const { check } = require("express-validator");
 
@@ -7,7 +7,7 @@ const handleErrors = require("./handleErrors");
 const auth = require("../../middleware/auth");
 
 // Models
-const Item = require("../../models/Item");
+import Item from "../../models/Item";
 
 module.exports = getSocket => {
   // @route   GET api/items/:id
@@ -73,8 +73,14 @@ module.exports = getSocket => {
 
       const { name, checked, importance, note } = req.body;
 
+      type fields = {
+        name?: string;
+        checked?: boolean;
+        importance?: number;
+        note?: string;
+      };
       // Build item object
-      const itemFields = {};
+      const itemFields: fields = {};
       if (name !== undefined) itemFields.name = name;
       if (checked !== undefined) itemFields.checked = checked;
       if (importance !== undefined) itemFields.importance = importance;
@@ -135,5 +141,6 @@ module.exports = getSocket => {
       res.status(500).send({ msg: "Server Error" });
     }
   });
+
   return router;
 };

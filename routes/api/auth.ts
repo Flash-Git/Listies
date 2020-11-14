@@ -6,7 +6,7 @@ const { check } = require("express-validator");
 const config = require("config");
 
 const auth = require("../../middleware/auth");
-const User = require("../../models/User");
+import User from "../../models/User";
 const handleErrors = require("./handleErrors");
 
 // @route   GET api/auth
