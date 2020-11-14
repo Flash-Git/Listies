@@ -1,8 +1,9 @@
 import express, { Express, Request, Response } from "express";
+import { Socket, Server as SocketServer } from "socket.io";
 import path from "path";
 import dotenv from "dotenv";
+
 import connectDB from "../config/db";
-import { Socket } from "socket.io";
 
 import usersRoutes from "../routes/api/users";
 import authRoutes from "../routes/api/auth";
@@ -14,7 +15,7 @@ if (process.env.NODE_ENV !== "production") dotenv.config();
 class Server {
   private app: Express;
   private sockets: Socket[] = [];
-  private io;
+  private io: SocketServer;
 
   constructor(app: Express) {
     this.app = app;
@@ -25,13 +26,14 @@ class Server {
     //Init Middleware
     this.app.use(express.json());
 
-    const getSockets = () => this.sockets;
-
     // Define Routes
     this.app.use("/api/users", usersRoutes);
     this.app.use("/api/auth", authRoutes);
     this.app.use("/api/lists", listsRoutes);
-    this.app.use("/api/items", itemsRoutes(getSockets));
+    this.app.use(
+      "/api/items",
+      itemsRoutes(() => this.sockets)
+    );
 
     // Serve static assets in production
     if (process.env.NODE_ENV === "production") {

@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import config from "config";
 
-module.exports = (req, res, next) => {
+const auth: any = (req, res, next) => {
   //Get token from header
   const token = req.header("x-auth-token");
 
@@ -24,3 +24,5 @@ module.exports = (req, res, next) => {
     res.status(401).json({ msg: "Invalid token, authorization denied" });
   }
 };
+
+export default auth;

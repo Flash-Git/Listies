@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import { check } from "express-validator";
 import config from "config";
 
-const auth = require("../../middleware/auth");
+import auth from "../../middleware/auth";
 import User from "../../models/User";
 import handleErrors from "./handleErrors";
 

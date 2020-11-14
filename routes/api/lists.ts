@@ -4,7 +4,7 @@ import { check } from "express-validator";
 
 import handleErrors from "./handleErrors";
 
-const auth = require("../../middleware/auth");
+import auth from "../../middleware/auth";
 
 // Models
 import List from "../../models/List";

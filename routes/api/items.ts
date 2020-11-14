@@ -1,13 +1,15 @@
 import express from "express";
 const router = express.Router();
-const { check } = require("express-validator");
+import { check } from "express-validator";
 
 import handleErrors from "./handleErrors";
 
-const auth = require("../../middleware/auth");
+import auth from "../../middleware/auth";
 
 // Models
 import Item from "../../models/Item";
+import { Socket } from "socket.io";
+import { IItem } from "models";
 
 const ItemRoutes = getSocket => {
   // @route   GET api/items/:id
@@ -48,10 +50,12 @@ const ItemRoutes = getSocket => {
           list: req.params.id
         });
 
-        const item = await newItem.save();
+        const item: IItem = await newItem.save();
 
         // Emit
-        getSocket().map(socket => socket.emit("addItem", item, listId));
+        getSocket().map((socket: Socket) =>
+          socket.emit("addItem", item, listId)
+        );
 
         res.json(item);
       } catch (e) {
