@@ -2,7 +2,7 @@ import express from "express";
 const router = express.Router();
 const { check } = require("express-validator");
 
-const handleErrors = require("./handleErrors");
+import handleErrors from "./handleErrors";
 
 const auth = require("../../middleware/auth");
 

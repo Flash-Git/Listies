@@ -6,7 +6,7 @@ import { check } from "express-validator";
 import config from "config";
 
 import User from "../../models/User";
-const handleErrors = require("./handleErrors");
+import handleErrors from "./handleErrors";
 
 // @route   POST api/users
 // @desc    Register a user

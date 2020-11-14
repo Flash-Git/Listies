@@ -7,7 +7,7 @@ const config = require("config");
 
 const auth = require("../../middleware/auth");
 import User from "../../models/User";
-const handleErrors = require("./handleErrors");
+import handleErrors from "./handleErrors";
 
 // @route   GET api/auth
 // @desc    Get logged in user

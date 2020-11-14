@@ -11,4 +11,4 @@ const handleErrors = (req, res) => {
   return false;
 };
 
-module.exports = handleErrors;
+export default handleErrors;
