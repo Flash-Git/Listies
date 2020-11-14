@@ -34,13 +34,13 @@
     "serverInstall": "yarn",
     "serverBuild": "npx tsc",
     "client": "yarn --cwd ./client start",
-    "clientInstall": "yarn --cwd",
+    "clientInstall": "yarn --cwd ./client/",
     "clientBuild": "yarn --cwd ./client/ build",
     "dev": "concurrently \"yarn server\" \"yarn client\"",
     "devInstall": "yarn serverInstall && yarn clientInstall",
     "devUpgrade": "yarn upgrade && yarn --cwd ./client/ upgrade",
     "devBuild": "yarn serverBuild && yarn clientBuild",
-    "heroku-postbuild": "yarn && yarn serverBuild && cd client; yarn && yarn build"
+    "heroku-postbuild": "yarn devInstall && yarn devBuild"
   },
   "repository": {
     "type": "git"

@@ -39,7 +39,7 @@ class Server {
     if (process.env.NODE_ENV === "production") {
       this.app.use(express.static("client/build"));
       this.app.get("*", (req: Request, res: Response): void =>
-        res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
+        res.sendFile(path.resolve(__dirname, "build", "index.html"))
       );
     }
   }
