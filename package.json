@@ -40,7 +40,7 @@
     "devInstall": "yarn serverInstall && yarn clientInstall",
     "devUpgrade": "yarn upgrade && yarn --cwd ./client/ upgrade",
     "devBuild": "yarn serverBuild && yarn clientBuild",
-    "heroku-postbuild": "yarn devInstall && yarn devBuild"
+    "heroku-postbuild": "yarn && yarn serverBuild && cd client; yarn && yarn build"
   },
   "repository": {
     "type": "git"
