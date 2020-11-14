@@ -1,22 +1,22 @@
-express = require("express");
+import express from "express";
 const router = express.Router();
-const { check } = require("express-validator");
+import { check } from "express-validator";
 
-const handleErrors = require("./handleErrors");
+import handleErrors from "./handleErrors";
 
-const auth = require("../../middleware/auth");
+import auth from "../../middleware/auth";
 
 // Models
-const List = require("../../models/List");
-const User = require("../../models/User");
+import List from "../../models/List";
+import User from "../../models/User";
 
 // @route   GET api/lists
 // @desc    Get all user's lists
 // @access  PRIVATE
-router.get("/", auth, async (req, res) => {
+router.get("/", auth, async (req: any, res) => {
   try {
     //Get lists by most recent
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(req.user.id); // TODO was req.user.id
     let lists = await Promise.all(
       user.accessCodes.map(accessCode => {
         return List.findOne({ accessCode }).sort({
@@ -24,7 +24,7 @@ router.get("/", auth, async (req, res) => {
         });
       })
     );
-    let personalLists = await List.find({ user: req.user.id });
+    let personalLists = await List.find({ user: req.user.id }); // TODO was req.user.id
 
     lists = lists.filter(list => list !== null);
     res.json([...lists, ...personalLists]);
@@ -62,7 +62,7 @@ router.post(
       // Existing public list
       if (exists) {
         res.json(exists);
-        await User.findById(req.user.id).updateOne({
+        await (await User.findById(req.user.id)).updateOne({
           $push: { accessCodes: exists.accessCode }
         });
 
@@ -79,7 +79,7 @@ router.post(
       if (accessCode === "") return;
 
       // New public list
-      await User.findById(req.user.id).updateOne({
+      await (await User.findById(req.user.id)).updateOne({
         $push: { accessCodes: accessCode }
       });
     } catch (e) {
@@ -92,7 +92,7 @@ router.post(
 // @route   DELETE api/lists
 // @desc    Delete a user's list
 // @access  PRIVATE
-router.delete("/:id", auth, async (req, res) => {
+router.delete("/:id", auth, async (req: any, res) => {
   try {
     const listId = req.params.id;
 
@@ -107,6 +107,7 @@ router.delete("/:id", auth, async (req, res) => {
       // Shared list
     } else {
       await User.findByIdAndUpdate(req.user.id, {
+        // TODO check was req.user.id
         $pull: { accessCodes: accessCode }
       });
       await List.findByIdAndUpdate(listId, { count: --list.count });
@@ -119,4 +120,4 @@ router.delete("/:id", auth, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

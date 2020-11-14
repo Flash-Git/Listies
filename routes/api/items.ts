@@ -1,15 +1,17 @@
-express = require("express");
+import express from "express";
 const router = express.Router();
-const { check } = require("express-validator");
+import { check } from "express-validator";
 
-const handleErrors = require("./handleErrors");
+import handleErrors from "./handleErrors";
 
-const auth = require("../../middleware/auth");
+import auth from "../../middleware/auth";
 
 // Models
-const Item = require("../../models/Item");
+import Item from "../../models/Item";
+import { Socket } from "socket.io";
+import { IItem } from "models";
 
-module.exports = getSocket => {
+const ItemRoutes = getSocket => {
   // @route   GET api/items/:id
   // @desc    Get all list's items
   // @access  PRIVATE
@@ -48,10 +50,12 @@ module.exports = getSocket => {
           list: req.params.id
         });
 
-        const item = await newItem.save();
+        const item: IItem = await newItem.save();
 
         // Emit
-        getSocket().map(socket => socket.emit("addItem", item, listId));
+        getSocket().map((socket: Socket) =>
+          socket.emit("addItem", item, listId)
+        );
 
         res.json(item);
       } catch (e) {
@@ -73,8 +77,14 @@ module.exports = getSocket => {
 
       const { name, checked, importance, note } = req.body;
 
+      type fields = {
+        name?: string;
+        checked?: boolean;
+        importance?: number;
+        note?: string;
+      };
       // Build item object
-      const itemFields = {};
+      const itemFields: fields = {};
       if (name !== undefined) itemFields.name = name;
       if (checked !== undefined) itemFields.checked = checked;
       if (importance !== undefined) itemFields.importance = importance;
@@ -135,5 +145,8 @@ module.exports = getSocket => {
       res.status(500).send({ msg: "Server Error" });
     }
   });
+
   return router;
 };
+
+export default ItemRoutes;

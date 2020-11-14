@@ -1,8 +1,7 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+import mongoose, { Schema } from "mongoose";
+import { IList } from ".";
 
-//Create scema
-const ListSchema = new Schema({
+const ListSchema: Schema = new Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "users"
@@ -25,4 +24,6 @@ const ListSchema = new Schema({
   }
 });
 
-module.exports = List = mongoose.model("list", ListSchema);
+const List = mongoose.model<IList>("list", ListSchema);
+
+export default List;

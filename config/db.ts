@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const config = require("config");
+import mongoose from "mongoose";
+import config from "config";
 
 let db;
 if (process.env.NODE_ENV === "production") {
@@ -23,4 +23,4 @@ const connectDB = () => {
     });
 };
 
-module.exports = connectDB;
+export default connectDB;

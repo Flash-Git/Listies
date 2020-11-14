@@ -1,8 +1,7 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+import mongoose, { Schema } from "mongoose";
+import { IItem } from ".";
 
-//Create scema
-const ItemSchema = new Schema({
+const ItemSchema: Schema = new Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "users"
@@ -33,4 +32,6 @@ const ItemSchema = new Schema({
   }
 });
 
-module.exports = Item = mongoose.model("item", ItemSchema);
+const Item = mongoose.model<IItem>("item", ItemSchema);
+
+export default Item;
