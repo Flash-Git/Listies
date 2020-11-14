@@ -120,4 +120,4 @@ router.delete("/:id", auth, async (req: any, res) => {
   }
 });
 
-module.exports = router;
+export default router;

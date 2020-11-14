@@ -4,6 +4,11 @@ import dotenv from "dotenv";
 import connectDB from "../config/db";
 import { Socket } from "socket.io";
 
+import usersRoutes from "../routes/api/users";
+import authRoutes from "../routes/api/auth";
+import listsRoutes from "../routes/api/lists";
+import itemsRoutes from "../routes/api/items";
+
 if (process.env.NODE_ENV !== "production") dotenv.config();
 
 class Server {
@@ -23,11 +28,10 @@ class Server {
     const getSockets = () => this.sockets;
 
     // Define Routes
-    this.app.use("/api/users", require("../routes/api/users"));
-    this.app.use("/api/auth", require("../routes/api/auth"));
-    this.app.use("/api/lists", require("../routes/api/lists"));
-    const router = require("../routes/api/items")(getSockets);
-    this.app.use("/api/items", router);
+    this.app.use("/api/users", usersRoutes);
+    this.app.use("/api/auth", authRoutes);
+    this.app.use("/api/lists", listsRoutes);
+    this.app.use("/api/items", itemsRoutes(getSockets));
 
     // Serve static assets in production
     if (process.env.NODE_ENV === "production") {

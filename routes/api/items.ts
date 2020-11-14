@@ -9,7 +9,7 @@ const auth = require("../../middleware/auth");
 // Models
 import Item from "../../models/Item";
 
-module.exports = getSocket => {
+const ItemRoutes = getSocket => {
   // @route   GET api/items/:id
   // @desc    Get all list's items
   // @access  PRIVATE
@@ -144,3 +144,5 @@ module.exports = getSocket => {
 
   return router;
 };
+
+export default ItemRoutes;
