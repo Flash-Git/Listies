@@ -29,14 +29,18 @@
     "nodemon": "^2.0.6"
   },
   "scripts": {
-    "start": "ts-node index.ts",
+    "start": "NODE_ENV=production node build/index.js",
     "server": "nodemon index.ts",
-    "client": "cd client; yarn start",
-    "clientInstall": "cd client; yarn install",
-    "dev": "concurrently \"yarn start\" \"yarn client\"",
-    "devInstall": "yarn install; yarn clientInstall",
-    "devUpgrade": "yarn upgrade; cd client; yarn upgrade",
-    "heroku-postbuild": "cd client; yarn && yarn build"
+    "serverInstall": "yarn",
+    "serverBuild": "npx tsc",
+    "client": "yarn --cwd ./client start",
+    "clientInstall": "yarn --cwd",
+    "clientBuild": "yarn --cwd ./client/ build",
+    "dev": "concurrently \"yarn server\" \"yarn client\"",
+    "devInstall": "yarn serverInstall && yarn clientInstall",
+    "devUpgrade": "yarn upgrade && yarn --cwd ./client/ upgrade",
+    "devBuild": "yarn serverBuild && yarn clientBuild",
+    "heroku-postbuild": "yarn devInstall && yarn devBuild"
   },
   "repository": {
     "type": "git"
