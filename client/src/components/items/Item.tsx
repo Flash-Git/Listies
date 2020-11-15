@@ -80,7 +80,6 @@ const Item: FC<Props> = ({ item }) => {
           padding: 0,
           flexGrow: 1,
           flexShrink: 1,
-          background: "#fff",
           maxWidth: "14.8rem"
         }}
       >
@@ -101,7 +100,6 @@ const Item: FC<Props> = ({ item }) => {
             marginLeft: "0.5rem",
             // padding: "0.1rem 0.6rem",
             // marginRight: "0",
-            background: "#fff",
             color: "red",
             alignSelf: "flex-end",
             justifySelf: "center"

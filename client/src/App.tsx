@@ -14,7 +14,8 @@ import {
   faSignOutAlt,
   faListUl,
   faTimes,
-  faSortUp
+  faSortUp,
+  faMoon
 } from "@fortawesome/free-solid-svg-icons";
 
 import Navbar from "./components/layout/Navbar";
@@ -47,7 +48,8 @@ library.add(
   faSignOutAlt,
   faListUl,
   faTimes,
-  faSortUp
+  faSortUp,
+  faMoon
 );
 
 localStorage.token && setAuthToken(localStorage.token);

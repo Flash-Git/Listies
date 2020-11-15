@@ -1,10 +1,9 @@
 import React, { Fragment, useContext, FC } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 import AuthContext from "../../context/auth/AuthContext";
-
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 import { AuthContext as IAuthContext } from "context";
 
