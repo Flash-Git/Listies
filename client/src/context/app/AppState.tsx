@@ -5,7 +5,12 @@ import socketIOClient from "socket.io-client";
 import AppContext from "./AppContext";
 import AppReducer from "./AppReducer";
 
-import { SET_SOCKET, CLEAR_SOCKET, TOGGLE_DARK_MODE } from "../types";
+import {
+  SET_SOCKET,
+  CLEAR_SOCKET,
+  TOGGLE_DARK_MODE,
+  SET_DARK_MODE
+} from "../types";
 
 import {
   AppState as IAppState,
@@ -13,7 +18,9 @@ import {
   CloseSocket,
   ClearSocket,
   SetSocket,
-  ResetSocket
+  ResetSocket,
+  ToggleDarkMode,
+  SetDarkMode
 } from "context";
 
 const AppState: FC = props => {
@@ -60,9 +67,16 @@ const AppState: FC = props => {
     initialiseSocket();
   };
 
-  const toggleDarkMode = () => {
+  const toggleDarkMode: ToggleDarkMode = () => {
     dispatch({
       type: TOGGLE_DARK_MODE
+    });
+  };
+
+  const setDarkMode: SetDarkMode = darkMode => {
+    dispatch({
+      type: SET_DARK_MODE,
+      payload: darkMode
     });
   };
 
@@ -70,11 +84,13 @@ const AppState: FC = props => {
     <AppContext.Provider
       value={{
         socket: state.socket,
+        darkMode: state.darkMode,
         initialiseSocket,
         clearSocket,
         setSocket,
         resetSocket,
-        toggleDarkMode
+        toggleDarkMode,
+        setDarkMode
       }}
     >
       {props.children}

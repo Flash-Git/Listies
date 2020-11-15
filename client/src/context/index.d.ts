@@ -22,6 +22,8 @@ declare module "context" {
 
   export type ToggleDarkMode = () => void;
 
+  export type SetDarkMode = (darkMode: boolean) => void;
+
   export type AppState = {
     socket: Socket | null;
     darkMode: boolean;
@@ -34,6 +36,7 @@ declare module "context" {
     setSocket: SetSocket;
     resetSocket: ResetSocket;
     toggleDarkMode: ToggleDarkMode;
+    setDarkMode: SetDarkMode;
   }
 
   /*
