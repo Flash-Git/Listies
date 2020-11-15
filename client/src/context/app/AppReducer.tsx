@@ -1,8 +1,8 @@
-import { SET_SOCKET, CLEAR_SOCKET } from "../types";
+import { SET_SOCKET, CLEAR_SOCKET, TOGGLE_DARK_MODE } from "../types";
 
 import { Action, AppState } from "context";
 
-const AlertReducer = (state: AppState, action: Action): AppState => {
+const AppReducer = (state: AppState, action: Action): AppState => {
   switch (action.type) {
     case SET_SOCKET:
       return {
@@ -14,9 +14,14 @@ const AlertReducer = (state: AppState, action: Action): AppState => {
         ...state,
         socket: null
       };
+    case TOGGLE_DARK_MODE:
+      return {
+        ...state,
+        darkMode: !state.darkMode
+      };
     default:
       return state;
   }
 };
 
-export default AlertReducer;
+export default AppReducer;

@@ -5,7 +5,7 @@ import socketIOClient from "socket.io-client";
 import AppContext from "./AppContext";
 import AppReducer from "./AppReducer";
 
-import { SET_SOCKET, CLEAR_SOCKET } from "../types";
+import { SET_SOCKET, CLEAR_SOCKET, TOGGLE_DARK_MODE } from "../types";
 
 import {
   AppState as IAppState,
@@ -18,7 +18,8 @@ import {
 
 const AppState: FC = props => {
   const initialState: IAppState = {
-    socket: null
+    socket: null,
+    darkMode: false
   };
 
   const [state, dispatch] = useReducer(AppReducer, initialState);
@@ -59,6 +60,12 @@ const AppState: FC = props => {
     initialiseSocket();
   };
 
+  const toggleDarkMode = () => {
+    dispatch({
+      type: TOGGLE_DARK_MODE
+    });
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -66,7 +73,8 @@ const AppState: FC = props => {
         initialiseSocket,
         clearSocket,
         setSocket,
-        resetSocket
+        resetSocket,
+        toggleDarkMode
       }}
     >
       {props.children}
