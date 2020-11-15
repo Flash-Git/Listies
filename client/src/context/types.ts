@@ -1,5 +1,6 @@
 // App
 export const SET_SOCKET: string = "SET_SOCKET";
+export const CLEAR_SOCKET: string = "CLEAR_SOCKET";
 
 // Alert
 export const ADD_ALERT: string = "ADD_ALERT";

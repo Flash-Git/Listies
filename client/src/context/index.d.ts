@@ -1,4 +1,6 @@
 declare module "context" {
+  import { Socket } from "socket.io-client";
+
   export type Action = {
     payload?: any;
     type: string;
@@ -8,20 +10,26 @@ declare module "context" {
    * App
    */
 
-  export type Socket = any;
+  export type InitialiseSocket = () => void;
+
+  export type CloseSocket = () => void;
+
+  export type ClearSocket = () => void;
 
   export type SetSocket = (socket: Socket) => void;
 
-  export type InitialiseSocket = () => void;
+  export type ResetSocket = () => void;
 
   export type AppState = {
-    socket: Socket;
+    socket: Socket | null;
   };
 
   export interface AppContext extends AppState {
-    resetSocket: () => void;
-    setSocket: (socket: Socket) => void;
-    initialiseSocket: () => void;
+    initialiseSocket: InitialiseSocket;
+    closeSocket: CloseSocket;
+    clearSocket: ClearSocket;
+    setSocket: SetSocket;
+    resetSocket: ResetSocket;
   }
 
   /*
