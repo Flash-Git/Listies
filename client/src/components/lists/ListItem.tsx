@@ -32,14 +32,13 @@ const ListItem: FC<Props> = ({ list }) => {
         display: "flex",
         alignItems: "center",
         padding: "0.7rem",
-        background: "#fff",
         boxShadow: "0 0 2px 0px rgba(0,0,0,0.35)"
       }}
     >
       <button
         className="btn btn-discreet text-left px"
         onClick={onSelect}
-        style={{ flexGrow: 1, background: "#fff" }}
+        style={{ flexGrow: 1 }}
       >
         <h3 className="text-left">{name}</h3>
       </button>

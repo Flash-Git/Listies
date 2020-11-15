@@ -4,9 +4,20 @@
 :root {
   --primary-color: #003699;
   --dark-color: #333333;
-  --light-color: #f4f4f4;
+  --light-color: #ffffff;
   --danger-color: #dc3545;
   --success-color: #28a745;
+  --input-bg-color: #fff;
+  --border-light-color: #ccc;
+}
+
+html.dark {
+  --primary-color: #74a4ff;
+  --dark-color: #ffffff;
+  --light-color: #353535;
+  --input-color: #222630;
+  --input-bg-color: #555;
+  --border-light-color: #777;
 }
 
 * {
@@ -19,8 +30,8 @@ body {
   font-family: "Roboto", sans-serif;
   font-size: 1rem;
   line-height: 1.6;
-  background-color: #fff;
-  color: #333;
+  background-color: var(--light-color);
+  color: var(--dark-color);
 }
 
 a {
@@ -98,7 +109,7 @@ img {
 /* Cards */
 .card {
   padding: 0.3rem;
-  border: #ccc 1px solid;
+  border: var(--border-light-color) 1px solid;
   margin: 0.4rem 0;
 }
 
@@ -281,7 +292,7 @@ img {
 .btn {
   display: inline-block;
   background: var(--light-color);
-  color: #333;
+  color: var(--dark-color);
   padding: 0.4rem 1rem;
   font-size: 1.1rem;
   border: none;
@@ -291,6 +302,7 @@ img {
 }
 
 .btn-link {
+  color: var(--primary-color);
   background: none;
   padding: 0;
   margin: 0;
@@ -329,7 +341,7 @@ img {
   text-align: center;
   margin: 0.3rem;
   background: var(--light-color);
-  color: #333;
+  color: var(--dark-color);
   border-radius: 5px;
 }
 
@@ -342,7 +354,7 @@ img {
   margin-bottom: 0.7rem;
   opacity: 0.9;
   background: var(--light-color);
-  color: #333;
+  color: var(--dark-color);
 }
 
 .btn-primary,
@@ -350,7 +362,7 @@ img {
 .badge-primary,
 .alert-primary {
   background: var(--primary-color);
-  color: #fff;
+  color: var(--light-color);
 }
 
 .btn-light,
@@ -358,7 +370,7 @@ img {
 .badge-light,
 .alert-light {
   background: var(--light-color);
-  color: #333;
+  color: var(--dark-color);
 }
 
 .btn-dark,
@@ -366,7 +378,7 @@ img {
 .badge-dark,
 .alert-dark {
   background: var(--dark-color);
-  color: #fff;
+  color: var(--light-color);
 }
 
 .btn-danger,
@@ -374,7 +386,7 @@ img {
 .badge-danger,
 .alert-danger {
   background: var(--danger-color);
-  color: #fff;
+  color: var(--light-color);
 }
 
 .btn-success,
@@ -382,16 +394,16 @@ img {
 .badge-success,
 .alert-success {
   background: var(--success-color);
-  color: #fff;
+  color: var(--light-color);
 }
 
 .btn-white,
 .bg-white,
 .badge-white,
 .alert-white {
-  background: #fff;
-  color: #333;
-  border: #ccc solid 1px;
+  background: var(--light-color);
+  color: var(--dark-color);
+  border: var(--border-light-color) solid 1px;
 }
 
 .btn:hover {
@@ -400,7 +412,7 @@ img {
 
 .bg-light,
 .badge-light {
-  border: #ccc solid 1px;
+  border: var(--dark-color) solid 1px;
 }
 
 .round-img {
@@ -410,12 +422,13 @@ img {
 /* Forms */
 input {
   margin: 1rem 0;
+  background-color: var(--input-bg-color);
+  color: var(--input-color);
 }
 
 .form-text {
   display: block;
   margin-top: 0.3rem;
-  color: #888;
 }
 
 input[type="text"],
@@ -428,7 +441,7 @@ textarea {
   width: 100%;
   padding: 0.2rem;
   font-size: 1.1rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-light-color);
 }
 
 input[type="submit"],
@@ -485,7 +498,7 @@ table th {
 }
 
 .navbar a {
-  color: #fff;
+  color: var(--light-color);
   padding: 0.45rem;
   margin: 0 0.25rem;
 }
@@ -524,15 +537,6 @@ table th {
   .grid-3,
   .grid-4 {
     grid-template-columns: 1fr;
-  }
-
-  /* Text Styles */
-  .x-large {
-    font-size: 3rem;
-  }
-
-  .large {
-    font-size: 2rem;
   }
 
   .lead {

@@ -8,6 +8,8 @@ import ListForm from "../lists/ListForm";
 import Items from "../items/Items";
 import ItemForm from "../items/ItemForm";
 
+import DarkToggle from "../layout/DarkToggle";
+
 import AppContext from "../../context/app/AppContext";
 import AuthContext from "../../context/auth/AuthContext";
 import ListContext from "../../context/list/ListContext";
@@ -55,6 +57,18 @@ const Home: FC = () => {
         marginTop: "0.7rem"
       }}
     >
+      <div
+        style={{
+          position: "absolute",
+          right: "0.5rem",
+          paddingLeft: "0.8rem",
+          paddingRight: "0.8rem",
+          marginTop: "-0.5rem"
+        }}
+      >
+        <DarkToggle />
+      </div>
+
       <button
         onClick={toggleList}
         className="btn btn-sm btn-primary mx"
@@ -67,6 +81,7 @@ const Home: FC = () => {
       >
         <FontAwesomeIcon icon={["fas", "bars"]} />
       </button>
+
       {!hidden && (
         <div
           className="px-1 mbot-2"

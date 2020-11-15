@@ -109,8 +109,7 @@ const ItemForm: FC<Props> = ({ currentList }) => {
         style={{
           float: "right",
           marginRight: "1rem",
-          height: "2.4rem",
-          color: "#003699"
+          height: "2.4rem"
         }}
         onClick={sortItems}
       >
