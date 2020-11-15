@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useState, Fragment, FC } from "react";
+import React, { useContext, useEffect, useState, FC } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import Item from "./Item";
 import Spinner from "../layout/Spinner";
-import { useMountEffect } from "../../functions/hooks";
 
 import AppContext from "../../context/app/AppContext";
 import ItemContext from "../../context/item/ItemContext";
@@ -35,7 +34,9 @@ const Items: FC<Props> = ({ currentList }) => {
     clearItems
   } = itemContext;
 
-  useMountEffect(() => {
+  useEffect(() => {
+    if (socket === null) return;
+
     socket.on("addItem", (item: IItem, listId: string) => {
       // Cannot access currentList prop
       const lsList = JSON.parse(localStorage["currentList"]);
@@ -48,7 +49,7 @@ const Items: FC<Props> = ({ currentList }) => {
     socket.on("deleteItem", (itemId: string) => {
       deleteItem(itemId);
     });
-  });
+  }, [socket]);
 
   useEffect(() => {
     currentList ? getItems(currentList.id) : clearItems();
