@@ -1,15 +1,15 @@
 import express from "express";
 const router = express.Router();
 import { check } from "express-validator";
+import { Socket } from "socket.io";
 
 import handleErrors from "./handleErrors";
 
 import auth from "../../middleware/auth";
 
 // Models
-import Item from "../../models/Item";
-import { Socket } from "socket.io";
 import { IItem } from "models";
+import Item from "../../models/Item";
 
 const ItemRoutes = getSocket => {
   // @route   GET api/items/:id
@@ -18,7 +18,7 @@ const ItemRoutes = getSocket => {
   router.get("/:id", auth, async (req, res) => {
     try {
       // Get items by most recent
-      const items = await Item.find({
+      const items: IItem[] = await Item.find({
         // user: req.user.id,
         list: req.params.id
       }).sort({
@@ -44,7 +44,7 @@ const ItemRoutes = getSocket => {
       const listId = req.body.listId;
 
       try {
-        const newItem = new Item({
+        const newItem: IItem = new Item({
           name,
           user: req.user.id,
           list: req.params.id
@@ -91,7 +91,7 @@ const ItemRoutes = getSocket => {
       if (note !== undefined) itemFields.note = note;
 
       try {
-        let item = await Item.findById(req.params.itemId);
+        let item: IItem = await Item.findById(req.params.itemId);
         if (!item) return res.status(404).send({ msg: "Item not found" });
 
         // Validate that user owns item
@@ -126,7 +126,7 @@ const ItemRoutes = getSocket => {
   router.delete("/:itemId", auth, async (req, res) => {
     try {
       const { itemId } = req.params;
-      let item = await Item.findById(itemId);
+      let item: IItem = await Item.findById(itemId);
       if (!item) return res.status(404).send({ msg: "Item not found" });
 
       // Validate that user owns item
