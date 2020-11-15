@@ -20,8 +20,13 @@ declare module "context" {
 
   export type ResetSocket = () => void;
 
+  export type ToggleDarkMode = () => void;
+
+  export type SetDarkMode = (darkMode: boolean) => void;
+
   export type AppState = {
     socket: Socket | null;
+    darkMode: boolean;
   };
 
   export interface AppContext extends AppState {
@@ -30,6 +35,8 @@ declare module "context" {
     clearSocket: ClearSocket;
     setSocket: SetSocket;
     resetSocket: ResetSocket;
+    toggleDarkMode: ToggleDarkMode;
+    setDarkMode: SetDarkMode;
   }
 
   /*

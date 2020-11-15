@@ -1,6 +1,8 @@
 // App
 export const SET_SOCKET: string = "SET_SOCKET";
 export const CLEAR_SOCKET: string = "CLEAR_SOCKET";
+export const TOGGLE_DARK_MODE: string = "TOGGLE_DARK_MODE";
+export const SET_DARK_MODE: string = "SET_DARK_MODE";
 
 // Alert
 export const ADD_ALERT: string = "ADD_ALERT";
