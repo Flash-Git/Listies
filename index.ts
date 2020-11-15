@@ -1,5 +1,6 @@
-import Server from "./server/server";
 import express from "express";
+
+import Server from "./server/server";
 
 const app = express();
 

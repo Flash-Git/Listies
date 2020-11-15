@@ -5,8 +5,11 @@ import jwt from "jsonwebtoken";
 import { check } from "express-validator";
 import config from "config";
 
-import User from "../../models/User";
 import handleErrors from "./handleErrors";
+
+// Models
+import { IUser } from "models";
+import User from "../../models/User";
 
 // @route   POST api/users
 // @desc    Register a user

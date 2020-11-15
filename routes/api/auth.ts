@@ -5,16 +5,20 @@ import jwt from "jsonwebtoken";
 import { check } from "express-validator";
 import config from "config";
 
-import auth from "../../middleware/auth";
-import User from "../../models/User";
 import handleErrors from "./handleErrors";
+
+import auth from "../../middleware/auth";
+
+// Models
+import { IUser } from "models";
+import User from "../../models/User";
 
 // @route   GET api/auth
 // @desc    Get logged in user
 // @access  PRIVATE
 router.get("/", auth, async (req: any, res) => {
   try {
-    const user = await User.findById(req.user.id).select("-password");
+    const user: IUser = await User.findById(req.user.id).select("-password");
     res.json(user);
   } catch (e) {
     console.error(e.message);
@@ -37,7 +41,7 @@ router.post(
     const { email, password } = req.body;
 
     try {
-      let user = await User.findOne({ email });
+      let user: IUser = await User.findOne({ email });
       if (!user) {
         return res.status(400).send({ msg: "Invalid Credentials" });
       }
