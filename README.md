@@ -1,6 +1,6 @@
 # Listies
 
-Listies is a [web app](https://listies.herokuapp.com/) for creating, managing and sharing lists.
+[Listies](https://listies.herokuapp.com/) is a web app for creating, managing and sharing lists.
 
 ## Requirements
 
@@ -8,9 +8,41 @@ Listies is a [web app](https://listies.herokuapp.com/) for creating, managing an
 
 - The scripts are built with [yarn](https://classic.yarnpkg.com/en/docs/install/) in mind but [npm](https://www.npmjs.com/get-npm) is fine.
 
+## Features
+
+- Dark Mode
+- Accounts
+- Automatic login
+- List Sharing
+- Importing/Exporting
+- Dynamic User Interface
+- Custom Ordering
+- Alerts
+
+## Technologies
+
+### Backend
+
+- Typescript
+- Express server
+- MongoDB
+- Account management with bcrypt password hashing
+- Token
+
+### Frontend
+
+- Typescript
+- React.js version num (hooks)
+- Routing
+- Authentication
+
+### Hosting
+
+- Heroku
+
 ## Installation
 
-Download the repo:
+Download the source code from the git repository:
 
 ```bash
 git clone git@github.com:Flash-Git/Listies.git
