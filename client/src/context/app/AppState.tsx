@@ -9,7 +9,7 @@ import {
   SET_SOCKET,
   CLEAR_SOCKET,
   TOGGLE_DARK_MODE,
-  SET_DARK_MODE
+  SET_DARK_MODE,
 } from "../types";
 
 import {
@@ -20,13 +20,13 @@ import {
   SetSocket,
   ResetSocket,
   ToggleDarkMode,
-  SetDarkMode
+  SetDarkMode,
 } from "context";
 
-const AppState: FC = props => {
+const AppState: FC = (props) => {
   const initialState: IAppState = {
     socket: null,
-    darkMode: false
+    darkMode: false,
   };
 
   const [state, dispatch] = useReducer(AppReducer, initialState);
@@ -49,7 +49,7 @@ const AppState: FC = props => {
     closeSocket();
 
     dispatch({
-      type: CLEAR_SOCKET
+      type: CLEAR_SOCKET,
     });
   };
   const setSocket: SetSocket = (socket: Socket) => {
@@ -57,7 +57,7 @@ const AppState: FC = props => {
 
     dispatch({
       type: SET_SOCKET,
-      payload: socket
+      payload: socket,
     });
   };
 
@@ -69,14 +69,14 @@ const AppState: FC = props => {
 
   const toggleDarkMode: ToggleDarkMode = () => {
     dispatch({
-      type: TOGGLE_DARK_MODE
+      type: TOGGLE_DARK_MODE,
     });
   };
 
-  const setDarkMode: SetDarkMode = darkMode => {
+  const setDarkMode: SetDarkMode = (darkMode) => {
     dispatch({
       type: SET_DARK_MODE,
-      payload: darkMode
+      payload: darkMode,
     });
   };
 
@@ -90,7 +90,7 @@ const AppState: FC = props => {
         setSocket,
         resetSocket,
         toggleDarkMode,
-        setDarkMode
+        setDarkMode,
       }}
     >
       {props.children}

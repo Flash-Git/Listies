@@ -16,18 +16,18 @@ import {
   CLEAR_LISTS,
   CLEAR_ERRORS,
   TOGGLE_HIDDEN,
-  SET_HIDDEN
+  SET_HIDDEN,
 } from "../types";
 
 import { List, ListState as IListState } from "context";
 
-const ListState: FC = props => {
+const ListState: FC = (props) => {
   const initialState: IListState = {
     lists: [],
     currentList: null,
     error: null,
     loading: true,
-    hidden: false
+    hidden: false,
   };
 
   const [state, dispatch] = useReducer(ListReducer, initialState);
@@ -54,8 +54,8 @@ const ListState: FC = props => {
   const addList = async (list: List) => {
     const config: any = {
       header: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     };
 
     try {
@@ -122,7 +122,7 @@ const ListState: FC = props => {
         clearLists,
         clearErrors,
         toggleHidden,
-        setHidden
+        setHidden,
       }}
     >
       {props.children}

@@ -33,7 +33,7 @@ router.post(
   "/",
   [
     check("email", "Please enter your email address").isEmail(),
-    check("password", "Please enter your password").exists()
+    check("password", "Please enter your password").exists(),
   ],
   async (req, res) => {
     if (handleErrors(req, res)) return;
@@ -54,8 +54,8 @@ router.post(
       //Token
       const payload = {
         user: {
-          id: user.id
-        }
+          id: user.id,
+        },
       };
 
       let jwtSecret;
@@ -69,7 +69,7 @@ router.post(
         jwtSecret,
         {
           // 14 days
-          expiresIn: 1209600
+          expiresIn: 1209600,
         },
         (err, token) => {
           if (err) throw err;

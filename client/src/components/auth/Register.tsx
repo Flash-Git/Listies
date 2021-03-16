@@ -7,7 +7,7 @@ import ListContext from "../../context/list/ListContext";
 import {
   AuthContext as IAuthContext,
   AlertContext as IAlertContext,
-  ListContext as IListContext
+  ListContext as IListContext,
 } from "context";
 
 interface Props {
@@ -27,7 +27,7 @@ const Register: FC<Props> = ({ history }) => {
     name: "",
     email: "",
     password: "",
-    password2: ""
+    password2: "",
   });
 
   const { name, email, password, password2 } = user;

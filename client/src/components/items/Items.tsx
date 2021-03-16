@@ -11,7 +11,7 @@ import {
   AppContext as IAppContext,
   Item as IItem,
   List,
-  ItemContext as IItemContext
+  ItemContext as IItemContext,
 } from "context";
 
 interface Props {
@@ -31,7 +31,7 @@ const Items: FC<Props> = ({ currentList }) => {
     getItems,
     setItems,
     deleteItem,
-    clearItems
+    clearItems,
   } = itemContext;
 
   useEffect(() => {
@@ -98,7 +98,7 @@ const Items: FC<Props> = ({ currentList }) => {
             <div
               className="drag"
               draggable
-              onDragStart={e => onDragStart(e, i, item.name)}
+              onDragStart={(e) => onDragStart(e, i, item.name)}
               onDragEnd={onDragEnd}
               onDragOver={() => onDragOver(i)}
             >

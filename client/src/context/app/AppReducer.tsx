@@ -2,7 +2,7 @@ import {
   SET_SOCKET,
   CLEAR_SOCKET,
   TOGGLE_DARK_MODE,
-  SET_DARK_MODE
+  SET_DARK_MODE,
 } from "../types";
 
 import { Action, AppState } from "context";
@@ -12,24 +12,24 @@ const AppReducer = (state: AppState, { type, payload }: Action): AppState => {
     case SET_SOCKET:
       return {
         ...state,
-        socket: payload
+        socket: payload,
       };
     case CLEAR_SOCKET:
       return {
         ...state,
-        socket: null
+        socket: null,
       };
     case TOGGLE_DARK_MODE:
       localStorage.setItem("darkMode", `${!state.darkMode}`);
 
       return {
         ...state,
-        darkMode: !state.darkMode
+        darkMode: !state.darkMode,
       };
     case SET_DARK_MODE:
       return {
         ...state,
-        darkMode: payload
+        darkMode: payload,
       };
     default:
       return state;

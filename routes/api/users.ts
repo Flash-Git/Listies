@@ -23,8 +23,8 @@ router.post(
       "password",
       "Please enter a password with 7 or more characters"
     ).isLength({
-      min: 7
-    })
+      min: 7,
+    }),
   ],
   async (req, res) => {
     if (handleErrors(req, res)) return;
@@ -39,7 +39,7 @@ router.post(
       }
       user = new User({
         name,
-        email
+        email,
       });
 
       const salt = await bcrypt.genSalt(10);
@@ -49,8 +49,8 @@ router.post(
       //Token
       const payload = {
         user: {
-          id: user.id
-        }
+          id: user.id,
+        },
       };
 
       let jwtSecret;
@@ -63,7 +63,7 @@ router.post(
         payload,
         jwtSecret,
         {
-          expiresIn: 7200
+          expiresIn: 7200,
         },
         (err, token) => {
           if (err) throw err;

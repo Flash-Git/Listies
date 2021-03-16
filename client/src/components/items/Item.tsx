@@ -46,7 +46,7 @@ const Item: FC<Props> = ({ item }) => {
         onClick={incrementImportance}
         className="btn-importance"
         style={{
-          backgroundColor
+          backgroundColor,
         }}
       ></button>
     );
@@ -59,13 +59,13 @@ const Item: FC<Props> = ({ item }) => {
         display: "flex",
         alignItems: "center",
         borderRadius: "0.25rem",
-        boxShadow: "0 0 3.5px -2px rgba(0,0,0,0.35)"
+        boxShadow: "0 0 3.5px -2px rgba(0,0,0,0.35)",
       }}
     >
       {importanceButton()}
       <input
         style={{
-          transform: "scale(1.25)"
+          transform: "scale(1.25)",
         }}
         className="mx-1"
         type="checkbox"
@@ -80,7 +80,7 @@ const Item: FC<Props> = ({ item }) => {
           padding: 0,
           flexGrow: 1,
           flexShrink: 1,
-          maxWidth: "14.8rem"
+          maxWidth: "14.8rem",
         }}
       >
         <h3
@@ -102,7 +102,7 @@ const Item: FC<Props> = ({ item }) => {
             // marginRight: "0",
             color: "red",
             alignSelf: "flex-end",
-            justifySelf: "center"
+            justifySelf: "center",
           }}
         >
           {/* Delete */}

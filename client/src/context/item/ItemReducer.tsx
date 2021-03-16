@@ -8,7 +8,7 @@ import {
   ITEM_ERROR,
   DELETE_ITEM,
   CLEAR_ITEMS,
-  CLEAR_ERRORS
+  CLEAR_ERRORS,
 } from "../types";
 
 import { Item, ItemState, Action } from "context";
@@ -18,7 +18,7 @@ const ItemReducer = (state: ItemState, action: Action): ItemState => {
     case LOADING:
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     case GET_ITEMS:
       return {
@@ -30,7 +30,7 @@ const ItemReducer = (state: ItemState, action: Action): ItemState => {
           }
           return item;
         }),
-        loading: false
+        loading: false,
       };
     case SET_ITEMS:
       localStorage.setItem(
@@ -43,13 +43,13 @@ const ItemReducer = (state: ItemState, action: Action): ItemState => {
       );
       return {
         ...state,
-        items: action.payload.items
+        items: action.payload.items,
       };
     case SORT_ITEMS:
       const filt = (item: Item, imp: number) => item.importance === imp;
 
-      const unChecked = state.items.filter(item => item.checked === false);
-      const checked = state.items.filter(item => item.checked === true);
+      const unChecked = state.items.filter((item) => item.checked === false);
+      const checked = state.items.filter((item) => item.checked === true);
 
       return {
         ...state,
@@ -59,8 +59,8 @@ const ItemReducer = (state: ItemState, action: Action): ItemState => {
           ...unChecked.filter((item: Item) => filt(item, 0)),
           ...checked.filter((item: Item) => filt(item, 2)),
           ...checked.filter((item: Item) => filt(item, 1)),
-          ...checked.filter((item: Item) => filt(item, 0))
-        ]
+          ...checked.filter((item: Item) => filt(item, 0)),
+        ],
       };
     case ADD_ITEM:
       action.payload.item.id = action.payload.item._id;
@@ -69,10 +69,10 @@ const ItemReducer = (state: ItemState, action: Action): ItemState => {
       const newState = {
         ...state,
         items: [action.payload.item, ...state.items],
-        loading: false
+        loading: false,
       };
       const ids: String[] = [];
-      newState.items.map(item => {
+      newState.items.map((item) => {
         ids.push(item.id);
         return item;
       });
@@ -85,33 +85,33 @@ const ItemReducer = (state: ItemState, action: Action): ItemState => {
       }
       return {
         ...state,
-        items: state.items.map(item =>
+        items: state.items.map((item) =>
           item.id === action.payload.id ? action.payload : item
         ),
-        loading: false
+        loading: false,
       };
     case DELETE_ITEM:
       return {
         ...state,
-        items: state.items.filter(item => item.id !== action.payload),
-        loading: false
+        items: state.items.filter((item) => item.id !== action.payload),
+        loading: false,
       };
     case ITEM_ERROR:
       return {
         ...state,
         error: action.payload,
-        loading: false
+        loading: false,
       };
     case CLEAR_ITEMS:
       return {
         ...state,
-        items: []
+        items: [],
       };
     case CLEAR_ERRORS:
       return {
         ...state,
         error: null,
-        loading: false
+        loading: false,
       };
     default:
       console.log("default");

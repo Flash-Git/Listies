@@ -8,7 +8,7 @@ import Exporter from "../layout/Exporter";
 import {
   List,
   ItemContext as IItemContext,
-  AlertContext as IAlertContext
+  AlertContext as IAlertContext,
 } from "context";
 
 interface Props {
@@ -32,7 +32,7 @@ const ItemForm: FC<Props> = ({ currentList }) => {
   }, [currentList]);
 
   const emptyItem = {
-    name: ""
+    name: "",
   };
 
   const [item, setItem] = useState(emptyItem);
@@ -70,7 +70,7 @@ const ItemForm: FC<Props> = ({ currentList }) => {
         alignItems: "center",
         justifyContent: "center",
         marginTop: "0.7rem",
-        marginBottom: "0.7rem"
+        marginBottom: "0.7rem",
       }}
     >
       <input
@@ -78,7 +78,7 @@ const ItemForm: FC<Props> = ({ currentList }) => {
           minWidth: "5rem",
           maxWidth: "15rem",
           margin: "0",
-          marginBottom: "0.7rem"
+          marginBottom: "0.7rem",
         }}
         type="text"
         placeholder="Name"
@@ -91,7 +91,7 @@ const ItemForm: FC<Props> = ({ currentList }) => {
           maxWidth: "6rem",
           margin: "0",
           marginBottom: "0.7rem",
-          padding: "0.1rem"
+          padding: "0.1rem",
         }}
         type="submit"
         value={"Add Item"}
@@ -109,7 +109,7 @@ const ItemForm: FC<Props> = ({ currentList }) => {
         style={{
           float: "right",
           marginRight: "1rem",
-          height: "2.4rem"
+          height: "2.4rem",
         }}
         onClick={sortItems}
       >

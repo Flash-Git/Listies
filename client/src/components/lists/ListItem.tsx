@@ -13,7 +13,7 @@ const ListItem: FC<Props> = ({ list }) => {
     currentList,
     deleteList,
     setCurrentList,
-    clearCurrentList
+    clearCurrentList,
   } = listContext;
 
   const { id, name } = list;
@@ -32,7 +32,7 @@ const ListItem: FC<Props> = ({ list }) => {
         display: "flex",
         alignItems: "center",
         padding: "0.7rem",
-        boxShadow: "0 0 2px 0px rgba(0,0,0,0.35)"
+        boxShadow: "0 0 2px 0px rgba(0,0,0,0.35)",
       }}
     >
       <button
@@ -51,7 +51,7 @@ const ListItem: FC<Props> = ({ list }) => {
             padding: "0.15rem 0.7rem",
             marginLeft: "0.5rem",
             alignSelf: "flex-end",
-            justifySelf: "center"
+            justifySelf: "center",
           }}
         >
           Delete

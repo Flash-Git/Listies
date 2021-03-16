@@ -17,7 +17,7 @@ import ListContext from "../../context/list/ListContext";
 import {
   AppContext as IAppContext,
   AuthContext as IAuthContext,
-  ListContext as IListContext
+  ListContext as IListContext,
 } from "context";
 
 const Home: FC = () => {
@@ -54,7 +54,7 @@ const Home: FC = () => {
         flexDirection: "row",
         justifyContent: "space-evenly",
         flexWrap: "wrap",
-        marginTop: "0.7rem"
+        marginTop: "0.7rem",
       }}
     >
       <div
@@ -63,7 +63,7 @@ const Home: FC = () => {
           right: "0.5rem",
           paddingLeft: "0.8rem",
           paddingRight: "0.8rem",
-          marginTop: "-0.5rem"
+          marginTop: "-0.5rem",
         }}
       >
         <DarkToggle />
@@ -76,7 +76,7 @@ const Home: FC = () => {
           position: "absolute",
           left: "1rem",
           paddingLeft: "0.8rem",
-          paddingRight: "0.8rem"
+          paddingRight: "0.8rem",
         }}
       >
         <FontAwesomeIcon icon={["fas", "bars"]} />
@@ -90,7 +90,7 @@ const Home: FC = () => {
             overflowY: "auto",
             scrollbarWidth: "thin",
             flexBasis: "23rem",
-            maxWidth: "30rem"
+            maxWidth: "30rem",
           }}
         >
           <ListForm />
@@ -104,7 +104,7 @@ const Home: FC = () => {
           overflowY: "auto",
           scrollbarWidth: "thin",
           flexBasis: "23rem",
-          maxWidth: "30rem"
+          maxWidth: "30rem",
         }}
       >
         <ItemForm currentList={currentList} />

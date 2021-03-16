@@ -19,15 +19,15 @@ router.get("/", auth, async (req: any, res) => {
     // Get lists by most recent
     const user: IUser = await User.findById(req.user.id);
     let lists: IList[] = await Promise.all(
-      user.accessCodes.map(accessCode => {
+      user.accessCodes.map((accessCode) => {
         return List.findOne({ accessCode }).sort({
-          date: -1
+          date: -1,
         });
       })
     );
     let personalLists: IList[] = await List.find({ user: req.user.id });
 
-    lists = lists.filter(list => list !== null);
+    lists = lists.filter((list) => list !== null);
     res.json([...lists, ...personalLists]);
   } catch (e) {
     console.error(e.message);
@@ -49,10 +49,10 @@ router.post(
       const newList: IList = new List({
         name,
         accessCode: accessCode,
-        user: req.user.id
+        user: req.user.id,
       });
 
-      const checkList = async accessCode => {
+      const checkList = async (accessCode) => {
         if (accessCode === "") return null;
         const existingList: IList = await List.findOne({ accessCode });
         return existingList;
@@ -64,11 +64,11 @@ router.post(
       if (exists) {
         res.json(exists);
         await (await User.findById(req.user.id)).updateOne({
-          $push: { accessCodes: exists.accessCode }
+          $push: { accessCodes: exists.accessCode },
         });
 
         await List.findByIdAndUpdate(exists.id, {
-          count: ++exists.count
+          count: ++exists.count,
         });
         return;
       }
@@ -81,7 +81,7 @@ router.post(
 
       // New public list
       await (await User.findById(req.user.id)).updateOne({
-        $push: { accessCodes: accessCode }
+        $push: { accessCodes: accessCode },
       });
     } catch (e) {
       console.error(e.message);
@@ -108,7 +108,7 @@ router.delete("/:id", auth, async (req: any, res) => {
       // Shared list
     } else {
       await User.findByIdAndUpdate(req.user.id, {
-        $pull: { accessCodes: accessCode }
+        $pull: { accessCodes: accessCode },
       });
       await List.findByIdAndUpdate(listId, { count: --list.count });
     }

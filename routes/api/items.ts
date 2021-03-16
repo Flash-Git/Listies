@@ -11,7 +11,7 @@ import auth from "../../middleware/auth";
 import { IItem } from "models";
 import Item from "../../models/Item";
 
-const ItemRoutes = getSocket => {
+const ItemRoutes = (getSocket) => {
   // @route   GET api/items/:id
   // @desc    Get all list's items
   // @access  PRIVATE
@@ -20,9 +20,9 @@ const ItemRoutes = getSocket => {
       // Get items by most recent
       const items: IItem[] = await Item.find({
         // user: req.user.id,
-        list: req.params.id
+        list: req.params.id,
       }).sort({
-        date: -1
+        date: -1,
       });
       res.json(items);
     } catch (e) {
@@ -47,7 +47,7 @@ const ItemRoutes = getSocket => {
         const newItem: IItem = new Item({
           name,
           user: req.user.id,
-          list: req.params.id
+          list: req.params.id,
         });
 
         const item: IItem = await newItem.save();
@@ -102,15 +102,15 @@ const ItemRoutes = getSocket => {
         item = await Item.findByIdAndUpdate(
           req.params.itemId,
           {
-            $set: itemFields
+            $set: itemFields,
           },
           {
-            new: true // Create it if it doesn't exist
+            new: true, // Create it if it doesn't exist
           }
         );
 
         // Emit
-        getSocket().map(socket => socket.emit("editItem", item));
+        getSocket().map((socket) => socket.emit("editItem", item));
 
         res.json(item);
       } catch (e) {
@@ -137,7 +137,7 @@ const ItemRoutes = getSocket => {
       await Item.findByIdAndRemove(itemId);
 
       // Emit
-      getSocket().map(socket => socket.emit("deleteItem", itemId));
+      getSocket().map((socket) => socket.emit("deleteItem", itemId));
 
       res.send({ msg: "Item removed" });
     } catch (e) {
