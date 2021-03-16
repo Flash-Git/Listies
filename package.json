@@ -1,7 +1,7 @@
 {
   "name": "listies",
   "version": "1.0.0",
-  "main": "server.ts",
+  "main": "index.ts",
   "author": "J Quinn",
   "license": "MIT",
   "private": true,
