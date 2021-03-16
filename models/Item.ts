@@ -4,32 +4,32 @@ import { IItem } from ".";
 const ItemSchema: Schema = new Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "users"
+    ref: "users",
   },
   list: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "lists"
+    ref: "lists",
   },
   name: {
     type: String,
-    required: true
+    required: true,
   },
   checked: {
     type: Boolean,
-    default: false
+    default: false,
   },
   importance: {
     type: Number,
-    default: 0
+    default: 0,
   },
   note: {
     type: String,
-    default: ""
+    default: "",
   },
   date: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 const Item = mongoose.model<IItem>("item", ItemSchema);

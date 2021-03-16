@@ -54,9 +54,9 @@ class Server {
     this.io.on("connection", (socket: Socket) => {
       console.log("Client connected");
       this.sockets.push(socket);
-      socket.on("disconnect", reason => {
+      socket.on("disconnect", (reason) => {
         console.log("Client disconnected: " + reason);
-        this.sockets.filter(s => s !== socket);
+        this.sockets.filter((s) => s !== socket);
       });
     });
   }

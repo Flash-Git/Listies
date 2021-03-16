@@ -4,24 +4,24 @@ import { IList } from ".";
 const ListSchema: Schema = new Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "users"
+    ref: "users",
   },
   accessCode: {
     type: String,
-    default: ""
+    default: "",
   },
   name: {
     type: String,
-    required: true
+    required: true,
   },
   date: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   count: {
     type: Number,
-    default: 1
-  }
+    default: 1,
+  },
 });
 
 const List = mongoose.model<IList>("list", ListSchema);

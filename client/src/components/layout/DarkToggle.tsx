@@ -34,13 +34,9 @@ const DarkToggle: FC = () => {
     }
   }, [darkMode]);
 
-  const systemPrefersDark = useMediaQuery(
-    { query: "(prefers-color-scheme: dark)" },
-    undefined,
-    prefersDark => {
-      setDarkMode(prefersDark);
-    }
-  );
+  const systemPrefersDark = useMediaQuery({ query: "(prefers-color-scheme: dark)" }, undefined, (prefersDark) => {
+    setDarkMode(prefersDark);
+  });
 
   return (
     <button className={"btn btn-link"} onClick={toggleDarkMode}>

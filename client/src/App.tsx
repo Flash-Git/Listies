@@ -15,7 +15,7 @@ import {
   faListUl,
   faTimes,
   faSortUp,
-  faMoon
+  faMoon,
 } from "@fortawesome/free-solid-svg-icons";
 
 import Navbar from "./components/layout/Navbar";
