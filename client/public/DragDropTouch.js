@@ -153,8 +153,8 @@ var DragDropTouch;
           tm = this._touchmove.bind(this),
           te = this._touchend.bind(this),
           opt = supportsPassive ? { passive: false, capture: false } : false;
-        d.addEventListener("touchstart", ts);
-        d.addEventListener("touchmove", tm, { passive: false });
+        d.addEventListener("touchstart", ts, opt);
+        d.addEventListener("touchmove", tm, opt);
         d.addEventListener("touchend", te);
         d.addEventListener("touchcancel", te);
       }
@@ -191,7 +191,7 @@ var DragDropTouch;
             this._dragSource = src;
             this._ptDown = this._getPoint(e);
             this._lastTouch = e;
-            //e.preventDefault();
+            e.preventDefault();
             // show context menu if the user hasn't started dragging after a while
             setTimeout(function () {
               if (_this._dragSource == src && _this._img == null) {
@@ -455,7 +455,7 @@ var DragDropTouch;
   DragDropTouch._OPACITY = 0.5; // drag image opacity
   DragDropTouch._DBLCLICK = 500; // max ms between clicks in a double click
   DragDropTouch._CTXMENU = 900; // ms to hold before raising 'contextmenu' event
-  DragDropTouch._ISPRESSHOLDMODE = true; // decides of press & hold mode presence
+  DragDropTouch._ISPRESSHOLDMODE = false; // decides of press & hold mode presence
   DragDropTouch._PRESSHOLDAWAIT = 400; // ms to wait before press & hold is detected
   DragDropTouch._PRESSHOLDMARGIN = 25; // pixels that finger might shiver while pressing
   DragDropTouch._PRESSHOLDTHRESHOLD = 0; // pixels to move before drag starts
@@ -464,7 +464,7 @@ var DragDropTouch;
   // synthesize and dispatch an event
   // returns true if the event has been handled (e.preventDefault == true)
   DragDropTouch._kbdProps = "altKey,ctrlKey,metaKey,shiftKey".split(",");
-  DragDropTouch._ptProps = "pageX,pageY,clientX,clientY,screenX,screenY".split(
+  DragDropTouch._ptProps = "pageX,pageY,clientX,clientY,screenX,screenY,offsetX,offsetY".split(
     ","
   );
   DragDropTouch_1.DragDropTouch = DragDropTouch;
