@@ -1,0 +1,4 @@
+This is a Brave Rewards publisher verification file.
+
+Domain: listies.herokuapp.com
+Token: 82414be0a964a17a101501a74ace9a0b3218deddc5a732fd27425a139c21c979
