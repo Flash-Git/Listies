@@ -1,20 +1,28 @@
-import React, { useContext, useEffect, useState, Fragment, FC } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
+import AuthContext from "../../context/auth/AuthContext";
 import ListContext from "../../context/list/ListContext";
 import ListItem from "./ListItem";
 import Spinner from "../layout/Spinner";
 
-import { List, ListContext as IListContext } from "context";
+import {
+  List,
+  ListContext as IListContext,
+  AuthContext as IAuthContext,
+} from "context";
 
 const Lists: FC = () => {
+  const authContext: IAuthContext = useContext(AuthContext);
+  const { loading: authLoading } = authContext;
+
   const listContext: IListContext = useContext(ListContext);
   const { loading, lists, getLists, setLists } = listContext;
 
   useEffect(() => {
-    getLists();
+    if (!authLoading) getLists();
     //eslint-disable-next-line
-  }, []);
+  }, [authLoading]);
 
   /*
   / Dragging
@@ -49,29 +57,26 @@ const Lists: FC = () => {
     setDraggedList(null);
   };
 
-  return (
-    <Fragment>
-      {lists && !loading ? (
-        <TransitionGroup>
-          {lists.map((list: List, i: number) => (
-            <CSSTransition key={list.id} timeout={200}>
-              <div
-                className="drag"
-                draggable
-                onDragStart={(e) => onDragStart(e, i, list.name)}
-                onDragEnd={onDragEnd}
-                onDragOver={() => onDragOver(i)}
-              >
-                <ListItem list={list} />
-              </div>
-            </CSSTransition>
-          ))}
-        </TransitionGroup>
-      ) : (
-        <Spinner />
-      )}
-    </Fragment>
-  );
+  if (lists.length > 0 && !loading) {
+    return (
+      <TransitionGroup>
+        {lists.map((list: List, i: number) => (
+          <CSSTransition key={list.id} timeout={200}>
+            <div
+              className="drag"
+              draggable
+              onDragStart={(e) => onDragStart(e, i, list.name)}
+              onDragEnd={onDragEnd}
+              onDragOver={() => onDragOver(i)}
+            >
+              <ListItem list={list} />
+            </div>
+          </CSSTransition>
+        ))}
+      </TransitionGroup>
+    );
+  }
+  return <Spinner />;
 };
 
 export default Lists;

@@ -12,7 +12,7 @@ import {
 } from "context";
 
 interface Props {
-  currentList: List;
+  currentList: List | null;
 }
 
 const ItemForm: FC<Props> = ({ currentList }) => {
@@ -61,7 +61,7 @@ const ItemForm: FC<Props> = ({ currentList }) => {
     setItem(emptyItem);
   };
 
-  const inputFields = () => (
+  const inputFields = (
     <form
       onSubmit={onSubmit}
       style={{
@@ -103,7 +103,7 @@ const ItemForm: FC<Props> = ({ currentList }) => {
   // Render
   return (
     <div className="grow-shrink">
-      <Exporter currentList={currentList} />
+      {currentList && <Exporter currentList={currentList} />}
       <button
         className="btn btn-link"
         style={{
@@ -118,7 +118,7 @@ const ItemForm: FC<Props> = ({ currentList }) => {
       <h2 className="text-primary" style={{ marginLeft: "2.5rem" }}>
         {listName}
       </h2>
-      {currentList && inputFields()}
+      {currentList && inputFields}
     </div>
   );
 };

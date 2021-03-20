@@ -34,7 +34,6 @@ import AuthState from "./context/auth/AuthState";
 import AlertState from "./context/alert/AlertState";
 import ListState from "./context/list/ListState";
 import ItemState from "./context/item/ItemState";
-import setAuthToken from "./utils/setAuthToken";
 
 import "./App.css";
 
@@ -53,9 +52,6 @@ library.add(
   faSortUp,
   faMoon
 );
-
-const token = localStorage.token;
-token && setAuthToken(token);
 
 const App: FC = () => (
   <AppState>
