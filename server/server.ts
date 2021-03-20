@@ -20,10 +20,10 @@ class Server {
   constructor(app: Express) {
     this.app = app;
 
-    //Connect Database
+    // Connect Database
     connectDB();
 
-    //Init Middleware
+    // Init Middleware
     this.app.use(express.json());
 
     // Define Routes
@@ -38,16 +38,14 @@ class Server {
     // Serve static assets in production
     if (process.env.NODE_ENV === "production") {
       this.app.use(express.static("build/client/"));
-      this.app.get("*", (req: Request, res: Response): void =>
-        res.sendFile(path.resolve(__dirname, "build", "client", "index.html"))
+      this.app.get("/*", (req: Request, res: Response): void =>
+        res.sendFile(path.resolve(__dirname + "/..", "client", "index.html"))
       );
     }
   }
 
   public start(port: number | string): void {
-    const server = this.app.listen(port, () =>
-      console.log(`Server started on port ${port}`)
-    );
+    const server = this.app.listen(port, () => console.log(`Server started on port ${port}`));
 
     this.io = require("socket.io")(server);
 

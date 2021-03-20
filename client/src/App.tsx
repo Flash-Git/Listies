@@ -1,5 +1,5 @@
-import React, { FC } from "react";
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import { FC } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
@@ -69,10 +69,10 @@ const App: FC = () => (
                 <Route exact path="/about" component={About} />
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />
-                {/* <Route component={NotFound} /> */}
-                <Route path="*">
+                <Route component={NotFound} />
+                {/* <Route path="*">
                   <Redirect to="/" />
-                </Route>
+                </Route> */}
               </Switch>
             </Router>
           </AuthState>
