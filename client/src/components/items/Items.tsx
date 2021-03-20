@@ -1,17 +1,19 @@
-import React, { useContext, useEffect, useState, FC } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import Item from "./Item";
 import Spinner from "../layout/Spinner";
 
 import AppContext from "../../context/app/AppContext";
+import AuthContext from "../../context/auth/AuthContext";
 import ItemContext from "../../context/item/ItemContext";
 
 import {
   AppContext as IAppContext,
+  AuthContext as IAuthContext,
+  ItemContext as IItemContext,
   Item as IItem,
   List,
-  ItemContext as IItemContext,
 } from "context";
 
 interface Props {
@@ -21,6 +23,9 @@ interface Props {
 const Items: FC<Props> = ({ currentList }) => {
   const appContext: IAppContext = useContext(AppContext);
   const { socket } = appContext;
+
+  const authContext: IAuthContext = useContext(AuthContext);
+  const { loading: authLoading, isAuthenticated } = authContext;
 
   const itemContext: IItemContext = useContext(ItemContext);
   const {
@@ -52,10 +57,10 @@ const Items: FC<Props> = ({ currentList }) => {
   }, [socket]);
 
   useEffect(() => {
+    if (authLoading || !isAuthenticated) return;
     currentList ? getItems(currentList.id) : clearItems();
-
     //eslint-disable-next-line
-  }, [currentList]);
+  }, [currentList, authLoading, isAuthenticated]);
 
   /*
    * Dragging
@@ -78,9 +83,7 @@ const Items: FC<Props> = ({ currentList }) => {
     if (draggedItem === null || draggedItem.id === draggedOverItem.id) return;
 
     // filter out the currently dragged item
-    let newItems = items.filter(
-      (item: IItem) => draggedItem && item.id !== draggedItem.id
-    );
+    let newItems = items.filter((item: IItem) => draggedItem && item.id !== draggedItem.id);
 
     // add the dragged item after the dragged over item
     newItems.splice(index, 0, draggedItem);
