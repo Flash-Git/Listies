@@ -1,9 +1,11 @@
-import React, { FC, useReducer, useContext } from "react";
-import axios from "axios";
+import { FC, useReducer } from "react";
+import axios, { AxiosResponse } from "axios";
+
+import updateAuthTokenHeader from "../../utils/setAuthToken";
 
 import AuthContext from "./AuthContext";
 import AuthReducer from "./AuthReducer";
-import setAuthToken from "../../utils/setAuthToken";
+
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -15,9 +17,7 @@ import {
   CLEAR_ERRORS,
 } from "../types";
 
-import ListContext from "../list/ListContext";
-
-import { AuthState as IAuthState, ListContext as IListContext } from "context";
+import { AuthState as IAuthState } from "context";
 
 const AuthState: FC = (props) => {
   const initialState: IAuthState = {
@@ -30,18 +30,11 @@ const AuthState: FC = (props) => {
 
   const [state, dispatch] = useReducer(AuthReducer, initialState);
 
-  const listContext: IListContext = useContext(ListContext);
-  const { setCurrentList, setHidden } = listContext;
-
   /*
    * Actions
    */
 
-  const register = async (formData: {
-    name: string;
-    email: string;
-    password: string;
-  }) => {
+  const register = async (formData: { name: string; email: string; password: string }) => {
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -57,18 +50,13 @@ const AuthState: FC = (props) => {
   };
 
   const loadUser = async () => {
-    localStorage.token && setAuthToken(localStorage.token);
-
-    const currentList = localStorage.getItem("currentList");
-    currentList && setCurrentList(JSON.parse(currentList));
-
-    setHidden(localStorage.getItem("hidden") === "true" ? true : false);
+    updateAuthTokenHeader(localStorage.token);
 
     try {
       const res = await axios.get("/api/auth");
       dispatch({ type: USER_LOADED, payload: res.data });
     } catch (e) {
-      dispatch({ type: AUTH_ERROR, payload: e.msg });
+      dispatch({ type: AUTH_ERROR, payload: e.response.data.msg });
     }
   };
 
@@ -79,7 +67,7 @@ const AuthState: FC = (props) => {
       },
     };
     try {
-      const res = await axios.post("/api/auth", formData, config);
+      const res: AxiosResponse<{ token: string }> = await axios.post("/api/auth", formData, config);
       dispatch({ type: LOGIN_SUCCESS, payload: res.data });
       loadUser();
     } catch (e) {
@@ -87,7 +75,9 @@ const AuthState: FC = (props) => {
     }
   };
 
-  const logout = () => dispatch({ type: LOGOUT });
+  const logout = (msg?: string) => {
+    dispatch({ type: LOGOUT, payload: msg });
+  };
 
   const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
 

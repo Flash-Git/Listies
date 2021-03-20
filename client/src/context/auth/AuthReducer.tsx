@@ -11,16 +11,17 @@ import {
 
 import { AuthState, Action } from "context";
 
-const AuthReducer = (state: AuthState, action: Action): AuthState => {
-  switch (action.type) {
+const AuthReducer = (state: AuthState, { type, payload }: Action): AuthState => {
+  switch (type) {
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
-      localStorage.setItem("token", action.payload.token);
+      localStorage.setItem("token", payload.token);
       return {
         ...state,
-        ...action.payload,
+        ...payload,
         isAuthenticated: true,
         loading: false,
+        error: null,
       };
     case REGISTER_FAIL:
     case AUTH_ERROR:
@@ -33,15 +34,16 @@ const AuthReducer = (state: AuthState, action: Action): AuthState => {
         isAuthenticated: false,
         loading: false,
         user: null,
-        error: action.payload,
+        error: payload,
       };
     case USER_LOADED:
-      const { _id, name, email, date } = action.payload;
+      const { _id, name, email, date } = payload;
       return {
         ...state,
         isAuthenticated: true,
         loading: false,
         user: { _id, name, email, date },
+        error: null,
       };
     case CLEAR_ERRORS:
       return {
