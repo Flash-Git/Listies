@@ -37,10 +37,10 @@ class Server {
 
     // Serve static assets in production
     if (process.env.NODE_ENV === "production") {
-      this.app.use(express.static("build/client/"));
-      this.app.get("*", (req: Request, res: Response): void =>
-        res.sendFile(path.resolve(__dirname, "build", "client", "index.html"))
-      );
+      this.app.use(express.static(`${__dirname}build/client/`));
+      // this.app.get("*", (req: Request, res: Response): void =>
+      //   res.sendFile(path.resolve(__dirname, "build", "client", "index.html"))
+      // );
     }
   }
 
