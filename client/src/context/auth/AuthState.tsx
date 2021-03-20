@@ -1,5 +1,5 @@
 import { FC, useReducer } from "react";
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 
 import updateAuthTokenHeader from "../../utils/setAuthToken";
 
@@ -9,6 +9,7 @@ import AuthReducer from "./AuthReducer";
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
+  SET_LOADING,
   USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
@@ -34,6 +35,12 @@ const AuthState: FC = (props) => {
    * Actions
    */
 
+  const handleForbidden = (e: AxiosError) => {
+    if (!e.response) return;
+    // clearErrors();
+    if (e.response.status === 401) logout(e.response.data.message);
+  };
+
   const register = async (formData: { name: string; email: string; password: string }) => {
     const config = {
       headers: {
@@ -46,7 +53,12 @@ const AuthState: FC = (props) => {
       loadUser();
     } catch (e) {
       dispatch({ type: REGISTER_FAIL, payload: e.response.data.msg });
+      handleForbidden(e);
     }
+  };
+
+  const setLoading = async (loading: boolean) => {
+    dispatch({ type: SET_LOADING, payload: loading });
   };
 
   const loadUser = async () => {
@@ -72,6 +84,7 @@ const AuthState: FC = (props) => {
       loadUser();
     } catch (e) {
       dispatch({ type: LOGIN_FAIL, payload: e.response.data.msg });
+      handleForbidden(e);
     }
   };
 
@@ -90,8 +103,9 @@ const AuthState: FC = (props) => {
         user: state.user,
         error: state.error,
         register,
-        loadUser,
         login,
+        setLoading,
+        loadUser,
         logout,
         clearErrors,
       }}

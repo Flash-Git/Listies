@@ -1,28 +1,26 @@
 import { FC, useContext, useEffect, useState } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
-import AuthContext from "../../context/auth/AuthContext";
-import ListContext from "../../context/list/ListContext";
 import ListItem from "./ListItem";
 import Spinner from "../layout/Spinner";
 
-import {
-  List,
-  ListContext as IListContext,
-  AuthContext as IAuthContext,
-} from "context";
+import AuthContext from "../../context/auth/AuthContext";
+import ListContext from "../../context/list/ListContext";
+
+import { List, ListContext as IListContext, AuthContext as IAuthContext } from "context";
 
 const Lists: FC = () => {
   const authContext: IAuthContext = useContext(AuthContext);
-  const { loading: authLoading } = authContext;
+  const { loading: authLoading, isAuthenticated } = authContext;
 
   const listContext: IListContext = useContext(ListContext);
   const { loading, lists, getLists, setLists } = listContext;
 
   useEffect(() => {
-    if (!authLoading) getLists();
+    if (authLoading || !isAuthenticated) return;
+    getLists();
     //eslint-disable-next-line
-  }, [authLoading]);
+  }, [authLoading, isAuthenticated]);
 
   /*
   / Dragging
@@ -38,19 +36,12 @@ const Lists: FC = () => {
 
   const onDragOver = (index: number) => {
     const draggedOverItem = lists[index];
-
     // if the item is dragged over itself, ignore
     if (draggedList === null || draggedList.id === draggedOverItem.id) return;
-
     // filter out the currently dragged item
-    let newLists = lists.filter(
-      (list: List) => draggedList && list.id !== draggedList.id
-    );
-
+    const newLists = lists.filter((list: List) => draggedList && list.id !== draggedList.id);
     // add the dragged item after the dragged over item
-    newLists.splice(index, 0, draggedList);
-
-    setLists(newLists);
+    setLists(newLists.splice(index, 0, draggedList));
   };
 
   const onDragEnd = () => {

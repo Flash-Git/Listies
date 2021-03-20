@@ -1,4 +1,4 @@
-import React, { FC, useReducer } from "react";
+import { FC, useReducer } from "react";
 import { v4 as uuid } from "uuid";
 
 import AlertContext from "./AlertContext";
@@ -27,8 +27,7 @@ const AlertState: FC = (props) => {
     setTimeout(() => dispatch({ type: REMOVE_ALERT, payload: id }), timeout);
   };
 
-  const removeAlert: RemoveAlert = (id: string) =>
-    dispatch({ type: REMOVE_ALERT, payload: id });
+  const removeAlert: RemoveAlert = (id: string) => dispatch({ type: REMOVE_ALERT, payload: id });
 
   const clearAlerts: ClearAlerts = () => dispatch({ type: CLEAR_ALERTS });
 

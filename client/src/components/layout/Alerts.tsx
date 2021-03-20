@@ -1,7 +1,8 @@
-import React, { FC, useContext } from "react";
+import { FC, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import AlertContext from "../../context/alert/AlertContext";
+
 import { Alert, AlertContext as IAlertContext } from "context";
 
 const Alerts: FC = () => {

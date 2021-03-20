@@ -1,7 +1,8 @@
-import React, { useContext, FC } from "react";
+import { FC, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import ItemContext from "../../context/item/ItemContext";
+
 import { Item as IItem, ItemContext as IItemContext } from "context";
 
 interface Props {
@@ -9,10 +10,10 @@ interface Props {
 }
 
 const Item: FC<Props> = ({ item }) => {
+  const { id, name, checked, importance } = item;
+
   const itemContext: IItemContext = useContext(ItemContext);
   const { pushEditItem, pushDeleteItem } = itemContext;
-
-  const { id, name, checked, importance } = item;
 
   const toggleCheck = () => {
     pushEditItem({ ...item, checked: !checked });
@@ -83,10 +84,7 @@ const Item: FC<Props> = ({ item }) => {
           maxWidth: "14.8rem",
         }}
       >
-        <h3
-          className="text-primary text-left"
-          style={{ fontSize: "90%", wordWrap: "break-word" }}
-        >
+        <h3 className="text-primary text-left" style={{ fontSize: "90%", wordWrap: "break-word" }}>
           {name}
         </h3>
       </button>

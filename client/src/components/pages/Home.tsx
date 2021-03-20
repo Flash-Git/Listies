@@ -23,13 +23,14 @@ const Home: FC = () => {
   const { initialiseSocket } = appContext;
 
   const authContext: IAuthContext = useContext(AuthContext);
-  const { loadUser } = authContext;
+  const { setLoading, loadUser } = authContext;
 
   const listContext: IListContext = useContext(ListContext);
   const { hidden, toggleHidden, setHidden, currentList, setCurrentList } = listContext;
 
   useMountEffect(() => {
     initialiseSocket();
+    // setLoading(true);
     loadUser();
 
     const currentList = localStorage.getItem("currentList");

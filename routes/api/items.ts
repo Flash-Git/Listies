@@ -53,9 +53,7 @@ const ItemRoutes = (getSocket) => {
         const item: IItem = await newItem.save();
 
         // Emit
-        getSocket().map((socket: Socket) =>
-          socket.emit("addItem", item, listId)
-        );
+        getSocket().map((socket: Socket) => socket.emit("addItem", item, listId));
 
         res.json(item);
       } catch (e) {
@@ -83,6 +81,7 @@ const ItemRoutes = (getSocket) => {
         importance?: number;
         note?: string;
       };
+
       // Build item object
       const itemFields: fields = {};
       if (name !== undefined) itemFields.name = name;

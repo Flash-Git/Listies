@@ -1,12 +1,9 @@
-import React, { useState, useContext, useEffect, FC } from "react";
+import { useState, useContext, useEffect, FC } from "react";
 
 import AlertContext from "../../context/alert/AlertContext";
 import ListContext from "../../context/list/ListContext";
-import {
-  List,
-  AlertContext as IAlertContext,
-  ListContext as IListContext,
-} from "context";
+
+import { List, AlertContext as IAlertContext, ListContext as IListContext } from "context";
 
 const ListForm: FC = () => {
   const alertContext: IAlertContext = useContext(AlertContext);
@@ -38,9 +35,8 @@ const ListForm: FC = () => {
     setToggled((toggled) => !toggled);
   };
 
-  //Input
-  const onChange = (e: any) =>
-    setList({ ...list, [e.target.name]: e.target.value });
+  // Input
+  const onChange = (e: any) => setList({ ...list, [e.target.name]: e.target.value });
 
   const onSubmit = (e: any) => {
     e.preventDefault();

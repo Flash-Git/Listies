@@ -1,7 +1,5 @@
-import React, { FC, useContext, useReducer } from "react";
+import { FC, useContext, useReducer } from "react";
 import axios, { AxiosError } from "axios";
-
-// import { handleForbidden } from "../../api/ErrorHandler";
 
 import AuthContext from "../auth/AuthContext";
 
@@ -27,7 +25,7 @@ const ItemState: FC = (props) => {
   const initialState: IItemState = {
     items: [],
     error: null,
-    loading: false,
+    loading: true,
   };
 
   const [state, dispatch] = useReducer(ItemReducer, initialState);

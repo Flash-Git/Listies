@@ -1,9 +1,4 @@
-import {
-  SET_SOCKET,
-  CLEAR_SOCKET,
-  TOGGLE_DARK_MODE,
-  SET_DARK_MODE,
-} from "../types";
+import { SET_SOCKET, CLEAR_SOCKET, TOGGLE_DARK_MODE, SET_DARK_MODE } from "../types";
 
 import { Action, AppState } from "context";
 
