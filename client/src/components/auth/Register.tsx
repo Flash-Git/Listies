@@ -3,10 +3,7 @@ import { FC, useState, useContext, useEffect } from "react";
 import AlertContext from "../../context/alert/AlertContext";
 import AuthContext from "../../context/auth/AuthContext";
 
-import {
-  AuthContext as IAuthContext,
-  AlertContext as IAlertContext,
-} from "context";
+import { AuthContext as IAuthContext, AlertContext as IAlertContext } from "context";
 
 interface Props {
   history: any;
@@ -37,10 +34,9 @@ const Register: FC<Props> = ({ history }) => {
   }, [isAuthenticated, history]);
 
   useEffect(() => {
-    if (error) {
-      addAlert(error, "danger");
-      clearErrors();
-    }
+    if (!error) return;
+    addAlert(error, "danger");
+    clearErrors();
 
     // eslint-disable-next-line
   }, [error]);
@@ -103,11 +99,7 @@ const Register: FC<Props> = ({ history }) => {
             // minLength="7"
           />
         </div>
-        <input
-          type="submit"
-          value="Register"
-          className="btn btn-primary btn-block"
-        />
+        <input type="submit" value="Register" className="btn btn-primary btn-block" />
       </form>
     </div>
   );
