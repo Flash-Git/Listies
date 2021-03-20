@@ -1,10 +1,14 @@
-import React, { FC, useReducer } from "react";
-import axios from "axios";
+import React, { FC, useContext, useReducer } from "react";
+import axios, { AxiosError } from "axios";
+
+// import { handleForbidden } from "../../api/ErrorHandler";
+
+import AuthContext from "../auth/AuthContext";
 
 import ItemContext from "./ItemContext";
 import ItemReducer from "./ItemReducer";
 
-import { Item, ItemState as IItemState } from "context";
+import { Item, ItemState as IItemState, AuthContext as IAuthContext } from "context";
 
 import {
   LOADING,
@@ -27,6 +31,14 @@ const ItemState: FC = (props) => {
   };
 
   const [state, dispatch] = useReducer(ItemReducer, initialState);
+
+  const authContext: IAuthContext = useContext(AuthContext);
+  const { logout } = authContext;
+
+  const handleForbidden = (e: AxiosError) => {
+    if (!e.response) return;
+    if (e.response.status === 401) logout(e.response.data.message);
+  };
 
   /*
    * Actions
@@ -61,6 +73,7 @@ const ItemState: FC = (props) => {
       dispatch({ type: GET_ITEMS, payload: newItems.concat(items) });
     } catch (e) {
       dispatch({ type: ITEM_ERROR, payload: e.response.data.msg });
+      handleForbidden(e);
     }
   };
 
@@ -80,14 +93,11 @@ const ItemState: FC = (props) => {
     };
 
     try {
-      const res = await axios.post(
-        `/api/items/${listId}`,
-        { item, listId },
-        config
-      );
+      const res = await axios.post(`/api/items/${listId}`, { item, listId }, config);
       addItem(res.data, listId);
     } catch (e) {
       dispatch({ type: ITEM_ERROR, payload: e.response.data.msg });
+      handleForbidden(e);
     }
   };
 
@@ -107,6 +117,7 @@ const ItemState: FC = (props) => {
       await axios.put(`/api/items/${item.id}`, item, config);
     } catch (e) {
       dispatch({ type: ITEM_ERROR, payload: e.response.data.msg });
+      handleForbidden(e);
     }
   };
 
@@ -121,6 +132,7 @@ const ItemState: FC = (props) => {
       await axios.delete(`/api/items/${itemId}`);
     } catch (e) {
       dispatch({ type: ITEM_ERROR, payload: e.response.data.msg });
+      handleForbidden(e);
     }
   };
 

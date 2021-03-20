@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useState } from "react";
+import { FC, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { useMountEffect } from "../../functions/hooks";
@@ -7,8 +7,6 @@ import Lists from "../lists/Lists";
 import ListForm from "../lists/ListForm";
 import Items from "../items/Items";
 import ItemForm from "../items/ItemForm";
-
-import DarkToggle from "../layout/DarkToggle";
 
 import AppContext from "../../context/app/AppContext";
 import AuthContext from "../../context/auth/AuthContext";
@@ -28,20 +26,17 @@ const Home: FC = () => {
   const { loadUser } = authContext;
 
   const listContext: IListContext = useContext(ListContext);
-  const { hidden, toggleHidden, currentList } = listContext;
-
-  const [loaded, setLoaded] = useState(false);
+  const { hidden, toggleHidden, setHidden, currentList, setCurrentList } = listContext;
 
   useMountEffect(() => {
     initialiseSocket();
-  });
-
-  useEffect(() => {
-    if (loaded) return;
-
-    setLoaded(true);
     loadUser();
-  }, [loaded, setLoaded, loadUser]);
+
+    const currentList = localStorage.getItem("currentList");
+    currentList && setCurrentList(JSON.parse(currentList));
+
+    setHidden(localStorage.getItem("hidden") === "true" ? true : false);
+  });
 
   const toggleList = () => {
     toggleHidden();

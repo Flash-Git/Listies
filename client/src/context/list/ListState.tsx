@@ -1,5 +1,7 @@
-import React, { useReducer, FC } from "react";
-import axios from "axios";
+import { useReducer, FC, useContext } from "react";
+import axios, { AxiosError } from "axios";
+
+import AuthContext from "../auth/AuthContext";
 
 import ListContext from "./ListContext";
 import ListReducer from "./ListReducer";
@@ -19,7 +21,7 @@ import {
   SET_HIDDEN,
 } from "../types";
 
-import { List, ListState as IListState } from "context";
+import { List, ListState as IListState, AuthContext as IAuthContext } from "context";
 
 const ListState: FC = (props) => {
   const initialState: IListState = {
@@ -31,6 +33,14 @@ const ListState: FC = (props) => {
   };
 
   const [state, dispatch] = useReducer(ListReducer, initialState);
+
+  const authContext: IAuthContext = useContext(AuthContext);
+  const { logout } = authContext;
+
+  const handleForbidden = (e: AxiosError) => {
+    if (!e.response) return;
+    if (e.response.status === 401) logout(e.response.data.message);
+  };
 
   /*
    * Actions
@@ -44,6 +54,7 @@ const ListState: FC = (props) => {
       dispatch({ type: GET_LISTS, payload: res.data });
     } catch (e) {
       dispatch({ type: LIST_ERROR, payload: e.response.data.msg });
+      handleForbidden(e);
     }
   };
 
@@ -64,6 +75,7 @@ const ListState: FC = (props) => {
       setCurrentList(res.data);
     } catch (e) {
       dispatch({ type: LIST_ERROR, payload: e.response.data.msg });
+      handleForbidden(e);
     }
   };
 
@@ -82,6 +94,7 @@ const ListState: FC = (props) => {
     } catch (e) {
       dispatch({ type: LIST_ERROR, payload: e.response.data.msg });
       dispatch({ type: DELETE_LIST, payload: id });
+      handleForbidden(e);
     }
   };
 

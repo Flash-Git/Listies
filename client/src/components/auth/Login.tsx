@@ -3,10 +3,7 @@ import { FC, useState, useContext, useEffect } from "react";
 import AlertContext from "../../context/alert/AlertContext";
 import AuthContext from "../../context/auth/AuthContext";
 
-import {
-  AuthContext as IAuthContext,
-  AlertContext as IAlertContext,
-} from "context";
+import { AlertContext as IAlertContext, AuthContext as IAuthContext } from "context";
 
 interface Props {
   history: any;
@@ -14,9 +11,9 @@ interface Props {
 
 const Login: FC<Props> = ({ history }) => {
   const alertContext: IAlertContext = useContext(AlertContext);
-  const authContext: IAuthContext = useContext(AuthContext);
-
   const { addAlert, clearAlerts } = alertContext;
+
+  const authContext: IAuthContext = useContext(AuthContext);
   const { isAuthenticated, error, login, clearErrors } = authContext;
 
   const [user, setUser] = useState({
@@ -35,10 +32,9 @@ const Login: FC<Props> = ({ history }) => {
   }, [isAuthenticated, history]);
 
   useEffect(() => {
-    if (error) {
-      addAlert(error, "danger");
-      clearErrors();
-    }
+    if (!error) return;
+    addAlert(error, "danger");
+    clearErrors();
 
     //eslint-disable-next-line
   }, [error]);
@@ -70,18 +66,9 @@ const Login: FC<Props> = ({ history }) => {
         </div>
         <div className="form-group">
           <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            value={password}
-            onChange={onChange}
-          />
+          <input type="password" name="password" value={password} onChange={onChange} />
         </div>
-        <input
-          type="submit"
-          value="Login"
-          className="btn btn-primary btn-block"
-        />
+        <input type="submit" value="Login" className="btn btn-primary btn-block" />
       </form>
     </div>
   );

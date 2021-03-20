@@ -16,20 +16,13 @@ const DarkMode: FC = () => {
     // get dark mode from storage
     const storageDarkMode = localStorage.getItem("darkMode");
 
-    if (storageDarkMode) {
-      setDarkMode(storageDarkMode === "false" ? false : true);
-      return;
-    }
-
-    setDarkMode(systemPrefersDark);
+    if (storageDarkMode) setDarkMode(storageDarkMode !== "false");
+    else setDarkMode(systemPrefersDark);
   });
 
   useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add(DARK_CLASS);
-    } else {
-      document.documentElement.classList.remove(DARK_CLASS);
-    }
+    if (darkMode) document.documentElement.classList.add(DARK_CLASS);
+    else document.documentElement.classList.remove(DARK_CLASS);
   }, [darkMode]);
 
   const systemPrefersDark = useMediaQuery(

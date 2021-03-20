@@ -56,9 +56,9 @@ library.add(
 const App: FC = () => (
   <AppState>
     <AlertState>
-      <ListState>
-        <ItemState>
-          <AuthState>
+      <AuthState>
+        <ListState>
+          <ItemState>
             <Router>
               <DarkMode />
               <Navbar title={"Listies"} icon={["fas", "list-ul"]} />
@@ -72,9 +72,9 @@ const App: FC = () => (
                 <Route component={NotFound} />
               </Switch>
             </Router>
-          </AuthState>
-        </ItemState>
-      </ListState>
+          </ItemState>
+        </ListState>
+      </AuthState>
     </AlertState>
   </AppState>
 );
