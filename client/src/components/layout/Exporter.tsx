@@ -1,4 +1,4 @@
-import React, { FC, useContext } from "react";
+import { FC, useContext } from "react";
 
 import ItemContext from "../../context/item/ItemContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

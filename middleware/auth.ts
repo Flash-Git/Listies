@@ -6,13 +6,10 @@ const auth: any = (req, res, next) => {
   const token = req.header("x-auth-token");
 
   // Check if token exists
-  if (!token)
-    return res.status(401).json({ msg: "No token, authorization denied" });
+  if (!token) return res.status(401).json({ msg: "No token, authorization denied" });
   try {
     const jwtSecret: string =
-      process.env.NODE_ENV == "production"
-        ? process.env.JWT_SECRET
-        : config.get("jwtSecret");
+      process.env.NODE_ENV == "production" ? process.env.JWT_SECRET : config.get("jwtSecret");
 
     const decoded: any = jwt.verify(token, jwtSecret);
 

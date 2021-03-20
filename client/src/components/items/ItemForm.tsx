@@ -1,15 +1,12 @@
-import React, { useState, useContext, useEffect, FC } from "react";
+import { FC, useState, useContext, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import Exporter from "../layout/Exporter";
 
 import ItemContext from "../../context/item/ItemContext";
 import AlertContext from "../../context/alert/AlertContext";
-import Exporter from "../layout/Exporter";
 
-import {
-  List,
-  ItemContext as IItemContext,
-  AlertContext as IAlertContext,
-} from "context";
+import { List, ItemContext as IItemContext, AlertContext as IAlertContext } from "context";
 
 interface Props {
   currentList: List | null;
@@ -42,13 +39,11 @@ const ItemForm: FC<Props> = ({ currentList }) => {
     if (!error) return;
     addAlert(error, "danger");
     clearErrors();
-
     //eslint-disable-next-line
   }, [error]);
 
   //Input
-  const onChange = (e: any) =>
-    setItem({ ...item, [e.target.name]: e.target.value });
+  const onChange = (e: any) => setItem({ ...item, [e.target.name]: e.target.value });
 
   const onSubmit = (e: any) => {
     e.preventDefault();

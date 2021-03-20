@@ -1,16 +1,11 @@
-import React, { FC, useReducer } from "react";
+import { FC, useReducer } from "react";
 import { Socket } from "socket.io";
 import socketIOClient from "socket.io-client";
 
 import AppContext from "./AppContext";
 import AppReducer from "./AppReducer";
 
-import {
-  SET_SOCKET,
-  CLEAR_SOCKET,
-  TOGGLE_DARK_MODE,
-  SET_DARK_MODE,
-} from "../types";
+import { SET_SOCKET, CLEAR_SOCKET, TOGGLE_DARK_MODE, SET_DARK_MODE } from "../types";
 
 import {
   AppState as IAppState,

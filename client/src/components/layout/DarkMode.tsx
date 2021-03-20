@@ -2,6 +2,7 @@ import { FC, useContext, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
 
 import { useMountEffect } from "../../functions/hooks";
+
 import AppContext from "../../context/app/AppContext";
 
 import { AppContext as IAppContext } from "context";

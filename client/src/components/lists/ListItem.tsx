@@ -1,6 +1,7 @@
-import React, { useContext, FC } from "react";
+import { useContext, FC } from "react";
 
 import ListContext from "../../context/list/ListContext";
+
 import { List, ListContext as IListContext } from "context";
 
 interface Props {
@@ -9,12 +10,7 @@ interface Props {
 
 const ListItem: FC<Props> = ({ list }) => {
   const listContext: IListContext = useContext(ListContext);
-  const {
-    currentList,
-    deleteList,
-    setCurrentList,
-    clearCurrentList,
-  } = listContext;
+  const { currentList, deleteList, setCurrentList, clearCurrentList } = listContext;
 
   const { id, name } = list;
 
@@ -35,11 +31,7 @@ const ListItem: FC<Props> = ({ list }) => {
         boxShadow: "0 0 2px 0px rgba(0,0,0,0.35)",
       }}
     >
-      <button
-        className="btn btn-discreet text-left px"
-        onClick={onSelect}
-        style={{ flexGrow: 1 }}
-      >
+      <button className="btn btn-discreet text-left px" onClick={onSelect} style={{ flexGrow: 1 }}>
         <h3 className="text-left">{name}</h3>
       </button>
       <div>
