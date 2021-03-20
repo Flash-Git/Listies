@@ -147,8 +147,9 @@ declare module "context" {
 
   export interface AuthContext extends AuthState {
     register: (formData: { name: string; email: string; password: string }) => void;
-    loadUser: () => void;
     login: (formData: { email: string; password: string }) => void;
+    setLoading: (loading: boolean) => void;
+    loadUser: () => void;
     logout: (msg?: string) => void;
     clearErrors: () => void;
   }

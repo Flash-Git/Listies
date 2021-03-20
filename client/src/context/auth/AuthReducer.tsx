@@ -1,6 +1,7 @@
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
+  SET_LOADING,
   USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
@@ -13,6 +14,11 @@ import { AuthState, Action } from "context";
 
 const AuthReducer = (state: AuthState, { type, payload }: Action): AuthState => {
   switch (type) {
+    case SET_LOADING:
+      return {
+        ...state,
+        loading: payload,
+      };
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
       localStorage.setItem("token", payload.token);
@@ -20,7 +26,6 @@ const AuthReducer = (state: AuthState, { type, payload }: Action): AuthState => 
         ...state,
         ...payload,
         isAuthenticated: true,
-        loading: false,
         error: null,
       };
     case REGISTER_FAIL:

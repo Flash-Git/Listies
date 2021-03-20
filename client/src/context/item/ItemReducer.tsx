@@ -44,6 +44,7 @@ const ItemReducer = (state: ItemState, action: Action): ItemState => {
       return {
         ...state,
         items: action.payload.items,
+        loading: false,
       };
     case SORT_ITEMS:
       const filt = (item: Item, imp: number) => item.importance === imp;
@@ -85,9 +86,7 @@ const ItemReducer = (state: ItemState, action: Action): ItemState => {
       }
       return {
         ...state,
-        items: state.items.map((item) =>
-          item.id === action.payload.id ? action.payload : item
-        ),
+        items: state.items.map((item) => (item.id === action.payload.id ? action.payload : item)),
         loading: false,
       };
     case DELETE_ITEM:
