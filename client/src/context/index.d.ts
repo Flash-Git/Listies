@@ -53,7 +53,7 @@ declare module "context" {
   };
 
   export type ItemState = {
-    items: IItem[];
+    items: Item[];
     error: null | string;
     loading: boolean;
   };
@@ -83,13 +83,13 @@ declare module "context" {
     id: string;
   };
 
-  export type ListState = {
-    lists: IList[];
-    currentList: null | IList;
+  export interface ListState {
+    lists: List[];
+    currentList: null | List;
     error: null | string;
     loading: boolean;
     hidden: boolean;
-  };
+  }
 
   export interface ListContext extends ListState {
     getLists: () => void;
@@ -108,11 +108,11 @@ declare module "context" {
    *Alerts
    */
 
-  export type Alert = {
+  export interface Alert {
     msg: string;
     type: string;
     id: string;
-  };
+  }
 
   export type Alerts = Alert[];
 
@@ -137,23 +137,19 @@ declare module "context" {
    * Auth
    */
 
-  export type AuthState = {
+  export interface AuthState {
     token: null | string;
     isAuthenticated: null | boolean;
     loading: boolean;
     user: any;
     error: null | string;
-  };
+  }
 
   export interface AuthContext extends AuthState {
-    register: (formData: {
-      name: string;
-      email: string;
-      password: string;
-    }) => void;
+    register: (formData: { name: string; email: string; password: string }) => void;
     loadUser: () => void;
     login: (formData: { email: string; password: string }) => void;
-    logout: () => void;
+    logout: (msg?: string) => void;
     clearErrors: () => void;
   }
 }
