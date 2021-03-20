@@ -1,13 +1,11 @@
-import React, { FC, useState, useContext, useEffect } from "react";
+import { FC, useState, useContext, useEffect } from "react";
 
 import AlertContext from "../../context/alert/AlertContext";
 import AuthContext from "../../context/auth/AuthContext";
-import ListContext from "../../context/list/ListContext";
 
 import {
   AuthContext as IAuthContext,
   AlertContext as IAlertContext,
-  ListContext as IListContext,
 } from "context";
 
 interface Props {
@@ -17,11 +15,9 @@ interface Props {
 const Login: FC<Props> = ({ history }) => {
   const alertContext: IAlertContext = useContext(AlertContext);
   const authContext: IAuthContext = useContext(AuthContext);
-  const listContext: IListContext = useContext(ListContext);
 
   const { addAlert, clearAlerts } = alertContext;
   const { isAuthenticated, error, login, clearErrors } = authContext;
-  const { clearCurrentList } = listContext;
 
   const [user, setUser] = useState({
     email: "",
@@ -31,9 +27,9 @@ const Login: FC<Props> = ({ history }) => {
   const { email, password } = user;
 
   useEffect(() => {
-    isAuthenticated && history.push("/");
-    clearCurrentList();
+    if (!isAuthenticated) return;
     clearAlerts();
+    history.push("/");
 
     //eslint-disable-next-line
   }, [isAuthenticated, history]);
