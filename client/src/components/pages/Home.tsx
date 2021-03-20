@@ -57,18 +57,6 @@ const Home: FC = () => {
         marginTop: "0.7rem",
       }}
     >
-      <div
-        style={{
-          position: "absolute",
-          right: "0.5rem",
-          paddingLeft: "0.8rem",
-          paddingRight: "0.8rem",
-          marginTop: "-0.5rem",
-        }}
-      >
-        <DarkToggle />
-      </div>
-
       <button
         onClick={toggleList}
         className="btn btn-sm btn-primary mx"

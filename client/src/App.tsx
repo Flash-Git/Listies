@@ -19,6 +19,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import Navbar from "./components/layout/Navbar";
+import DarkMode from "./components/layout/DarkMode";
+import DarkToggle from "./components/layout/DarkToggle";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import Alerts from "./components/layout/Alerts";
@@ -62,7 +64,9 @@ const App: FC = () => (
         <ItemState>
           <AuthState>
             <Router>
+              <DarkMode />
               <Navbar title={"Listies"} icon={["fas", "list-ul"]} />
+              <DarkToggle />
               <Alerts />
               <Switch>
                 <PrivateRoute exact path="/" component={Home} />
@@ -70,9 +74,6 @@ const App: FC = () => (
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />
                 <Route component={NotFound} />
-                {/* <Route path="*">
-                  <Redirect to="/" />
-                </Route> */}
               </Switch>
             </Router>
           </AuthState>
