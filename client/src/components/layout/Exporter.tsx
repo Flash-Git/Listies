@@ -30,8 +30,6 @@ const Exporter: FC<Props> = ({ currentList }) => {
     element.click();
   };
 
-  if (!currentList) return null;
-
   return (
     <button
       className="btn btn-link"

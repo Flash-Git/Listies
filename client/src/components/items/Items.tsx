@@ -15,7 +15,7 @@ import {
 } from "context";
 
 interface Props {
-  currentList: List;
+  currentList: List | null;
 }
 
 const Items: FC<Props> = ({ currentList }) => {
@@ -35,7 +35,7 @@ const Items: FC<Props> = ({ currentList }) => {
   } = itemContext;
 
   useEffect(() => {
-    if (socket === null) return;
+    if (!socket) return;
 
     socket.on("addItem", (item: IItem, listId: string) => {
       // Cannot access currentList prop
@@ -70,6 +70,8 @@ const Items: FC<Props> = ({ currentList }) => {
   };
 
   const onDragOver = (index: number) => {
+    if (!currentList) return;
+
     const draggedOverItem = items[index];
 
     // if the item is dragged over itself, ignore
