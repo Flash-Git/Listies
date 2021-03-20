@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
@@ -52,7 +52,8 @@ library.add(
   faMoon
 );
 
-localStorage.token && setAuthToken(localStorage.token);
+const token = localStorage.token;
+token && setAuthToken(token);
 
 const App: FC = () => (
   <AppState>
@@ -68,7 +69,10 @@ const App: FC = () => (
                 <Route exact path="/about" component={About} />
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />
-                <Route component={NotFound} />
+                {/* <Route component={NotFound} /> */}
+                <Route path="*">
+                  <Redirect to="/" />
+                </Route>
               </Switch>
             </Router>
           </AuthState>
