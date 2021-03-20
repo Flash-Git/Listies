@@ -1,14 +1,13 @@
 import express from "express";
 const router = express.Router();
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import jwt, { Secret } from "jsonwebtoken";
 import { check } from "express-validator";
 import config from "config";
 
 import handleErrors from "./handleErrors";
 
 // Models
-import { IUser } from "models";
 import User from "../../models/User";
 
 // @route   POST api/users
@@ -19,10 +18,7 @@ router.post(
   [
     check("name", "Please enter a name").not().isEmpty(),
     check("email", "Please enter a valid email address").isEmail(),
-    check(
-      "password",
-      "Please enter a password with 7 or more characters"
-    ).isLength({
+    check("password", "Please enter a password with 7 or more characters").isLength({
       min: 7,
     }),
   ],
@@ -46,24 +42,22 @@ router.post(
       user.password = await bcrypt.hash(password, salt);
       await user.save();
 
-      //Token
+      // Token
       const payload = {
         user: {
           id: user.id,
         },
       };
 
-      let jwtSecret;
-      if (process.env.NODE_ENV == "production") {
-        jwtSecret = process.env.JWT_SECRET;
-      } else {
-        jwtSecret = config.get("jwtSecret");
-      }
+      const jwtSecret: Secret =
+        process.env.NODE_ENV == "production" ? process.env.JWT_SECRET : config.get("jwtSecret");
+
       jwt.sign(
         payload,
         jwtSecret,
         {
-          expiresIn: 7200,
+          // 14 days
+          expiresIn: 1209600,
         },
         (err, token) => {
           if (err) throw err;

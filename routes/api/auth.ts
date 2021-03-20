@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import jwt, { Secret } from "jsonwebtoken";
 import { check } from "express-validator";
 import config from "config";
 
@@ -41,7 +41,7 @@ router.post(
     const { email, password } = req.body;
 
     try {
-      let user: IUser = await User.findOne({ email });
+      const user: IUser = await User.findOne({ email });
       if (!user) {
         return res.status(400).send({ msg: "Invalid Credentials" });
       }
@@ -51,19 +51,16 @@ router.post(
         return res.status(400).send({ msg: "Invalid Credentials" });
       }
 
-      //Token
+      // Token
       const payload = {
         user: {
           id: user.id,
         },
       };
 
-      let jwtSecret;
-      if (process.env.NODE_ENV == "production") {
-        jwtSecret = process.env.JWT_SECRET;
-      } else {
-        jwtSecret = config.get("jwtSecret");
-      }
+      const jwtSecret: Secret =
+        process.env.NODE_ENV == "production" ? process.env.JWT_SECRET : config.get("jwtSecret");
+
       jwt.sign(
         payload,
         jwtSecret,
@@ -71,8 +68,8 @@ router.post(
           // 14 days
           expiresIn: 1209600,
         },
-        (err, token) => {
-          if (err) throw err;
+        (e, token) => {
+          if (e) throw e;
           res.json({ token });
         }
       );
