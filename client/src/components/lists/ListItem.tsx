@@ -39,6 +39,7 @@ const ListItem: FC<Props> = ({ list }) => {
           className="btn btn-danger mx"
           onClick={onDelete}
           style={{
+            fontWeight: "bold",
             fontSize: "0.85rem",
             padding: "0.15rem 0.7rem",
             marginLeft: "0.5rem",

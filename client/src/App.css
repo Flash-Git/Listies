@@ -12,11 +12,11 @@
 }
 
 html.dark {
-  --primary-color: #74a4ff;
-  --dark-color: #ffffff;
-  --light-color: #353535;
+  --primary-color: #65a0ee;
+  --dark-color: #ddd;
+  --light-color: #313131;
   --input-color: #222630;
-  --input-bg-color: #555;
+  --input-bg-color: #454545;
   --border-light-color: #777;
 }
 
@@ -441,7 +441,13 @@ textarea {
   width: 100%;
   padding: 0.2rem;
   font-size: 1.1rem;
+  color: var(--dark-color);
+  caret-color: var(--dark-color);
   border: 1px solid var(--border-light-color);
+}
+
+input[type="text"]::placeholder {
+  color: var(--dark-color);
 }
 
 input[type="submit"],
