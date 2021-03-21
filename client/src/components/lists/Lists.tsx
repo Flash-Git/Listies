@@ -35,13 +35,13 @@ const Lists: FC = () => {
   };
 
   const onDragOver = (index: number) => {
-    const draggedOverItem = lists[index];
     // if the item is dragged over itself, ignore
-    if (draggedList === null || draggedList.id === draggedOverItem.id) return;
+    if (draggedList === null || draggedList.id === lists[index].id) return;
     // filter out the currently dragged item
     const newLists = lists.filter((list: List) => draggedList && list.id !== draggedList.id);
     // add the dragged item after the dragged over item
-    setLists(newLists.splice(index, 0, draggedList));
+    newLists.splice(index, 0, draggedList);
+    setLists(newLists);
   };
 
   const onDragEnd = () => {
