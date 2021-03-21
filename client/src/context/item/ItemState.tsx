@@ -25,7 +25,7 @@ const ItemState: FC = (props) => {
   const initialState: IItemState = {
     items: [],
     error: null,
-    loading: true,
+    loading: false,
   };
 
   const [state, dispatch] = useReducer(ItemReducer, initialState);
