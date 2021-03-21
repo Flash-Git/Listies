@@ -28,7 +28,7 @@ const ListState: FC = (props) => {
     lists: [],
     currentList: null,
     error: null,
-    loading: true,
+    loading: false,
     hidden: false,
   };
 
