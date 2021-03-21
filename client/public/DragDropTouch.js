@@ -281,11 +281,7 @@ var DragDropTouch;
     // allow to handle moves that involve many touches for press & hold
     DragDropTouch.prototype._shouldHandlePressHoldMove = function (e) {
       return (
-        DragDropTouch._ISPRESSHOLDMODE &&
-        this._isDragEnabled &&
-        e &&
-        e.touches &&
-        e.touches.length
+        DragDropTouch._ISPRESSHOLDMODE && this._isDragEnabled && e && e.touches && e.touches.length
       );
     };
 
@@ -303,8 +299,7 @@ var DragDropTouch;
       var delta = this._getDelta(e);
       return (
         delta > DragDropTouch._THRESHOLD ||
-        (DragDropTouch._ISPRESSHOLDMODE &&
-          delta >= DragDropTouch._PRESSHOLDTHRESHOLD)
+        (DragDropTouch._ISPRESSHOLDMODE && delta >= DragDropTouch._PRESSHOLDTHRESHOLD)
       );
     };
 
@@ -464,8 +459,6 @@ var DragDropTouch;
   // synthesize and dispatch an event
   // returns true if the event has been handled (e.preventDefault == true)
   DragDropTouch._kbdProps = "altKey,ctrlKey,metaKey,shiftKey".split(",");
-  DragDropTouch._ptProps = "pageX,pageY,clientX,clientY,screenX,screenY,offsetX,offsetY".split(
-    ","
-  );
+  DragDropTouch._ptProps = "pageX,pageY,clientX,clientY,screenX,screenY,offsetX,offsetY".split(",");
   DragDropTouch_1.DragDropTouch = DragDropTouch;
 })(DragDropTouch || (DragDropTouch = {}));
