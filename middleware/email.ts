@@ -2,8 +2,11 @@ import nodemailer from "nodemailer";
 import jwt, { Secret } from "jsonwebtoken";
 import config from "config";
 
-const email: any = async (req, res, next) => {
-  const payload = { email: req.body.email };
+import { User } from "models";
+
+// Works better when not middleware
+const sendEmail: any = async (req, res, { name, email }: User) => {
+  const payload = { name, email };
 
   const jwtSecret: Secret =
     process.env.NODE_ENV == "production" ? process.env.JWT_SECRET : config.get("jwtSecret");
@@ -27,21 +30,18 @@ const email: any = async (req, res, next) => {
 
     // send mail with defined transport object
     await transporter.sendMail({
-      from: `"Quinn" <verification@${process.env.EMAIL_BASE}>`, // sender address
-      // from: '"Quinn" <contact@jaquinn.com>', // sender address
-      to: req.body.email, // list of receivers
+      from: `"Quinn" <contact@${process.env.EMAIL_BASE}>`, // sender address
+      to: email, // list of receivers
       subject: "Account Verification", // Subject line
-      text: `Hello ${req.body.name}\n\nPlease verify your account: https://${req.headers.host}/api/verification/${req.body.email}/${verificationToken}`, // plain text body
+      text: `Hello ${name}\n\nPlease verify your account: https://${req.headers.host}/api/verification/${email}/${verificationToken}\n\nThanks,\nQuinn`, // plain text body
       // html: "<b>Hello world?</b>", // html body
     });
 
-    console.log(`Message sent to ${req.body.email}`);
-
-    next();
+    console.log(`Message sent to ${email}`);
   } catch (e) {
-    console.log("Failed to send email", e);
-    res.status(500).json({ msg: "Failed to send email" });
+    console.log("Failed to send email\n", e);
+    res.status(500).json({ msg: "Server failed to send email" });
   }
 };
 
-export default email;
+export default sendEmail;

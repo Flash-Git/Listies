@@ -7,7 +7,7 @@ const router = express.Router();
 
 import handleErrors from "./handleErrors";
 
-import email from "middleware/email";
+import sendEmail from "../../middleware/email";
 
 // Models
 import User from "../../models/User";
@@ -21,7 +21,7 @@ router.get("/:email/:token", async (req: any, res) => {
     const emailParam = req.params.email;
 
     const user = await User.findOne({ email: emailParam });
-    if (!user) return res.status(401).send({ msg: "Email not found" });
+    if (!user) return res.status(401).send({ msg: "User not found" });
 
     const jwtSecret: Secret =
       process.env.NODE_ENV == "production" ? process.env.JWT_SECRET : config.get("jwtSecret");
@@ -46,18 +46,18 @@ router.get("/:email/:token", async (req: any, res) => {
 // @access  PUBLIC
 router.post(
   "/",
-  email,
-  // [
-  //   check("email", "Please enter your email address").isEmail(),
-  //   check("password", "Please enter your password").exists(),
-  // ],
-
+  [check("email", "Please enter your email address").isEmail()],
   async (req: any, res) => {
     if (handleErrors(req, res)) return;
-    const { name, email, password } = req.body;
+    const { email } = req.body;
 
     try {
-      // res.status(200).send();
+      const user = await User.findOne({ email });
+      if (!user) return res.status(400).send({ msg: "User not found" });
+
+      if (user.verified) return res.status(400).send({ msg: "User has already been verified" });
+
+      await sendEmail(req, res, user);
     } catch (e) {
       console.error(e.message);
       res.status(500).send({ msg: "Server Error" });

@@ -7,7 +7,7 @@ import config from "config";
 
 import handleErrors from "./handleErrors";
 
-import email from "../../middleware/email";
+import sendEmail from "../../middleware/email";
 
 // Models
 import User from "../../models/User";
@@ -24,7 +24,6 @@ router.post(
       min: 7,
     }),
   ],
-  email, // this needs to run after the rest of this method TODO
   async (req, res) => {
     if (handleErrors(req, res)) return;
     const { name, email, password } = req.body;
@@ -56,6 +55,9 @@ router.post(
         // half day
         expiresIn: 43200,
       });
+
+      await sendEmail(req, res, user);
+
       res.json({ token });
     } catch (e) {
       console.error(e.message);
