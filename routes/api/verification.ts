@@ -33,8 +33,8 @@ router.get("/:email/:token", async (req: any, res) => {
     user.verified = true;
     await user.save();
 
-    res.redirect("/api/login");
-    // res.json(user);
+    res.redirect("/login");
+    res.json({ msg: "Verification email sent" });
   } catch (e) {
     console.error(e.message);
     res.status(500).send({ msg: "Server Error" });
