@@ -1,7 +1,6 @@
 import { FC } from "react";
 
 import spinnerAnim from "./spinner.svg";
-// import spinnerAnim from "./spinner.gif";
 
 const Spinner: FC = () => (
   <div

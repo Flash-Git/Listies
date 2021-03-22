@@ -48,7 +48,7 @@ const Lists: FC = () => {
     setDraggedList(null);
   };
 
-  if (lists.length > 0 && !loading) {
+  if (!loading) {
     return (
       <TransitionGroup>
         {lists.map((list: List, i: number) => (
