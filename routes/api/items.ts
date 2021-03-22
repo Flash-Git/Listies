@@ -8,7 +8,6 @@ import handleErrors from "./handleErrors";
 import auth from "../../middleware/auth";
 
 // Models
-import { IItem } from "models";
 import Item from "../../models/Item";
 
 const ItemRoutes = (getSocket) => {
@@ -18,7 +17,7 @@ const ItemRoutes = (getSocket) => {
   router.get("/:id", auth, async (req, res) => {
     try {
       // Get items by most recent
-      const items: IItem[] = await Item.find({
+      const items = await Item.find({
         // user: req.user.id,
         list: req.params.id,
       }).sort({
@@ -39,18 +38,19 @@ const ItemRoutes = (getSocket) => {
     [auth, [check("item.name", "Please enter a name").not().isEmpty()]],
     async (req, res) => {
       if (handleErrors(req, res)) return;
+      const { list } = req.params;
 
       const { name } = req.body.item;
       const listId = req.body.listId;
 
       try {
-        const newItem: IItem = new Item({
+        const newItem = new Item({
           name,
           user: req.user.id,
-          list: req.params.id,
+          list,
         });
 
-        const item: IItem = await newItem.save();
+        const item = await newItem.save();
 
         // Emit
         getSocket().map((socket: Socket) => socket.emit("addItem", item, listId));
@@ -72,7 +72,6 @@ const ItemRoutes = (getSocket) => {
     [check("name", "Please enter a name").not().isEmpty()],
     async (req, res) => {
       if (handleErrors(req, res)) return;
-
       const { name, checked, importance, note } = req.body;
 
       type fields = {
@@ -90,7 +89,7 @@ const ItemRoutes = (getSocket) => {
       if (note !== undefined) itemFields.note = note;
 
       try {
-        let item: IItem = await Item.findById(req.params.itemId);
+        let item = await Item.findById(req.params.itemId);
         if (!item) return res.status(404).send({ msg: "Item not found" });
 
         // Validate that user owns item
@@ -125,7 +124,7 @@ const ItemRoutes = (getSocket) => {
   router.delete("/:itemId", auth, async (req, res) => {
     try {
       const { itemId } = req.params;
-      let item: IItem = await Item.findById(itemId);
+      const item = await Item.findById(itemId);
       if (!item) return res.status(404).send({ msg: "Item not found" });
 
       // Validate that user owns item

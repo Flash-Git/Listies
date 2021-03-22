@@ -14,12 +14,14 @@ const Login: FC<Props> = ({ history }) => {
   const { addAlert, clearAlerts } = alertContext;
 
   const authContext: IAuthContext = useContext(AuthContext);
-  const { isAuthenticated, error, login, clearErrors } = authContext;
+  const { isAuthenticated, error, login, sendVerificationEmail, clearErrors } = authContext;
 
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
+
+  const [needsVerfication, setNeedsVerification] = useState(false);
 
   const { email, password } = user;
 
@@ -34,6 +36,8 @@ const Login: FC<Props> = ({ history }) => {
   useEffect(() => {
     if (!error) return;
     addAlert(error, "danger");
+    if (error === "Email has not been verified") setNeedsVerification(true);
+
     clearErrors();
 
     //eslint-disable-next-line
@@ -54,6 +58,11 @@ const Login: FC<Props> = ({ history }) => {
     }
   };
 
+  const onVerify = () => {
+    sendVerificationEmail(email);
+    setNeedsVerification(false);
+  };
+
   return (
     <div className="form-container">
       <h1>
@@ -70,6 +79,11 @@ const Login: FC<Props> = ({ history }) => {
         </div>
         <input type="submit" value="Login" className="btn btn-primary btn-block" />
       </form>
+      {needsVerfication && (
+        <button className="btn btn-primary btn-block" onClick={onVerify}>
+          Resend Email
+        </button>
+      )}
     </div>
   );
 };

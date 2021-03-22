@@ -7,6 +7,7 @@ import connectDB from "../config/db";
 
 import usersRoutes from "../routes/api/users";
 import authRoutes from "../routes/api/auth";
+import verificationRoutes from "../routes/api/verification";
 import listsRoutes from "../routes/api/lists";
 import itemsRoutes from "../routes/api/items";
 
@@ -29,6 +30,7 @@ class Server {
     // Define Routes
     this.app.use("/api/users", usersRoutes);
     this.app.use("/api/auth", authRoutes);
+    this.app.use("/api/verification", verificationRoutes);
     this.app.use("/api/lists", listsRoutes);
     this.app.use(
       "/api/items",
@@ -38,7 +40,7 @@ class Server {
     // Serve static assets in production
     if (process.env.NODE_ENV === "production") {
       this.app.use(express.static("build/client/"));
-      this.app.get("/*", (req: Request, res: Response): void =>
+      this.app.get("/*", (_req: Request, res: Response): void =>
         res.sendFile(path.resolve(__dirname + "/..", "client", "index.html"))
       );
     }
