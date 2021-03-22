@@ -33,10 +33,10 @@ const sendEmail: any = async (req, res, { name, email }: User) => {
       from: `"Quinn" <contact@${process.env.EMAIL_BASE}>`, // sender address
       to: email, // list of receivers
       subject: "Account Verification", // Subject line
-      text: `Hello ${name}\n\nPlease verify your account: https://${req.headers.host}/api/verification/${email}/${verificationToken}\n\nThanks,\nQuinn`, // plain text body
+      text: `Hello ${name},\n\nPlease verify your account: (test)[https://${req.headers.host}/api/verification/${email}/${verificationToken}]\n\nThanks,\nListies`, // plain text body
+      html: `Hello ${name},<br><br>Please <a href="https://${req.headers.host}/api/verification/${email}/${verificationToken}">click here</a> to verify your account.<br><br>Thanks,<br>Listies`, // html body
       // html: "<b>Hello world?</b>", // html body
     });
-
     console.log(`Email sent to ${email}`);
   } catch (e) {
     console.log("Failed to send email\n", e);
