@@ -95,7 +95,7 @@ const Items: FC<Props> = ({ currentList }) => {
     setDraggedItem(null);
   };
 
-  if (items && !loading) {
+  if (!loading) {
     return (
       <TransitionGroup>
         {items.map((item: IItem, i: number) => (
