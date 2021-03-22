@@ -7,6 +7,8 @@ import config from "config";
 
 import handleErrors from "./handleErrors";
 
+import email from "../../middleware/email";
+
 // Models
 import User from "../../models/User";
 
@@ -22,18 +24,16 @@ router.post(
       min: 7,
     }),
   ],
+  email, // this needs to run after the rest of this method TODO
   async (req, res) => {
     if (handleErrors(req, res)) return;
-
     const { name, email, password } = req.body;
 
     try {
-      let user = await User.findOne({ email });
-
-      if (user) {
+      if (await User.findOne({ email }))
         return res.status(400).send({ msg: "User already exists" });
-      }
-      user = new User({
+
+      const user = new User({
         name,
         email,
       });
@@ -42,6 +42,9 @@ router.post(
       user.password = await bcrypt.hash(password, salt);
       await user.save();
 
+      const jwtSecret: Secret =
+        process.env.NODE_ENV == "production" ? process.env.JWT_SECRET : config.get("jwtSecret");
+
       // Token
       const payload = {
         user: {
@@ -49,21 +52,11 @@ router.post(
         },
       };
 
-      const jwtSecret: Secret =
-        process.env.NODE_ENV == "production" ? process.env.JWT_SECRET : config.get("jwtSecret");
-
-      jwt.sign(
-        payload,
-        jwtSecret,
-        {
-          // 14 days
-          expiresIn: 1209600,
-        },
-        (err, token) => {
-          if (err) throw err;
-          res.json({ token });
-        }
-      );
+      const token = jwt.sign(payload, jwtSecret, {
+        // half day
+        expiresIn: 43200,
+      });
+      res.json({ token });
     } catch (e) {
       console.error(e.message);
       res.status(500).send({ msg: "Server Error" });
