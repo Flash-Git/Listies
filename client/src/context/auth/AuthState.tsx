@@ -10,6 +10,7 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   SET_LOADING,
+  AUTH_EMAIL_SENT,
   USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
@@ -51,11 +52,7 @@ const AuthState: FC = (props) => {
     if (e.response.status === 401) logout(e.response.data.message);
   };
 
-  const register: Register = async (formData: {
-    name: string;
-    email: string;
-    password: string;
-  }) => {
+  const register: Register = async (formData) => {
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -63,6 +60,7 @@ const AuthState: FC = (props) => {
     };
     try {
       const res = await axios.post("/api/users", formData, config);
+      console.log(res.data);
       dispatch({ type: REGISTER_SUCCESS, payload: res.data });
       loadUser();
     } catch (e) {
@@ -79,13 +77,14 @@ const AuthState: FC = (props) => {
     };
     try {
       const res = await axios.post("/api/verification", { email }, config);
-      // dispatch({ type: SENDEMAIL, payload: res.data });
+      dispatch({ type: AUTH_EMAIL_SENT, payload: res.data.msg });
+      console.log(res.data);
     } catch (e) {
       dispatch({ type: AUTH_ERROR, payload: e.response.data.msg });
     }
   };
 
-  const setLoading: SetLoading = async (loading: boolean) => {
+  const setLoading: SetLoading = async (loading) => {
     dispatch({ type: SET_LOADING, payload: loading });
   };
 
@@ -100,7 +99,7 @@ const AuthState: FC = (props) => {
     }
   };
 
-  const login: Login = async (formData: { email: string; password: string }) => {
+  const login: Login = async (formData) => {
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -116,7 +115,7 @@ const AuthState: FC = (props) => {
     }
   };
 
-  const logout: Logout = (msg?: string) => {
+  const logout: Logout = (msg) => {
     dispatch({ type: LOGOUT, payload: msg });
   };
 

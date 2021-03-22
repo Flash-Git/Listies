@@ -35,6 +35,11 @@ const Register: FC<Props> = ({ history }) => {
 
   useEffect(() => {
     if (!error) return;
+    if (error === "Verification email sent") {
+      addAlert(error, "primary");
+      clearErrors();
+      return;
+    }
     addAlert(error, "danger");
     clearErrors();
 
