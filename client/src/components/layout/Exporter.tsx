@@ -1,26 +1,17 @@
-import { FC, useContext } from "react";
-
-import ItemContext from "../../context/item/ItemContext";
+import { FC } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { Item, List, ItemContext as IImportContext } from "context";
+import { Items, List } from "context";
 
 interface Props {
   currentList: List;
+  items: Items;
 }
 
-const Exporter: FC<Props> = ({ currentList }) => {
-  const itemContext: IImportContext = useContext(ItemContext);
-  const { items } = itemContext;
-
+const Exporter: FC<Props> = ({ currentList, items }) => {
   const exportList = () => {
     // const printObj = currentList.name + ":\n" + JSON.stringify(items, null, 2);
-    const printObj =
-      currentList.name +
-      ":\n" +
-      items.map((item: Item) => {
-        return "\n" + item.name;
-      });
+    const printObj = currentList.name + ":\n" + items.map((item) => "\n" + item.name);
 
     const element = document.createElement("a");
     const file = new Blob([printObj], { type: "text/plain" });

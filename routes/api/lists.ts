@@ -7,7 +7,6 @@ import handleErrors from "./handleErrors";
 import auth from "../../middleware/auth";
 
 // Models
-import { IList, IUser } from "models";
 import List from "../../models/List";
 import User from "../../models/User";
 
@@ -17,15 +16,15 @@ import User from "../../models/User";
 router.get("/", auth, async (req: any, res) => {
   try {
     // Get lists by most recent
-    const user: IUser = await User.findById(req.user.id);
-    let lists: IList[] = await Promise.all(
+    const user = await User.findById(req.user.id);
+    let lists = await Promise.all(
       user.accessCodes.map((accessCode) => {
         return List.findOne({ accessCode }).sort({
           date: -1,
         });
       })
     );
-    let personalLists: IList[] = await List.find({ user: req.user.id });
+    let personalLists = await List.find({ user: req.user.id });
 
     lists = lists.filter((list) => list !== null);
     res.json([...lists, ...personalLists]);
@@ -46,7 +45,7 @@ router.post(
 
     const { name, accessCode } = req.body;
     try {
-      const newList: IList = new List({
+      const newList = new List({
         name,
         accessCode: accessCode,
         user: req.user.id,
@@ -54,7 +53,7 @@ router.post(
 
       const checkList = async (accessCode) => {
         if (accessCode === "") return null;
-        const existingList: IList = await List.findOne({ accessCode });
+        const existingList = await List.findOne({ accessCode });
         return existingList;
       };
 
@@ -73,7 +72,7 @@ router.post(
         return;
       }
 
-      const list: IList = await newList.save();
+      const list = await newList.save();
       res.json(list);
 
       // New private list
@@ -97,7 +96,7 @@ router.delete("/:id", auth, async (req: any, res) => {
   try {
     const listId = req.params.id;
 
-    const list: IList = await List.findById(listId);
+    const list = await List.findById(listId);
     if (!list) return res.status(404).send({ msg: "List not found" });
 
     const accessCode = list.accessCode;

@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { IList } from ".";
+import { List } from ".";
 
 const ListSchema: Schema = new Schema({
   user: {
@@ -24,6 +24,6 @@ const ListSchema: Schema = new Schema({
   },
 });
 
-const List = mongoose.model<IList>("list", ListSchema);
+const List = mongoose.model<List>("list", ListSchema);
 
 export default List;

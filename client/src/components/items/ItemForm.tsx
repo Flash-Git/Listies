@@ -1,7 +1,7 @@
-import { FC, useState, useContext, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FC, useState, useContext, useEffect, Fragment } from "react";
 
 import Exporter from "../layout/Exporter";
+import Sorter from "../layout/Sorter";
 
 import ItemContext from "../../context/item/ItemContext";
 import AlertContext from "../../context/alert/AlertContext";
@@ -14,7 +14,7 @@ interface Props {
 
 const ItemForm: FC<Props> = ({ currentList }) => {
   const itemContext: IItemContext = useContext(ItemContext); //IItemContext
-  const { error, pushItem, sortItems, clearErrors } = itemContext;
+  const { items, error, pushItem, sortItems, clearErrors } = itemContext;
 
   const alertContext: IAlertContext = useContext(AlertContext);
   const { addAlert } = alertContext;
@@ -97,19 +97,20 @@ const ItemForm: FC<Props> = ({ currentList }) => {
 
   // Render
   return (
-    <div className="grow-shrink">
-      {currentList && <Exporter currentList={currentList} />}
-      <button
-        className="btn btn-link"
-        style={{
-          float: "right",
-          marginRight: "1rem",
-          height: "2.4rem",
-        }}
-        onClick={sortItems}
-      >
-        <FontAwesomeIcon style={{ height: "100%" }} icon={["fas", "sort-up"]} />
-      </button>
+    <div
+      className="grow-shrink"
+      style={
+        {
+          // minHeight: "1.5rem"
+        }
+      }
+    >
+      {currentList && (
+        <Fragment>
+          <Exporter currentList={currentList} items={items} />
+          <Sorter sortItems={sortItems} />
+        </Fragment>
+      )}
       <h2 className="text-primary" style={{ marginLeft: "2.5rem" }}>
         {listName}
       </h2>
