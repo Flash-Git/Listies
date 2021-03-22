@@ -2,6 +2,7 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   SET_LOADING,
+  AUTH_EMAIL_SENT,
   USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
@@ -26,7 +27,7 @@ const AuthReducer = (state: AuthState, { type, payload }: Action): AuthState => 
         ...state,
         ...payload,
         isAuthenticated: true,
-        error: null,
+        error: payload.msg ? payload.msg : null,
       };
     case REGISTER_FAIL:
     case AUTH_ERROR:
@@ -41,6 +42,8 @@ const AuthReducer = (state: AuthState, { type, payload }: Action): AuthState => 
         user: null,
         error: payload,
       };
+    case AUTH_EMAIL_SENT:
+      return { ...state, error: payload };
     case USER_LOADED:
       return {
         ...state,

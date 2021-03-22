@@ -37,7 +37,7 @@ const sendEmail: any = async (req, res, { name, email }: User) => {
       // html: "<b>Hello world?</b>", // html body
     });
 
-    console.log(`Message sent to ${email}`);
+    console.log(`Email sent to ${email}`);
   } catch (e) {
     console.log("Failed to send email\n", e);
     res.status(500).json({ msg: "Server failed to send email" });

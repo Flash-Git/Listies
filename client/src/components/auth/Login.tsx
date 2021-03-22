@@ -35,8 +35,14 @@ const Login: FC<Props> = ({ history }) => {
 
   useEffect(() => {
     if (!error) return;
-    addAlert(error, "danger");
+    // TODO errors should be an object with a type property, not just a string
     if (error === "Email has not been verified") setNeedsVerification(true);
+    if (error === "Verification email sent") {
+      addAlert(error, "primary");
+      clearErrors();
+      return;
+    }
+    addAlert(error, "danger");
 
     clearErrors();
 

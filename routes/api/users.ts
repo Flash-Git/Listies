@@ -58,7 +58,7 @@ router.post(
 
       await sendEmail(req, res, user);
 
-      res.json({ token });
+      res.json({ msg: "Verification email sent", token });
     } catch (e) {
       console.error(e.message);
       res.status(500).send({ msg: "Server Error" });

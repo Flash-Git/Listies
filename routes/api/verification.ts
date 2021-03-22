@@ -34,7 +34,6 @@ router.get("/:email/:token", async (req: any, res) => {
     await user.save();
 
     res.redirect("/login");
-    res.json({ msg: "Verification email sent" });
   } catch (e) {
     console.error(e.message);
     res.status(500).send({ msg: "Server Error" });
@@ -58,6 +57,7 @@ router.post(
       if (user.verified) return res.status(400).send({ msg: "User has already been verified" });
 
       await sendEmail(req, res, user);
+      res.json({ msg: "Verification email sent" });
     } catch (e) {
       console.error(e.message);
       res.status(500).send({ msg: "Server Error" });
