@@ -42,12 +42,11 @@ const AuthReducer = (state: AuthState, { type, payload }: Action): AuthState => 
         error: payload,
       };
     case USER_LOADED:
-      const { _id, name, email, date } = payload;
       return {
         ...state,
         isAuthenticated: true,
         loading: false,
-        user: { _id, name, email, date },
+        user: payload,
         error: null,
       };
     case CLEAR_ERRORS:

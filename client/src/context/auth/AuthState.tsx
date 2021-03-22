@@ -18,7 +18,17 @@ import {
   CLEAR_ERRORS,
 } from "../types";
 
-import { AuthState as IAuthState } from "context";
+import {
+  AuthState as IAuthState,
+  ClearErrors,
+  HandleForbidden,
+  LoadUser,
+  Login,
+  Logout,
+  Register,
+  SendVerificationEmail,
+  SetLoading,
+} from "context";
 
 const AuthState: FC = (props) => {
   const initialState: IAuthState = {
@@ -35,13 +45,17 @@ const AuthState: FC = (props) => {
    * Actions
    */
 
-  const handleForbidden = (e: AxiosError) => {
+  const handleForbidden: HandleForbidden = (e: AxiosError) => {
     if (!e.response) return;
     // clearErrors();
     if (e.response.status === 401) logout(e.response.data.message);
   };
 
-  const register = async (formData: { name: string; email: string; password: string }) => {
+  const register: Register = async (formData: {
+    name: string;
+    email: string;
+    password: string;
+  }) => {
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -57,11 +71,25 @@ const AuthState: FC = (props) => {
     }
   };
 
-  const setLoading = async (loading: boolean) => {
+  const sendVerificationEmail: SendVerificationEmail = async (email) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    try {
+      const res = await axios.post("/api/verification", { email }, config);
+      // dispatch({ type: SENDEMAIL, payload: res.data });
+    } catch (e) {
+      dispatch({ type: AUTH_ERROR, payload: e.response.data.msg });
+    }
+  };
+
+  const setLoading: SetLoading = async (loading: boolean) => {
     dispatch({ type: SET_LOADING, payload: loading });
   };
 
-  const loadUser = async () => {
+  const loadUser: LoadUser = async () => {
     updateAuthTokenHeader(localStorage.token);
 
     try {
@@ -72,7 +100,7 @@ const AuthState: FC = (props) => {
     }
   };
 
-  const login = async (formData: { email: string; password: string }) => {
+  const login: Login = async (formData: { email: string; password: string }) => {
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -88,11 +116,11 @@ const AuthState: FC = (props) => {
     }
   };
 
-  const logout = (msg?: string) => {
+  const logout: Logout = (msg?: string) => {
     dispatch({ type: LOGOUT, payload: msg });
   };
 
-  const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
+  const clearErrors: ClearErrors = () => dispatch({ type: CLEAR_ERRORS });
 
   return (
     <AuthContext.Provider
@@ -104,6 +132,7 @@ const AuthState: FC = (props) => {
         error: state.error,
         register,
         login,
+        sendVerificationEmail,
         setLoading,
         loadUser,
         logout,
