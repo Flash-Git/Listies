@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { IItem } from ".";
+import { Item } from ".";
 
 const ItemSchema: Schema = new Schema({
   user: {
@@ -32,6 +32,6 @@ const ItemSchema: Schema = new Schema({
   },
 });
 
-const Item = mongoose.model<IItem>("item", ItemSchema);
+const Item = mongoose.model<Item>("item", ItemSchema);
 
 export default Item;
