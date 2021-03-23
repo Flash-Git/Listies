@@ -1,6 +1,6 @@
 # Listies
 
-[Listies](https://listies.herokuapp.com/) is a web app for creating, managing and sharing lists.
+[Listies](https://listies.dev/) is a web app for creating, managing and sharing lists.
 
 ## Requirements
 
@@ -13,6 +13,7 @@
 - Dark Mode
 - Accounts
 - Automatic login
+- Email confirmation
 - List Sharing
 - Importing/Exporting
 - Dynamic User Interface
@@ -39,6 +40,7 @@
 ### Hosting
 
 - Heroku
+- Cloudflare
 
 ## Installation
 
