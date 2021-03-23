@@ -190,8 +190,8 @@ var DragDropTouch;
             // get ready to start dragging
             this._dragSource = src;
             this._ptDown = this._getPoint(e);
-            this._lastTouch = e;
-            e.preventDefault();
+            // this._lastTouch = e; // FIX
+            // e.preventDefault(); // FIX either double click or never click
             // show context menu if the user hasn't started dragging after a while
             setTimeout(function () {
               if (_this._dragSource == src && _this._img == null) {
@@ -220,7 +220,7 @@ var DragDropTouch;
         var target = this._getTarget(e);
         if (this._dispatchEvent(e, "mousemove", target)) {
           this._lastTouch = e;
-          e.preventDefault();
+          // e.preventDefault(); // FIX
           return;
         }
         // start dragging
@@ -451,9 +451,9 @@ var DragDropTouch;
   DragDropTouch._DBLCLICK = 500; // max ms between clicks in a double click
   DragDropTouch._CTXMENU = 1300; // ms to hold before raising 'contextmenu' event // from 900
   DragDropTouch._ISPRESSHOLDMODE = true; // decides of press & hold mode presence
-  DragDropTouch._PRESSHOLDAWAIT = 500; // ms to wait before press & hold is detected // from 400
-  DragDropTouch._PRESSHOLDMARGIN = 25; // pixels that finger might shiver while pressing
-  DragDropTouch._PRESSHOLDTHRESHOLD = 0; // pixels to move before drag starts
+  DragDropTouch._PRESSHOLDAWAIT = 400; // ms to wait before press & hold is detected // from 400
+  DragDropTouch._PRESSHOLDMARGIN = 15; // pixels that finger might shiver while pressing
+  DragDropTouch._PRESSHOLDTHRESHOLD = 20; // pixels to move before drag starts
   // copy styles/attributes from drag source to drag image element
   DragDropTouch._rmvAtts = "id,class,style,draggable".split(",");
   // synthesize and dispatch an event
