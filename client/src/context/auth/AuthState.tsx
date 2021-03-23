@@ -60,7 +60,6 @@ const AuthState: FC = (props) => {
     };
     try {
       const res = await axios.post("/api/users", formData, config);
-      console.log(res.data);
       dispatch({ type: REGISTER_SUCCESS, payload: res.data });
       loadUser();
     } catch (e) {

@@ -1,5 +1,5 @@
 import { useReducer, FC, useContext } from "react";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
 import AuthContext from "../auth/AuthContext";
 
@@ -21,7 +21,21 @@ import {
   SET_HIDDEN,
 } from "../types";
 
-import { List, ListState as IListState, AuthContext as IAuthContext } from "context";
+import {
+  ListState as IListState,
+  AuthContext as IAuthContext,
+  SetCurrentList,
+  SetHidden,
+  ToggleHidden,
+  ClearErrors,
+  ClearLists,
+  ClearCurrentList,
+  HandleForbidden,
+  GetLists,
+  SetLists,
+  AddList,
+  DeleteList,
+} from "context";
 
 const ListState: FC = (props) => {
   const initialState: IListState = {
@@ -37,7 +51,7 @@ const ListState: FC = (props) => {
   const authContext: IAuthContext = useContext(AuthContext);
   const { logout } = authContext;
 
-  const handleForbidden = (e: AxiosError) => {
+  const handleForbidden: HandleForbidden = (e) => {
     if (!e.response) return;
     if (e.response.status === 401) logout(e.response.data.message);
   };
@@ -46,7 +60,7 @@ const ListState: FC = (props) => {
    * Actions
    */
 
-  const getLists = async () => {
+  const getLists: GetLists = async () => {
     clearLists();
     dispatch({ type: LOADING });
     try {
@@ -58,11 +72,11 @@ const ListState: FC = (props) => {
     }
   };
 
-  const setLists = async (lists: List[]) => {
+  const setLists: SetLists = async (lists) => {
     dispatch({ type: SET_LISTS, payload: lists });
   };
 
-  const addList = async (list: List) => {
+  const addList: AddList = async (list) => {
     const config: any = {
       header: {
         "Content-Type": "application/json",
@@ -79,7 +93,7 @@ const ListState: FC = (props) => {
     }
   };
 
-  const deleteList = async (id: string) => {
+  const deleteList: DeleteList = async (id: string) => {
     try {
       // Delete items in list
       // const res = await axios.get(`/api/items/${id}`);
@@ -98,23 +112,23 @@ const ListState: FC = (props) => {
     }
   };
 
-  const setCurrentList = (list: List) => {
-    dispatch({ type: SET_CURRENT, payload: list });
+  const setCurrentList: SetCurrentList = (currentList) => {
+    dispatch({ type: SET_CURRENT, payload: currentList });
   };
 
-  const clearCurrentList = () => {
+  const clearCurrentList: ClearCurrentList = () => {
     dispatch({ type: CLEAR_CURRENT });
   };
 
-  const clearLists = () => dispatch({ type: CLEAR_LISTS });
+  const clearLists: ClearLists = () => dispatch({ type: CLEAR_LISTS });
 
-  const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
+  const clearErrors: ClearErrors = () => dispatch({ type: CLEAR_ERRORS });
 
-  const toggleHidden = () => {
+  const toggleHidden: ToggleHidden = () => {
     dispatch({ type: TOGGLE_HIDDEN });
   };
 
-  const setHidden = (hidden: boolean) => {
+  const setHidden: SetHidden = (hidden) => {
     dispatch({ type: SET_HIDDEN, payload: hidden });
   };
 

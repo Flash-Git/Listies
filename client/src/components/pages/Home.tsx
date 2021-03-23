@@ -23,7 +23,7 @@ const Home: FC = () => {
   const { initialiseSocket } = appContext;
 
   const authContext: IAuthContext = useContext(AuthContext);
-  const { setLoading, loadUser } = authContext;
+  const { loadUser } = authContext;
 
   const listContext: IListContext = useContext(ListContext);
   const { hidden, toggleHidden, setHidden, currentList, setCurrentList } = listContext;
@@ -32,9 +32,6 @@ const Home: FC = () => {
     initialiseSocket();
     // setLoading(true);
     loadUser();
-
-    const currentList = localStorage.getItem("currentList");
-    currentList && setCurrentList(JSON.parse(currentList));
 
     setHidden(localStorage.getItem("hidden") === "true" ? true : false);
   });

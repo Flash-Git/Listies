@@ -14,11 +14,17 @@ const Lists: FC = () => {
   const { loading: authLoading, isAuthenticated } = authContext;
 
   const listContext: IListContext = useContext(ListContext);
-  const { loading, lists, getLists, setLists } = listContext;
+  const { loading, lists, getLists, setLists, setCurrentList } = listContext;
 
   useEffect(() => {
     if (authLoading || !isAuthenticated) return;
     getLists();
+
+    const currentList = localStorage.getItem("currentList");
+    if (!currentList) return;
+    const parsedList: List = JSON.parse(currentList);
+
+    parsedList && setCurrentList(parsedList);
     //eslint-disable-next-line
   }, [authLoading, isAuthenticated]);
 

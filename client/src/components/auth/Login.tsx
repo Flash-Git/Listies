@@ -20,10 +20,9 @@ const Login: FC<Props> = ({ history }) => {
     email: "",
     password: "",
   });
+  const { email, password } = user;
 
   const [needsVerfication, setNeedsVerification] = useState(false);
-
-  const { email, password } = user;
 
   useEffect(() => {
     if (!isAuthenticated) return;
