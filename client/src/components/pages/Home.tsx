@@ -15,6 +15,7 @@ import ListContext from "../../context/list/ListContext";
 import {
   AppContext as IAppContext,
   AuthContext as IAuthContext,
+  List,
   ListContext as IListContext,
 } from "context";
 
@@ -32,6 +33,11 @@ const Home: FC = () => {
     initialiseSocket();
     // setLoading(true);
     loadUser();
+
+    const currentList = localStorage.getItem("currentList");
+    if (!currentList) return;
+    const parsedList: List = JSON.parse(currentList);
+    parsedList && setCurrentList(parsedList);
 
     setHidden(localStorage.getItem("hidden") === "true" ? true : false);
   });

@@ -1,23 +1,12 @@
-import { useState, useContext, useEffect, FC } from "react";
+import { useState, useContext, FC } from "react";
 
-import AlertContext from "../../context/alert/AlertContext";
 import ListContext from "../../context/list/ListContext";
 
-import { List, AlertContext as IAlertContext, ListContext as IListContext } from "context";
+import { List, ListContext as IListContext } from "context";
 
 const ListForm: FC = () => {
-  const alertContext: IAlertContext = useContext(AlertContext);
-  const { addAlert } = alertContext;
-
   const listContext: IListContext = useContext(ListContext);
-  const { error, addList, clearCurrentList, clearErrors } = listContext;
-
-  useEffect(() => {
-    if (!error) return;
-    addAlert(error, "danger");
-    clearErrors();
-    //eslint-disable-next-line
-  }, [error]);
+  const { addList, clearCurrentList } = listContext;
 
   const emptyList: List = {
     name: "",
@@ -26,9 +15,7 @@ const ListForm: FC = () => {
   };
 
   const [toggled, setToggled] = useState(false);
-
   const [list, setList] = useState(emptyList);
-
   const { name, accessCode } = list;
 
   const toggleForm = () => {

@@ -4,28 +4,36 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 import ListItem from "./ListItem";
 import Spinner from "../layout/Spinner";
 
+import AlertContext from "../../context/alert/AlertContext";
 import AuthContext from "../../context/auth/AuthContext";
 import ListContext from "../../context/list/ListContext";
 
-import { List, ListContext as IListContext, AuthContext as IAuthContext } from "context";
+import {
+  List,
+  ListContext as IListContext,
+  AuthContext as IAuthContext,
+  AlertContext as IAlertContext,
+} from "context";
 
 const Lists: FC = () => {
+  const alertContext: IAlertContext = useContext(AlertContext);
+  const { addAlert } = alertContext;
+
   const authContext: IAuthContext = useContext(AuthContext);
   const { loading: authLoading, isAuthenticated } = authContext;
 
   const listContext: IListContext = useContext(ListContext);
-  const { loading, lists, getLists, setLists, setCurrentList } = listContext;
+  const { error, loading, lists, getLists, setLists, clearErrors } = listContext;
+
+  useEffect(() => {
+    if (!error) return;
+    addAlert(error, "danger");
+    clearErrors();
+  }, [error]);
 
   useEffect(() => {
     if (authLoading || !isAuthenticated) return;
     getLists();
-
-    const currentList = localStorage.getItem("currentList");
-    if (!currentList) return;
-    const parsedList: List = JSON.parse(currentList);
-
-    parsedList && setCurrentList(parsedList);
-    //eslint-disable-next-line
   }, [authLoading, isAuthenticated]);
 
   /*

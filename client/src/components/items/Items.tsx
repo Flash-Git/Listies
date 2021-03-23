@@ -5,11 +5,13 @@ import Item from "./Item";
 import Spinner from "../layout/Spinner";
 
 import AppContext from "../../context/app/AppContext";
+import AlertContext from "../../context/alert/AlertContext";
 import AuthContext from "../../context/auth/AuthContext";
 import ItemContext from "../../context/item/ItemContext";
 
 import {
   AppContext as IAppContext,
+  AlertContext as IAlertContext,
   AuthContext as IAuthContext,
   ItemContext as IItemContext,
   Item as IItem,
@@ -31,19 +33,23 @@ const Items: FC<Props> = ({ currentList }) => {
   const {
     loading,
     items,
+    error,
     addItem,
     editItem,
-    getItems,
     setItems,
     deleteItem,
+    getItems,
     clearItems,
+    clearErrors,
   } = itemContext;
+
+  const alertContext: IAlertContext = useContext(AlertContext);
+  const { addAlert } = alertContext;
 
   useEffect(() => {
     if (!socket) return;
 
     socket.on("addItem", (item: IItem, listId: string) => {
-      // Cannot access currentList prop
       const lsList = JSON.parse(localStorage["currentList"]);
       if (!lsList || lsList.id !== listId) return;
       addItem(item, listId);
@@ -57,9 +63,14 @@ const Items: FC<Props> = ({ currentList }) => {
   }, [socket]);
 
   useEffect(() => {
+    if (!error) return;
+    addAlert(error, "danger");
+    clearErrors();
+  }, [error]);
+
+  useEffect(() => {
     if (authLoading || !isAuthenticated) return;
     currentList ? getItems(currentList.id) : clearItems();
-    //eslint-disable-next-line
   }, [currentList, authLoading, isAuthenticated]);
 
   /*

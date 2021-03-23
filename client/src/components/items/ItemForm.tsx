@@ -4,9 +4,8 @@ import Exporter from "../layout/Exporter";
 import Sorter from "../layout/Sorter";
 
 import ItemContext from "../../context/item/ItemContext";
-import AlertContext from "../../context/alert/AlertContext";
 
-import { List, ItemContext as IItemContext, AlertContext as IAlertContext } from "context";
+import { List, ItemContext as IItemContext } from "context";
 
 interface Props {
   currentList: List | null;
@@ -14,10 +13,7 @@ interface Props {
 
 const ItemForm: FC<Props> = ({ currentList }) => {
   const itemContext: IItemContext = useContext(ItemContext); //IItemContext
-  const { items, error, pushItem, sortItems, clearErrors } = itemContext;
-
-  const alertContext: IAlertContext = useContext(AlertContext);
-  const { addAlert } = alertContext;
+  const { items, pushItem, sortItems } = itemContext;
 
   // List
   const [listId, setListId] = useState("");
@@ -35,14 +31,7 @@ const ItemForm: FC<Props> = ({ currentList }) => {
   const [item, setItem] = useState(emptyItem);
   const { name } = item;
 
-  useEffect(() => {
-    if (!error) return;
-    addAlert(error, "danger");
-    clearErrors();
-    //eslint-disable-next-line
-  }, [error]);
-
-  //Input
+  // Input
   const onChange = (e: any) => setItem({ ...item, [e.target.name]: e.target.value });
 
   const onSubmit = (e: any) => {

@@ -9,10 +9,10 @@ interface Props {
 }
 
 const ListItem: FC<Props> = ({ list }) => {
+  const { id, name } = list;
+
   const listContext: IListContext = useContext(ListContext);
   const { currentList, deleteList, setCurrentList, clearCurrentList } = listContext;
-
-  const { id, name } = list;
 
   const onDelete = () => {
     if (currentList && currentList.id === list.id) clearCurrentList();
