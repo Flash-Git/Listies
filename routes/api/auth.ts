@@ -1,8 +1,8 @@
-import express from "express";
-const router = express.Router();
+import express, { Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt, { Secret } from "jsonwebtoken";
 import { check } from "express-validator";
+import { Request } from "express-validator/src/base";
 import config from "config";
 
 import handleErrors from "./handleErrors";
@@ -12,10 +12,14 @@ import auth from "../../middleware/auth";
 // Models
 import User from "../../models/User";
 
+import { User as IUser } from "models";
+
+const router = express.Router();
+
 // @route   GET api/auth
 // @desc    Get logged in user
 // @access  PRIVATE
-router.get("/", auth, async (req: any, res) => {
+router.get("/", auth, async (req: Request, res: Response) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
     res.json(user);
@@ -34,9 +38,9 @@ router.post(
     check("email", "Please enter your email address").isEmail(),
     check("password", "Please enter your password").exists(),
   ],
-  async (req, res) => {
+  async (req: Request, res: Response) => {
     if (handleErrors(req, res)) return;
-    const { email, password } = req.body;
+    const { email, password }: IUser = req.body;
 
     try {
       const user = await User.findOne({ email });

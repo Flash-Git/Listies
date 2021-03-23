@@ -1,6 +1,6 @@
-import express from "express";
-const router = express.Router();
+import { Router, Response } from "express";
 import { check } from "express-validator";
+import { Request } from "express-validator/src/base";
 import { Socket } from "socket.io";
 
 import handleErrors from "./handleErrors";
@@ -9,17 +9,34 @@ import auth from "../../middleware/auth";
 
 // Models
 import Item from "../../models/Item";
+import List from "../../models/List";
+import User from "../../models/User";
 
-const ItemRoutes = (getSocket) => {
+import { Item as IItem } from "models";
+
+const router = Router();
+
+const ItemRoutes = (getSockets: () => Socket[]) => {
   // @route   GET api/items/:id
   // @desc    Get all list's items
   // @access  PRIVATE
-  router.get("/:id", auth, async (req, res) => {
+  router.get("/:listId", auth, async (req: Request, res: Response) => {
+    const { listId }: { listId?: string } = req.params;
+
     try {
+      // Verification
+      const [user, list] = await Promise.all([User.findById(req.user.id), List.findById(listId)]);
+      if (!user) return res.status(404).send({ msg: "User not found" });
+      if (!list) return res.status(404).send({ msg: "List not found" });
+      if (list.accessCode === "") {
+        if (user.id !== list.user.toString())
+          return res.status(401).send({ msg: "Wrong user, authorisation denied" });
+      } else if (!user.accessCodes.includes(list.accessCode))
+        return res.status(401).send({ msg: "Missing access code, authorisation denied" });
+
       // Get items by most recent
       const items = await Item.find({
-        // user: req.user.id,
-        list: req.params.id,
+        list: listId,
       }).sort({
         date: -1,
       });
@@ -30,30 +47,39 @@ const ItemRoutes = (getSocket) => {
     }
   });
 
-  // @route   POST api/items/:id
+  // @route   POST api/items/:listId
   // @desc    Create an item
   // @access  PRIVATE
   router.post(
-    "/:id",
-    [auth, [check("item.name", "Please enter a name").not().isEmpty()]],
-    async (req, res) => {
+    "/:listId",
+    auth,
+    [check("item.name", "Please enter a name").not().isEmpty()],
+    async (req: Request, res: Response) => {
       if (handleErrors(req, res)) return;
-      const { list } = req.params;
-
-      const { name } = req.body.item;
-      const listId = req.body.listId;
+      const { listId }: { listId?: string } = req.params;
+      const { name }: IItem = req.body.item;
 
       try {
+        // Verification
+        const [user, list] = await Promise.all([User.findById(req.user.id), List.findById(listId)]);
+        if (!user) return res.status(404).send({ msg: "User not found" });
+        if (!list) return res.status(404).send({ msg: "List not found" });
+        if (list.accessCode === "") {
+          if (user.id !== list.user.toString())
+            return res.status(401).send({ msg: "Wrong user, authorisation denied" });
+        } else if (!user.accessCodes.includes(list.accessCode))
+          return res.status(401).send({ msg: "Missing access code, authorisation denied" });
+
         const newItem = new Item({
           name,
           user: req.user.id,
-          list,
+          list: listId,
         });
 
         const item = await newItem.save();
 
         // Emit
-        getSocket().map((socket: Socket) => socket.emit("addItem", item, listId));
+        getSockets().map((socket: Socket) => socket.emit("addItem", item, listId));
 
         res.json(item);
       } catch (e) {
@@ -62,43 +88,51 @@ const ItemRoutes = (getSocket) => {
       }
     }
   );
+  type Fields = {
+    name?: string;
+    checked?: boolean;
+    importance?: number;
+    note?: string;
+  };
 
-  // @route   PUT api/items/:id
+  // @route   PUT api/items/:listId
   // @desc    Update item
   // @access  PRIVATE
   router.put(
     "/:itemId",
     auth,
     [check("name", "Please enter a name").not().isEmpty()],
-    async (req, res) => {
+    async (req: Request, res: Response) => {
       if (handleErrors(req, res)) return;
-      const { name, checked, importance, note } = req.body;
-
-      type fields = {
-        name?: string;
-        checked?: boolean;
-        importance?: number;
-        note?: string;
-      };
+      const { itemId }: { itemId?: string } = req.params;
+      const { name, checked, importance, note }: IItem = req.body;
 
       // Build item object
-      const itemFields: fields = {};
+      const itemFields: Fields = {};
       if (name !== undefined) itemFields.name = name;
       if (checked !== undefined) itemFields.checked = checked;
       if (importance !== undefined) itemFields.importance = importance;
       if (note !== undefined) itemFields.note = note;
 
       try {
-        let item = await Item.findById(req.params.itemId);
+        let item = await Item.findById(itemId);
         if (!item) return res.status(404).send({ msg: "Item not found" });
 
-        // Validate that user owns item
-        // if (item.user.toString() !== req.user.id) {
-        //   return res.status(401).send({ msg: "Unauthorized request" });
-        // }
+        // Verification
+        const [user, list] = await Promise.all([
+          User.findById(req.user.id),
+          List.findById(item.list),
+        ]);
+        if (!user) return res.status(404).send({ msg: "User not found" });
+        if (!list) return res.status(404).send({ msg: "List not found" });
+        if (list.accessCode === "") {
+          if (user.id !== list.user.toString())
+            return res.status(401).send({ msg: "Wrong user, authorisation denied" });
+        } else if (!user.accessCodes.includes(list.accessCode))
+          return res.status(401).send({ msg: "Missing access code, authorisation denied" });
 
         item = await Item.findByIdAndUpdate(
-          req.params.itemId,
+          itemId,
           {
             $set: itemFields,
           },
@@ -108,7 +142,7 @@ const ItemRoutes = (getSocket) => {
         );
 
         // Emit
-        getSocket().map((socket) => socket.emit("editItem", item));
+        getSockets().map((socket) => socket.emit("editItem", item));
 
         res.json(item);
       } catch (e) {
@@ -121,21 +155,30 @@ const ItemRoutes = (getSocket) => {
   // @route   DELETE api/lists/:itemId
   // @desc    Delete a user's list
   // @access  PRIVATE
-  router.delete("/:itemId", auth, async (req, res) => {
+  router.delete("/:itemId", auth, async (req: Request, res: Response) => {
+    const { itemId }: { itemId?: string } = req.params;
+
     try {
-      const { itemId } = req.params;
       const item = await Item.findById(itemId);
       if (!item) return res.status(404).send({ msg: "Item not found" });
 
-      // Validate that user owns item
-      // if (item.user.toString() !== req.user.id) {
-      //   return res.status(401).send({ msg: "Unauthorized request" });
-      // }
+      // Verification
+      const [user, list] = await Promise.all([
+        User.findById(req.user.id),
+        List.findById(item.list),
+      ]);
+      if (!user) return res.status(404).send({ msg: "User not found" });
+      if (!list) return res.status(404).send({ msg: "List not found" });
+      if (list.accessCode === "") {
+        if (user.id !== list.user.toString())
+          return res.status(401).send({ msg: "Wrong user, authorisation denied" });
+      } else if (!user.accessCodes.includes(list.accessCode))
+        return res.status(401).send({ msg: "Missing access code, authorisation denied" });
 
       await Item.findByIdAndRemove(itemId);
 
       // Emit
-      getSocket().map((socket) => socket.emit("deleteItem", itemId));
+      getSockets().map((socket) => socket.emit("deleteItem", itemId));
 
       res.send({ msg: "Item removed" });
     } catch (e) {

@@ -1,6 +1,8 @@
+import { Response } from "express";
 import { validationResult } from "express-validator";
+import { Request } from "express-validator/src/base";
 
-const handleErrors = (req, res) => {
+const handleErrors = (req: Request, res: Response) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     errors.array().map((e) => {
