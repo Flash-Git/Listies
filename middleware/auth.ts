@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken";
 import config from "config";
+import { Middleware } from "express-validator/src/base";
 
-const auth: any = (req, res, next) => {
+const auth: Middleware = (req, res, next) => {
   // Get token from header
   const token = req.header("x-auth-token");
 

@@ -1,11 +1,13 @@
+import { Response } from "express";
 import nodemailer from "nodemailer";
+import { Request } from "express-validator/src/base";
 import jwt, { Secret } from "jsonwebtoken";
 import config from "config";
 
 import { User } from "models";
 
 // Works better when not middleware
-const sendEmail: any = async (req, res, { name, email }: User) => {
+const sendEmail = async (req: Request, res: Response, { name, email }: User): Promise<void> => {
   const payload = { name, email };
 
   const jwtSecret: Secret =

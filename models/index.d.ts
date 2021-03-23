@@ -22,6 +22,7 @@ export interface Item extends Document {
   list: List["_id"];
   name: string;
   checked: boolean;
+  importance: number;
   note: string;
   date: Date;
 }

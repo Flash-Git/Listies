@@ -1,16 +1,20 @@
-import express from "express";
-const router = express.Router();
+import { Router, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt, { Secret } from "jsonwebtoken";
 import { check } from "express-validator";
+import { Request } from "express-validator/src/base";
 import config from "config";
 
 import handleErrors from "./handleErrors";
 
-import sendEmail from "../../middleware/email";
+import sendEmail from "./email";
 
 // Models
 import User from "../../models/User";
+
+import { User as IUser } from "models";
+
+const router = Router();
 
 // @route   POST api/users
 // @desc    Register a user
@@ -24,9 +28,9 @@ router.post(
       min: 7,
     }),
   ],
-  async (req, res) => {
+  async (req: Request, res: Response) => {
     if (handleErrors(req, res)) return;
-    const { name, email, password } = req.body;
+    const { name, email, password }: IUser = req.body;
 
     try {
       if (await User.findOne({ email }))
