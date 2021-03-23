@@ -12,6 +12,8 @@ import auth from "../../middleware/auth";
 // Models
 import User from "../../models/User";
 
+import { User as IUser } from "models";
+
 const router = express.Router();
 
 // @route   GET api/auth
@@ -38,7 +40,7 @@ router.post(
   ],
   async (req: Request, res: Response) => {
     if (handleErrors(req, res)) return;
-    const { email, password } = req.body;
+    const { email, password }: IUser = req.body;
 
     try {
       const user = await User.findOne({ email });
