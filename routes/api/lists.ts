@@ -1,6 +1,6 @@
-import express from "express";
-const router = express.Router();
+import { Router, Response } from "express";
 import { check } from "express-validator";
+import { Request } from "express-validator/src/base";
 
 import handleErrors from "./handleErrors";
 
@@ -10,13 +10,20 @@ import auth from "../../middleware/auth";
 import List from "../../models/List";
 import User from "../../models/User";
 
+import { List as IList } from "models";
+
+const router = Router();
+
 // @route   GET api/lists
 // @desc    Get all user's lists
 // @access  PRIVATE
-router.get("/", auth, async (req: any, res) => {
+router.get("/", auth, async (req: Request, res: Response) => {
+  if (handleErrors(req, res)) return;
+
   try {
     // Get lists by most recent
     const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).send({ msg: "User not found" });
     let lists = await Promise.all(
       user.accessCodes.map((accessCode) => {
         return List.findOne({ accessCode }).sort({
@@ -24,10 +31,9 @@ router.get("/", auth, async (req: any, res) => {
         });
       })
     );
-    let personalLists = await List.find({ user: req.user.id });
+    const personalLists = await List.find({ user: req.user.id });
 
-    lists = lists.filter((list) => list !== null);
-    res.json([...lists, ...personalLists]);
+    res.json([...lists.filter((list) => list), ...personalLists]);
   } catch (e) {
     console.error(e.message);
     res.status(500).send({ msg: "Server Error" });
@@ -39,35 +45,36 @@ router.get("/", auth, async (req: any, res) => {
 // @access  PRIVATE
 router.post(
   "/",
-  [auth, [check("name", "Please enter a name").not().isEmpty()]],
-  async (req, res) => {
+  auth,
+  [check("name", "Please enter a name").not().isEmpty()],
+  async (req: Request, res: Response) => {
     if (handleErrors(req, res)) return;
 
-    const { name, accessCode } = req.body;
+    const { name, accessCode }: IList = req.body;
+
     try {
       const newList = new List({
         name,
-        accessCode: accessCode,
+        accessCode,
         user: req.user.id,
       });
 
-      const checkList = async (accessCode) => {
+      const getPublicList = async (accessCode) => {
         if (accessCode === "") return null;
-        const existingList = await List.findOne({ accessCode });
-        return existingList;
+        return await List.findOne({ accessCode });
       };
 
-      const exists = await checkList(accessCode);
+      const publicList = await getPublicList(accessCode);
 
       // Existing public list
-      if (exists) {
-        res.json(exists);
+      if (publicList) {
+        res.json(publicList);
         await (await User.findById(req.user.id)).updateOne({
-          $push: { accessCodes: exists.accessCode },
+          $push: { accessCodes: publicList.accessCode },
         });
 
-        await List.findByIdAndUpdate(exists.id, {
-          count: ++exists.count,
+        await List.findByIdAndUpdate(publicList.id, {
+          count: ++publicList.count,
         });
         return;
       }
@@ -92,10 +99,11 @@ router.post(
 // @route   DELETE api/lists
 // @desc    Delete a user's list
 // @access  PRIVATE
-router.delete("/:id", auth, async (req: any, res) => {
-  try {
-    const listId = req.params.id;
+router.delete("/:listId", auth, async (req: Request, res: Response) => {
+  if (handleErrors(req, res)) return;
+  const { listId }: { listId?: string } = req.params;
 
+  try {
     const list = await List.findById(listId);
     if (!list) return res.status(404).send({ msg: "List not found" });
 
