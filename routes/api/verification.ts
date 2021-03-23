@@ -1,32 +1,32 @@
-import express from "express";
+import { Response, Router } from "express";
 import jwt, { Secret } from "jsonwebtoken";
 import { check } from "express-validator";
+import { Request } from "express-validator/src/base";
 import config from "config";
-
-const router = express.Router();
 
 import handleErrors from "./handleErrors";
 
-import sendEmail from "../../middleware/email";
+import sendEmail from "./email";
 
 // Models
 import User from "../../models/User";
 
+const router = Router();
+
 // @route   GET api/verification
 // @desc    Get verification
 // @access  PUBLIC
-router.get("/:email/:token", async (req: any, res) => {
-  try {
-    const tokenParam = req.params.token;
-    const emailParam = req.params.email;
+router.get("/:email/:token", async (req: Request, res: Response) => {
+  const { token, email }: { token?: string; email?: string } = req.params;
 
-    const user = await User.findOne({ email: emailParam });
+  try {
+    const user = await User.findOne({ email });
     if (!user) return res.status(401).send({ msg: "User not found" });
 
     const jwtSecret: Secret =
       process.env.NODE_ENV == "production" ? process.env.JWT_SECRET : config.get("jwtSecret");
 
-    jwt.verify(tokenParam, jwtSecret, (e, decoded) => {
+    jwt.verify(token, jwtSecret, (e, _decoded) => {
       if (e) res.status(403).send({ msg: "Invalid token" });
     });
 
@@ -46,9 +46,9 @@ router.get("/:email/:token", async (req: any, res) => {
 router.post(
   "/",
   [check("email", "Please enter your email address").isEmail()],
-  async (req: any, res) => {
+  async (req: Request, res: Response) => {
     if (handleErrors(req, res)) return;
-    const { email } = req.body;
+    const { email }: { email: string } = req.body;
 
     try {
       const user = await User.findOne({ email });
