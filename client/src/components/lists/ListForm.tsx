@@ -6,7 +6,7 @@ import { List, ListContext as IListContext } from "context";
 
 const ListForm: FC = () => {
   const listContext: IListContext = useContext(ListContext);
-  const { addList, clearCurrentList } = listContext;
+  const { pushList, clearCurrentList } = listContext;
 
   const emptyList: List = {
     name: "",
@@ -28,7 +28,7 @@ const ListForm: FC = () => {
   const onSubmit = (e: any) => {
     e.preventDefault();
 
-    addList({ ...list, name: name.trim() });
+    pushList({ ...list, name: name.trim() });
     clearAll();
   };
 
