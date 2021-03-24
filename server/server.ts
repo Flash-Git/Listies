@@ -83,12 +83,12 @@ class Server {
       console.log("Client connected");
 
       socket.on("identify", (user) => {
-        console.log("identifying user", user);
-        this.sockets.push({ socket, user });
+        const existingSocket = this.sockets.find((obj) => obj.socket === socket);
+        if (existingSocket) existingSocket.user = user;
+        else this.sockets.push({ socket, user });
       });
 
       socket.on("updateList", (listId) => {
-        console.log("updating list", listId);
         const sock = this.sockets.find((obj) => obj.socket === socket);
         if (sock) sock.listId = listId;
       });
