@@ -23,6 +23,8 @@ interface SocketObj {
 
 type SocketObjs = SocketObj[];
 
+export type GetFilteredSockets = (param: string) => Socket[];
+
 class Server {
   private app: Express;
   private sockets: SocketObjs = [];
@@ -47,9 +49,7 @@ class Server {
     );
     this.app.use(
       "/api/items",
-      itemsRoutes((listId: string) =>
-        this.sockets.filter((obj) => obj.listId === listId).map((obj) => obj.socket)
-      )
+      itemsRoutes((listId) => this.getSockets(listId, "listId"))
     );
 
     // Serve static assets in production
