@@ -92,7 +92,8 @@ declare module "context" {
   export interface List {
     _id?: string;
     name: string;
-    accessCode: string;
+    accessId?: string;
+    password?: string;
     id: string;
     user?: string;
   }
