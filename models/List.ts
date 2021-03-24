@@ -6,9 +6,11 @@ const ListSchema: Schema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "users",
   },
-  accessCode: {
+  accessId: {
     type: String,
-    default: "",
+  },
+  password: {
+    type: String,
   },
   name: {
     type: String,
@@ -17,10 +19,6 @@ const ListSchema: Schema = new Schema({
   date: {
     type: Date,
     default: Date.now,
-  },
-  count: {
-    type: Number,
-    default: 1,
   },
 });
 

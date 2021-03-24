@@ -11,11 +11,23 @@ import verificationRoutes from "../routes/api/verification";
 import listsRoutes from "../routes/api/lists";
 import itemsRoutes from "../routes/api/items";
 
+import { User } from "models";
+
 if (process.env.NODE_ENV !== "production") dotenv.config();
+
+interface SocketObj {
+  socket: Socket;
+  user: User;
+  listId?: string;
+}
+
+type SocketObjs = SocketObj[];
+
+export type GetFilteredSockets = (param: string) => Socket[];
 
 class Server {
   private app: Express;
-  private sockets: Socket[] = [];
+  private sockets: SocketObjs = [];
   private io: SocketServer;
 
   constructor(app: Express) {
@@ -31,10 +43,13 @@ class Server {
     this.app.use("/api/users", usersRoutes);
     this.app.use("/api/auth", authRoutes);
     this.app.use("/api/verification", verificationRoutes);
-    this.app.use("/api/lists", listsRoutes);
+    this.app.use(
+      "/api/lists",
+      listsRoutes((userId) => this.getSockets(userId, "userId"))
+    );
     this.app.use(
       "/api/items",
-      itemsRoutes(() => this.sockets)
+      itemsRoutes((listId) => this.getSockets(listId, "listId"))
     );
 
     // Serve static assets in production
@@ -46,6 +61,19 @@ class Server {
     }
   }
 
+  private getSockets(param: string, type: "userId" | "listId") {
+    const filter = () => {
+      switch (type) {
+        case "userId":
+          return this.sockets.filter((obj) => obj.user._id.toString() === param);
+        case "listId":
+          return this.sockets.filter((obj) => obj.listId === param);
+      }
+    };
+
+    return filter().map((obj) => obj.socket);
+  }
+
   public start(port: number | string): void {
     const server = this.app.listen(port, () => console.log(`Server started on port ${port}`));
 
@@ -53,10 +81,21 @@ class Server {
 
     this.io.on("connection", (socket: Socket) => {
       console.log("Client connected");
-      this.sockets.push(socket);
+
+      socket.on("identify", (user) => {
+        console.log("identifying user", user);
+        this.sockets.push({ socket, user });
+      });
+
+      socket.on("updateList", (listId) => {
+        console.log("updating list", listId);
+        const sock = this.sockets.find((obj) => obj.socket === socket);
+        if (sock) sock.listId = listId;
+      });
+
       socket.on("disconnect", (reason) => {
         console.log("Client disconnected: " + reason);
-        this.sockets.filter((s) => s !== socket);
+        this.sockets = this.sockets.filter((obj) => obj.socket !== socket);
       });
     });
   }

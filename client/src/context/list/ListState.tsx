@@ -49,7 +49,7 @@ const ListState: FC = (props) => {
   const [state, dispatch] = useReducer(ListReducer, initialState);
 
   const authContext: IAuthContext = useContext(AuthContext);
-  const { logout } = authContext;
+  const { user, logout } = authContext;
 
   const handleForbidden: HandleForbidden = (e) => {
     if (!e.response) return;
@@ -76,7 +76,7 @@ const ListState: FC = (props) => {
     dispatch({ type: SET_LISTS, payload: lists });
   };
 
-  const addList: AddList = async (list) => {
+  const pushList: AddList = async (list) => {
     const config: any = {
       header: {
         "Content-Type": "application/json",
@@ -85,7 +85,7 @@ const ListState: FC = (props) => {
 
     try {
       const res = await axios.post("/api/lists", list, config);
-      dispatch({ type: ADD_LIST, payload: res.data });
+      addList(res.data);
       setCurrentList(res.data);
     } catch (e) {
       dispatch({ type: LIST_ERROR, payload: e.response.data.msg });
@@ -93,32 +93,27 @@ const ListState: FC = (props) => {
     }
   };
 
-  const deleteList: DeleteList = async (id: string) => {
-    try {
-      // Delete items in list
-      // const res = await axios.get(`/api/items/${id}`);
-      // Deletes all associated items
-      // res.data.map(
-      //   (item: Item) => item._id && axios.delete(`/api/items/${item._id}`)
-      // );
+  const addList: AddList = async (list) => dispatch({ type: ADD_LIST, payload: list });
 
-      // Delete list
+  const pushDeleteList: DeleteList = async (id: string) => {
+    deleteList(id);
+
+    try {
       await axios.delete(`/api/lists/${id}`);
-      dispatch({ type: DELETE_LIST, payload: id });
     } catch (e) {
       dispatch({ type: LIST_ERROR, payload: e.response.data.msg });
-      dispatch({ type: DELETE_LIST, payload: id });
       handleForbidden(e);
     }
   };
 
-  const setCurrentList: SetCurrentList = (currentList) => {
-    dispatch({ type: SET_CURRENT, payload: currentList });
+  const deleteList: DeleteList = async (id) => {
+    dispatch({ type: DELETE_LIST, payload: id });
   };
 
-  const clearCurrentList: ClearCurrentList = () => {
-    dispatch({ type: CLEAR_CURRENT });
-  };
+  const setCurrentList: SetCurrentList = (currentList) =>
+    dispatch({ type: SET_CURRENT, payload: { user, currentList } });
+
+  const clearCurrentList: ClearCurrentList = () => dispatch({ type: CLEAR_CURRENT });
 
   const clearLists: ClearLists = () => dispatch({ type: CLEAR_LISTS });
 
@@ -142,7 +137,9 @@ const ListState: FC = (props) => {
         hidden: state.hidden,
         getLists,
         setLists,
+        pushList,
         addList,
+        pushDeleteList,
         deleteList,
         setCurrentList,
         clearCurrentList,

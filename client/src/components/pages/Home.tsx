@@ -1,4 +1,4 @@
-import { FC, useContext } from "react";
+import { FC, useContext, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { useMountEffect } from "../../functions/hooks";
@@ -21,26 +21,40 @@ import {
 
 const Home: FC = () => {
   const appContext: IAppContext = useContext(AppContext);
-  const { initialiseSocket } = appContext;
+  const { initialiseSocket, identifySelf } = appContext;
 
   const authContext: IAuthContext = useContext(AuthContext);
-  const { loadUser } = authContext;
+  const { user, isAuthenticated, loading, loadUser } = authContext;
 
   const listContext: IListContext = useContext(ListContext);
-  const { hidden, toggleHidden, setHidden, currentList, setCurrentList } = listContext;
+  const {
+    hidden,
+    currentList,
+    toggleHidden,
+    setHidden,
+    setCurrentList,
+    clearCurrentList,
+  } = listContext;
 
   useMountEffect(() => {
     initialiseSocket();
-    // setLoading(true);
     loadUser();
+
+    setHidden(localStorage.getItem("hidden") === "true" ? true : false);
+  });
+
+  useEffect(() => {
+    if (!user) return;
+
+    identifySelf(user);
 
     const currentList = localStorage.getItem("currentList");
     if (!currentList) return;
     const parsedList: List = JSON.parse(currentList);
-    parsedList && setCurrentList(parsedList);
-
-    setHidden(localStorage.getItem("hidden") === "true" ? true : false);
-  });
+    const lastUser = localStorage.getItem("lastUser");
+    if (lastUser === user._id.toString()) setCurrentList(parsedList);
+    else clearCurrentList();
+  }, [loading, isAuthenticated, user]);
 
   const toggleList = () => {
     toggleHidden();

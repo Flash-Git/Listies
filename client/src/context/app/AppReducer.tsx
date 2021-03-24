@@ -1,4 +1,10 @@
-import { SET_SOCKET, CLEAR_SOCKET, TOGGLE_DARK_MODE, SET_DARK_MODE } from "../types";
+import {
+  SET_SOCKET,
+  CLEAR_SOCKET,
+  IDENTIFIED_USER,
+  TOGGLE_DARK_MODE,
+  SET_DARK_MODE,
+} from "../types";
 
 import { Action, AppState } from "context";
 
@@ -13,6 +19,11 @@ const AppReducer = (state: AppState, { type, payload }: Action): AppState => {
       return {
         ...state,
         socket: null,
+      };
+    case IDENTIFIED_USER:
+      return {
+        ...state,
+        identifed: true,
       };
     case TOGGLE_DARK_MODE:
       localStorage.setItem("darkMode", `${!state.darkMode}`);

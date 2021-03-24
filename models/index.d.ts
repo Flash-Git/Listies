@@ -6,15 +6,15 @@ export interface User extends Document {
   verified: boolean;
   password: string;
   date: Date;
-  accessCodes: string[];
+  accessIds: string[];
 }
 
 export interface List extends Document {
   user: User["_id"];
-  accessCode: string;
+  accessId: string;
+  password?: string;
   name: string;
   date: Date;
-  count: number;
 }
 
 export interface Item extends Document {
