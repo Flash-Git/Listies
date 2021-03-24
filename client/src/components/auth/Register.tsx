@@ -1,4 +1,4 @@
-import { FC, useState, useContext, useEffect } from "react";
+import { FC, useState, useContext, useEffect, ChangeEvent, FormEvent } from "react";
 
 import AlertContext from "../../context/alert/AlertContext";
 import AuthContext from "../../context/auth/AuthContext";
@@ -46,10 +46,10 @@ const Register: FC<Props> = ({ history }) => {
     // eslint-disable-next-line
   }, [error]);
 
-  const onChange = (e: { target: { name: any; value: any } }) =>
+  const onChange = (e: ChangeEvent<HTMLInputElement>) =>
     setUser({ ...user, [e.target.name]: e.target.value });
 
-  const onSubmit = (e: { preventDefault: () => void }) => {
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (name === "" || email === "" || password === "") {
       addAlert("Please enter all fields", "danger");
@@ -78,11 +78,26 @@ const Register: FC<Props> = ({ history }) => {
       <form onSubmit={onSubmit}>
         <div className="form-group">
           <label htmlFor="name">Name</label>
-          <input type="text" name="name" value={name} onChange={onChange} />
+          <input
+            type="text"
+            name="name"
+            value={name}
+            onChange={onChange}
+            autoComplete="name"
+            autoFocus
+            required
+          />
         </div>
         <div className="form-group">
           <label htmlFor="name">Email Address</label>
-          <input type="text" name="email" value={email} onChange={onChange} />
+          <input
+            type="text"
+            name="email"
+            value={email}
+            onChange={onChange}
+            autoComplete="email"
+            required
+          />
         </div>
         <div className="form-group">
           <label htmlFor="password">Password</label>
@@ -91,6 +106,8 @@ const Register: FC<Props> = ({ history }) => {
             name="password"
             value={password}
             onChange={onChange}
+            autoComplete="new-password"
+            required
             // minLength="7"
           />
         </div>
@@ -101,6 +118,8 @@ const Register: FC<Props> = ({ history }) => {
             name="password2"
             value={password2}
             onChange={onChange}
+            autoComplete="new-password"
+            required
             // minLength="7"
           />
         </div>

@@ -1,4 +1,14 @@
-import { FC, useState, useContext, useEffect, Fragment } from "react";
+import {
+  FC,
+  useState,
+  useContext,
+  useEffect,
+  Fragment,
+  useRef,
+  useLayoutEffect,
+  ChangeEvent,
+  FormEvent,
+} from "react";
 
 import Exporter from "../layout/Exporter";
 import Sorter from "../layout/Sorter";
@@ -15,13 +25,18 @@ const ItemForm: FC<Props> = ({ currentList }) => {
   const itemContext: IItemContext = useContext(ItemContext); //IItemContext
   const { items, pushItem, sortItems } = itemContext;
 
-  // List
   const [listId, setListId] = useState("");
   const [listName, setListName] = useState("No List Selected");
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setListId(currentList ? currentList.id : "");
     setListName(currentList ? currentList.name : "No List Selected");
+  }, [currentList]);
+
+  useLayoutEffect(() => {
+    inputRef.current?.focus();
   }, [currentList]);
 
   const emptyItem = {
@@ -32,9 +47,10 @@ const ItemForm: FC<Props> = ({ currentList }) => {
   const { name } = item;
 
   // Input
-  const onChange = (e: any) => setItem({ ...item, [e.target.name]: e.target.value });
+  const onChange = (e: ChangeEvent<HTMLInputElement>) =>
+    setItem({ ...item, [e.target.name]: e.target.value });
 
-  const onSubmit = (e: any) => {
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     pushItem({ ...item, name: name.trim() }, listId);
@@ -58,6 +74,7 @@ const ItemForm: FC<Props> = ({ currentList }) => {
       }}
     >
       <input
+        id="itemFormName"
         style={{
           minWidth: "5rem",
           maxWidth: "15rem",
@@ -69,6 +86,9 @@ const ItemForm: FC<Props> = ({ currentList }) => {
         name="name"
         value={name}
         onChange={onChange}
+        autoComplete={"off"}
+        ref={inputRef}
+        autoFocus
       />
       <input
         style={{
