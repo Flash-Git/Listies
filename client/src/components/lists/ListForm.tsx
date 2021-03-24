@@ -1,4 +1,4 @@
-import { useState, useContext, FC } from "react";
+import { useState, useContext, FC, ChangeEvent, FormEvent } from "react";
 
 import ListContext from "../../context/list/ListContext";
 
@@ -23,9 +23,10 @@ const ListForm: FC = () => {
   };
 
   // Input
-  const onChange = (e: any) => setList({ ...list, [e.target.name]: e.target.value });
+  const onChange = (e: ChangeEvent<HTMLInputElement>) =>
+    setList({ ...list, [e.target.name]: e.target.value });
 
-  const onSubmit = (e: any) => {
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     addList({ ...list, name: name.trim() });

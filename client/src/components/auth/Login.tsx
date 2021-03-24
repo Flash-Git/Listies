@@ -1,4 +1,4 @@
-import { FC, useState, useContext, useEffect } from "react";
+import { FC, useState, useContext, useEffect, FormEvent, ChangeEvent } from "react";
 
 import AlertContext from "../../context/alert/AlertContext";
 import AuthContext from "../../context/auth/AuthContext";
@@ -48,10 +48,10 @@ const Login: FC<Props> = ({ history }) => {
     //eslint-disable-next-line
   }, [error]);
 
-  const onChange = (e: { target: { name: string; value: string } }) =>
+  const onChange = (e: ChangeEvent<HTMLInputElement>) =>
     setUser({ ...user, [e.target.name]: e.target.value });
 
-  const onSubmit = (e: { preventDefault: () => void }) => {
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (email === "" || password === "") {
       addAlert("Please fill in all fields", "danger");
@@ -75,12 +75,19 @@ const Login: FC<Props> = ({ history }) => {
       </h1>
       <form onSubmit={onSubmit}>
         <div className="form-group">
-          <label htmlFor="name">Email Address</label>
-          <input type="email" name="email" value={email} onChange={onChange} />
+          <label htmlFor="email">Email Address</label>
+          <input type="email" name="email" value={email} onChange={onChange} autoFocus required />
         </div>
         <div className="form-group">
           <label htmlFor="password">Password</label>
-          <input type="password" name="password" value={password} onChange={onChange} />
+          <input
+            type="password"
+            name="password"
+            value={password}
+            onChange={onChange}
+            autoComplete={"current-password"}
+            required
+          />
         </div>
         <input type="submit" value="Login" className="btn btn-primary btn-block" />
       </form>
