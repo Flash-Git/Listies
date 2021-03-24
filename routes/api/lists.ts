@@ -67,14 +67,23 @@ const ListRoutes = (getSockets: GetFilteredSockets) => {
           accessId,
           user: user.id,
         });
-        if (password) newList.password = password;
+        if (password) {
+          const salt = await bcrypt.genSalt(10);
+          newList.password = await bcrypt.hash(password, salt);
+        }
 
         await user.updateOne({
           $push: { accessIds: accessId },
         });
 
         const existingList = await List.findOne({ accessId });
-        if (existingList) return res.status(201).send(existingList);
+
+        if (existingList) {
+          // Emit
+          getSockets(user.id).map((socket: Socket) => socket.emit("addList", existingList));
+
+          return res.status(201).send(existingList);
+        }
 
         const list = await newList.save();
 
