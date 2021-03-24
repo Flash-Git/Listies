@@ -48,7 +48,6 @@ const AuthState: FC = (props) => {
 
   const handleForbidden: HandleForbidden = (e: AxiosError) => {
     if (!e.response) return;
-    // clearErrors();
     if (e.response.status === 401) logout(e.response.data.message);
   };
 
@@ -83,9 +82,8 @@ const AuthState: FC = (props) => {
     }
   };
 
-  const setLoading: SetLoading = async (loading) => {
+  const setLoading: SetLoading = async (loading) =>
     dispatch({ type: SET_LOADING, payload: loading });
-  };
 
   const loadUser: LoadUser = async () => {
     updateAuthTokenHeader(localStorage.token);
@@ -114,9 +112,7 @@ const AuthState: FC = (props) => {
     }
   };
 
-  const logout: Logout = (msg) => {
-    dispatch({ type: LOGOUT, payload: msg });
-  };
+  const logout: Logout = (msg) => dispatch({ type: LOGOUT, payload: msg });
 
   const clearErrors: ClearErrors = () => dispatch({ type: CLEAR_ERRORS });
 

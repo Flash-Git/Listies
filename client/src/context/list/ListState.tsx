@@ -1,5 +1,5 @@
 import { useReducer, FC, useContext } from "react";
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 
 import AuthContext from "../auth/AuthContext";
 
@@ -72,13 +72,11 @@ const ListState: FC = (props) => {
     }
   };
 
-  const setLists: SetLists = async (lists) => {
-    dispatch({ type: SET_LISTS, payload: lists });
-  };
+  const setLists: SetLists = async (lists) => dispatch({ type: SET_LISTS, payload: lists });
 
   const pushList: AddList = async (list) => {
-    const config: any = {
-      header: {
+    const config: AxiosRequestConfig = {
+      headers: {
         "Content-Type": "application/json",
       },
     };
@@ -106,9 +104,7 @@ const ListState: FC = (props) => {
     }
   };
 
-  const deleteList: DeleteList = async (id) => {
-    dispatch({ type: DELETE_LIST, payload: id });
-  };
+  const deleteList: DeleteList = async (id) => dispatch({ type: DELETE_LIST, payload: id });
 
   const setCurrentList: SetCurrentList = (currentList) =>
     dispatch({ type: SET_CURRENT, payload: { user, currentList } });
@@ -119,13 +115,9 @@ const ListState: FC = (props) => {
 
   const clearErrors: ClearErrors = () => dispatch({ type: CLEAR_ERRORS });
 
-  const toggleHidden: ToggleHidden = () => {
-    dispatch({ type: TOGGLE_HIDDEN });
-  };
+  const toggleHidden: ToggleHidden = () => dispatch({ type: TOGGLE_HIDDEN });
 
-  const setHidden: SetHidden = (hidden) => {
-    dispatch({ type: SET_HIDDEN, payload: hidden });
-  };
+  const setHidden: SetHidden = (hidden) => dispatch({ type: SET_HIDDEN, payload: hidden });
 
   return (
     <ListContext.Provider
