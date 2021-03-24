@@ -24,7 +24,7 @@ interface Props {
 
 const Items: FC<Props> = ({ currentList }) => {
   const appContext: IAppContext = useContext(AppContext);
-  const { socket } = appContext;
+  const { socket, identifed, updateSocketList } = appContext;
 
   const authContext: IAuthContext = useContext(AuthContext);
   const { loading: authLoading, isAuthenticated } = authContext;
@@ -47,11 +47,16 @@ const Items: FC<Props> = ({ currentList }) => {
   const { addAlert } = alertContext;
 
   useEffect(() => {
-    if (!socket) return;
+    if (!socket || !currentList || !identifed) return;
+
+    updateSocketList(currentList.id);
+  }, [identifed, currentList, socket]);
+
+  useEffect(() => {
+    if (!socket || !currentList) return;
 
     socket.on("addItem", (item: IItem, listId: string) => {
-      const lsList = JSON.parse(localStorage["currentList"]);
-      if (!lsList || lsList.id !== listId) return;
+      if (currentList.id !== listId) return;
       addItem(item, listId);
     });
     socket.on("editItem", (item: IItem) => {
@@ -60,7 +65,11 @@ const Items: FC<Props> = ({ currentList }) => {
     socket.on("deleteItem", (itemId: string) => {
       deleteItem(itemId);
     });
-  }, [socket]);
+
+    return () => {
+      socket.removeAllListeners();
+    };
+  }, [socket, currentList]);
 
   useEffect(() => {
     if (!error) return;
