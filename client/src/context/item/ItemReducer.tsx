@@ -36,7 +36,7 @@ const ItemReducer = (state: ItemState, action: Action): ItemState => {
       localStorage.setItem(
         "list" + action.payload.listId,
         JSON.stringify(
-          action.payload.items.map((item: any) => {
+          action.payload.items.map((item: Item) => {
             return item.id;
           })
         )
@@ -67,7 +67,7 @@ const ItemReducer = (state: ItemState, action: Action): ItemState => {
       action.payload.item.id = action.payload.item._id;
       delete action.payload.item._id;
 
-      const newState = {
+      const newState: ItemState = {
         ...state,
         items: [action.payload.item, ...state.items],
         loading: false,

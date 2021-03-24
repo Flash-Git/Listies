@@ -1,4 +1,4 @@
-import { FC, useContext, useEffect, useState } from "react";
+import { DragEvent, FC, useContext, useEffect, useState } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import ListItem from "./ListItem";
@@ -71,7 +71,7 @@ const Lists: FC = () => {
 
   const [draggedList, setDraggedList] = useState<List | null>(null);
 
-  const onDragStart = (e: any, index: number, name: string) => {
+  const onDragStart = (e: DragEvent<HTMLDivElement>, index: number, name: string) => {
     setDraggedList(lists[index]);
     e.dataTransfer.setData("text/plain", name);
     e.dataTransfer.effectAllowed = "move";
