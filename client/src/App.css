@@ -39,7 +39,8 @@ a {
   text-decoration: none;
 }
 
-a:hover {
+a:hover,
+a:focus {
   color: #666;
 }
 
@@ -406,8 +407,9 @@ img {
   border: var(--border-light-color) solid 1px;
 }
 
-.btn:hover {
-  opacity: 0.8;
+.btn:hover,
+.btn:focus {
+  opacity: 0.6;
 }
 
 .bg-light,
