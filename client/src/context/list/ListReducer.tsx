@@ -59,10 +59,11 @@ const ListReducer = (state: ListState, { type, payload }: Action): ListState => 
         loading: false,
       };
     case SET_CURRENT:
-      localStorage.setItem("currentList", JSON.stringify(payload));
+      localStorage.setItem("lastUser", payload.user._id);
+      localStorage.setItem("currentList", JSON.stringify(payload.currentList));
       return {
         ...state,
-        currentList: payload,
+        currentList: payload.currentList,
         loading: false,
       };
     case CLEAR_CURRENT:

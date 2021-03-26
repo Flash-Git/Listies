@@ -24,7 +24,7 @@ const UserSchema: Schema = new Schema({
     type: Date,
     default: Date.now,
   },
-  accessCodes: {
+  accessIds: {
     type: [String],
     default: [],
   },

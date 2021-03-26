@@ -12,11 +12,11 @@ const ListItem: FC<Props> = ({ list }) => {
   const { id, name } = list;
 
   const listContext: IListContext = useContext(ListContext);
-  const { currentList, deleteList, setCurrentList, clearCurrentList } = listContext;
+  const { currentList, pushDeleteList, setCurrentList, clearCurrentList } = listContext;
 
   const onDelete = () => {
     if (currentList && currentList.id === list.id) clearCurrentList();
-    deleteList(id);
+    pushDeleteList(id);
   };
 
   const onSelect = () => setCurrentList(list);

@@ -13,10 +13,11 @@ import List from "../../models/List";
 import User from "../../models/User";
 
 import { Item as IItem } from "models";
+import { GetFilteredSockets } from "server/server";
 
 const router = Router();
 
-const ItemRoutes = (getSockets: () => Socket[]) => {
+const ItemRoutes = (getSockets: GetFilteredSockets) => {
   // @route   GET api/items/:id
   // @desc    Get all list's items
   // @access  PRIVATE
@@ -28,11 +29,8 @@ const ItemRoutes = (getSockets: () => Socket[]) => {
       const [user, list] = await Promise.all([User.findById(req.user.id), List.findById(listId)]);
       if (!user) return res.status(404).send({ msg: "User not found" });
       if (!list) return res.status(404).send({ msg: "List not found" });
-      if (list.accessCode === "") {
-        if (user.id !== list.user.toString())
-          return res.status(401).send({ msg: "Wrong user, authorisation denied" });
-      } else if (!user.accessCodes.includes(list.accessCode))
-        return res.status(401).send({ msg: "Missing access code, authorisation denied" });
+      if (!user.accessIds.includes(list.accessId))
+        return res.status(403).send({ msg: "Missing access id, permission denied" });
 
       // Get items by most recent
       const items = await Item.find({
@@ -64,22 +62,19 @@ const ItemRoutes = (getSockets: () => Socket[]) => {
         const [user, list] = await Promise.all([User.findById(req.user.id), List.findById(listId)]);
         if (!user) return res.status(404).send({ msg: "User not found" });
         if (!list) return res.status(404).send({ msg: "List not found" });
-        if (list.accessCode === "") {
-          if (user.id !== list.user.toString())
-            return res.status(401).send({ msg: "Wrong user, authorisation denied" });
-        } else if (!user.accessCodes.includes(list.accessCode))
-          return res.status(401).send({ msg: "Missing access code, authorisation denied" });
+        if (!user.accessIds.includes(list.accessId))
+          return res.status(403).send({ msg: "Missing access id, permission denied" });
 
         const newItem = new Item({
           name,
-          user: req.user.id,
+          user: user.id,
           list: listId,
         });
 
         const item = await newItem.save();
 
         // Emit
-        getSockets().map((socket: Socket) => socket.emit("addItem", item, listId));
+        getSockets(list.id).map((socket: Socket) => socket.emit("addItem", item, listId));
 
         res.json(item);
       } catch (e) {
@@ -125,11 +120,8 @@ const ItemRoutes = (getSockets: () => Socket[]) => {
         ]);
         if (!user) return res.status(404).send({ msg: "User not found" });
         if (!list) return res.status(404).send({ msg: "List not found" });
-        if (list.accessCode === "") {
-          if (user.id !== list.user.toString())
-            return res.status(401).send({ msg: "Wrong user, authorisation denied" });
-        } else if (!user.accessCodes.includes(list.accessCode))
-          return res.status(401).send({ msg: "Missing access code, authorisation denied" });
+        if (!user.accessIds.includes(list.accessId))
+          return res.status(403).send({ msg: "Missing access id, permission denied" });
 
         item = await Item.findByIdAndUpdate(
           itemId,
@@ -142,7 +134,7 @@ const ItemRoutes = (getSockets: () => Socket[]) => {
         );
 
         // Emit
-        getSockets().map((socket) => socket.emit("editItem", item));
+        getSockets(list.id).map((socket) => socket.emit("editItem", item));
 
         res.json(item);
       } catch (e) {
@@ -169,16 +161,13 @@ const ItemRoutes = (getSockets: () => Socket[]) => {
       ]);
       if (!user) return res.status(404).send({ msg: "User not found" });
       if (!list) return res.status(404).send({ msg: "List not found" });
-      if (list.accessCode === "") {
-        if (user.id !== list.user.toString())
-          return res.status(401).send({ msg: "Wrong user, authorisation denied" });
-      } else if (!user.accessCodes.includes(list.accessCode))
-        return res.status(401).send({ msg: "Missing access code, authorisation denied" });
+      if (!user.accessIds.includes(list.accessId))
+        return res.status(403).send({ msg: "Missing access id, permission denied" });
 
       await Item.findByIdAndRemove(itemId);
 
       // Emit
-      getSockets().map((socket) => socket.emit("deleteItem", itemId));
+      getSockets(list.id).map((socket) => socket.emit("deleteItem", itemId));
 
       res.send({ msg: "Item removed" });
     } catch (e) {

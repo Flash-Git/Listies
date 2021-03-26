@@ -22,7 +22,7 @@ interface Props {
 }
 
 const ItemForm: FC<Props> = ({ currentList }) => {
-  const itemContext: IItemContext = useContext(ItemContext); //IItemContext
+  const itemContext: IItemContext = useContext(ItemContext);
   const { items, pushItem, sortItems } = itemContext;
 
   const [listId, setListId] = useState("");
@@ -120,7 +120,7 @@ const ItemForm: FC<Props> = ({ currentList }) => {
           <Sorter sortItems={sortItems} />
         </Fragment>
       )}
-      <h2 className="text-primary" style={{ marginLeft: "2.5rem" }}>
+      <h2 className="text-primary" style={{ marginLeft: currentList ? "2.5rem" : "0" }}>
         {listName}
       </h2>
       {currentList && inputFields}
