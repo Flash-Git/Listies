@@ -74,7 +74,7 @@ class Server {
     return filter().map((obj) => obj.socket);
   }
 
-  public start(port: number | string): void {
+  public start(port: number): void {
     const server = this.app.listen(port, () => console.log(`Server started on port ${port}`));
 
     this.io = require("socket.io")(server);

@@ -4,8 +4,8 @@ import Server from "./server/server";
 
 const app: Express = express();
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || "5000";
 
 const server: Server = new Server(app);
 
-server.start(PORT);
+server.start(parseInt(PORT));
