@@ -29,8 +29,6 @@ const Register: FC<Props> = ({ history }) => {
     if (!isAuthenticated) return;
     clearAlerts();
     history.push("/");
-
-    // eslint-disable-next-line
   }, [isAuthenticated, history]);
 
   useEffect(() => {
@@ -42,8 +40,6 @@ const Register: FC<Props> = ({ history }) => {
     }
     addAlert(error, "danger");
     clearErrors();
-
-    // eslint-disable-next-line
   }, [error]);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) =>
