@@ -70,6 +70,7 @@ const ItemState: FC = (props) => {
       }
       dispatch({ type: GET_ITEMS, payload: newItems.concat(items) });
     } catch (e) {
+      if (!axios.isAxiosError(e) || !e.response?.data.msg) return;
       dispatch({ type: ITEM_ERROR, payload: e.response.data.msg });
       handleForbidden(e);
     }
@@ -94,6 +95,7 @@ const ItemState: FC = (props) => {
       const res = await axios.post(`/api/items/${listId}`, { item, listId }, config);
       addItem(res.data, listId);
     } catch (e) {
+      if (!axios.isAxiosError(e) || !e.response?.data.msg) return;
       dispatch({ type: ITEM_ERROR, payload: e.response.data.msg });
       handleForbidden(e);
     }
@@ -114,6 +116,7 @@ const ItemState: FC = (props) => {
     try {
       await axios.put(`/api/items/${item.id}`, item, config);
     } catch (e) {
+      if (!axios.isAxiosError(e) || !e.response?.data.msg) return;
       dispatch({ type: ITEM_ERROR, payload: e.response.data.msg });
       handleForbidden(e);
     }
@@ -129,6 +132,7 @@ const ItemState: FC = (props) => {
     try {
       await axios.delete(`/api/items/${itemId}`);
     } catch (e) {
+      if (!axios.isAxiosError(e) || !e.response?.data.msg) return;
       dispatch({ type: ITEM_ERROR, payload: e.response.data.msg });
       handleForbidden(e);
     }
