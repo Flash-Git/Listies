@@ -1,15 +1,14 @@
 import { FC, useState, useContext, useEffect, FormEvent, ChangeEvent } from "react";
+import { useNavigate } from "react-router-dom";
 
 import AlertContext from "../../context/alert/AlertContext";
 import AuthContext from "../../context/auth/AuthContext";
 
 import { AlertContext as IAlertContext, AuthContext as IAuthContext } from "context";
 
-interface Props {
-  history: any;
-}
+const Login: FC = () => {
+  const navigate = useNavigate();
 
-const Login: FC<Props> = ({ history }) => {
   const alertContext: IAlertContext = useContext(AlertContext);
   const { addAlert, clearAlerts } = alertContext;
 
@@ -27,25 +26,17 @@ const Login: FC<Props> = ({ history }) => {
   useEffect(() => {
     if (!isAuthenticated) return;
     clearAlerts();
-    history.push("/");
-
-    //eslint-disable-next-line
+    navigate("/");
   }, [isAuthenticated, history]);
 
   useEffect(() => {
     if (!error) return;
     // TODO errors should be an object with a type property, not just a string
     if (error === "Email has not been verified") setNeedsVerification(true);
-    if (error === "Verification email sent") {
-      addAlert(error, "primary");
-      clearErrors();
-      return;
-    }
-    addAlert(error, "danger");
+    else if (error === "Verification email sent") addAlert(error, "primary");
+    else addAlert(error, "danger");
 
     clearErrors();
-
-    //eslint-disable-next-line
   }, [error]);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) =>
