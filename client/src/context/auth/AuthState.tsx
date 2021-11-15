@@ -63,6 +63,7 @@ const AuthState: FC = (props) => {
       dispatch({ type: REGISTER_SUCCESS, payload: res.data });
       loadUser();
     } catch (e) {
+      if (!axios.isAxiosError(e) || !e.response?.data.msg) return;
       dispatch({ type: REGISTER_FAIL, payload: e.response.data.msg });
       handleForbidden(e);
     }
@@ -79,6 +80,7 @@ const AuthState: FC = (props) => {
       dispatch({ type: AUTH_EMAIL_SENT, payload: res.data.msg });
       console.log(res.data);
     } catch (e) {
+      if (!axios.isAxiosError(e) || !e.response?.data.msg) return;
       dispatch({ type: AUTH_ERROR, payload: e.response.data.msg });
     }
   };
@@ -94,6 +96,7 @@ const AuthState: FC = (props) => {
       const res = await axios.get("/api/auth");
       dispatch({ type: USER_LOADED, payload: res.data });
     } catch (e) {
+      if (!axios.isAxiosError(e) || !e.response?.data.msg) return;
       dispatch({ type: AUTH_ERROR, payload: e.response.data.msg });
     }
   };
@@ -109,6 +112,7 @@ const AuthState: FC = (props) => {
       dispatch({ type: LOGIN_SUCCESS, payload: res.data });
       loadUser();
     } catch (e) {
+      if (!axios.isAxiosError(e) || !e.response?.data.msg) return;
       dispatch({ type: LOGIN_FAIL, payload: e.response.data.msg });
       handleForbidden(e);
     }
