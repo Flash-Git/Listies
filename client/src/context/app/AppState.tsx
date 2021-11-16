@@ -1,6 +1,5 @@
 import { FC, useReducer } from "react";
-import { Socket } from "socket.io-client";
-import socketIOClient from "socket.io-client";
+import socketIOClient, { Socket } from "socket.io-client";
 
 import AppContext from "./AppContext";
 import AppReducer from "./AppReducer";
