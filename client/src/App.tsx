@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
@@ -64,13 +64,20 @@ const App: FC = () => (
               <Navbar title={"Listies"} icon={["fas", "list-ul"]} />
               <DarkToggle />
               <Alerts />
-              <Switch>
-                <PrivateRoute exact path="/" component={Home} />
-                <Route exact path="/about" component={About} />
-                <Route exact path="/register" component={Register} />
-                <Route exact path="/login" component={Login} />
-                <Route component={NotFound} />
-              </Switch>
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    <PrivateRoute redirectTo="/login">
+                      <Home />
+                    </PrivateRoute>
+                  }
+                />
+                <Route path="/about" element={<About />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/login" element={<Login />} />
+                <Route element={<NotFound />} />
+              </Routes>
             </Router>
           </ItemState>
         </ListState>

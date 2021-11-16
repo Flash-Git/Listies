@@ -1,15 +1,14 @@
 import { FC, useState, useContext, useEffect, ChangeEvent, FormEvent } from "react";
+import { useNavigate } from "react-router";
 
 import AlertContext from "../../context/alert/AlertContext";
 import AuthContext from "../../context/auth/AuthContext";
 
 import { AuthContext as IAuthContext, AlertContext as IAlertContext } from "context";
 
-interface Props {
-  history: any;
-}
+const Register: FC = () => {
+  const navigate = useNavigate();
 
-const Register: FC<Props> = ({ history }) => {
   const alertContext: IAlertContext = useContext(AlertContext);
   const authContext: IAuthContext = useContext(AuthContext);
 
@@ -28,7 +27,7 @@ const Register: FC<Props> = ({ history }) => {
   useEffect(() => {
     if (!isAuthenticated) return;
     clearAlerts();
-    history.push("/");
+    navigate("/");
 
     // eslint-disable-next-line
   }, [isAuthenticated, history]);

@@ -67,6 +67,7 @@ const ListState: FC = (props) => {
       const res = await axios.get("/api/lists");
       dispatch({ type: GET_LISTS, payload: res.data });
     } catch (e) {
+      if (!axios.isAxiosError(e) || !e.response?.data.msg) return;
       dispatch({ type: LIST_ERROR, payload: e.response.data.msg });
       handleForbidden(e);
     }
@@ -86,6 +87,7 @@ const ListState: FC = (props) => {
       addList(res.data);
       setCurrentList(res.data);
     } catch (e) {
+      if (!axios.isAxiosError(e) || !e.response?.data.msg) return;
       dispatch({ type: LIST_ERROR, payload: e.response.data.msg });
       handleForbidden(e);
     }
@@ -99,6 +101,7 @@ const ListState: FC = (props) => {
     try {
       await axios.delete(`/api/lists/${id}`);
     } catch (e) {
+      if (!axios.isAxiosError(e) || !e.response?.data.msg) return;
       dispatch({ type: LIST_ERROR, payload: e.response.data.msg });
       handleForbidden(e);
     }

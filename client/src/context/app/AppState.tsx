@@ -1,4 +1,5 @@
 import { FC, useReducer } from "react";
+import { Socket } from "socket.io-client";
 import socketIOClient from "socket.io-client";
 
 import AppContext from "./AppContext";
@@ -39,7 +40,7 @@ const AppState: FC = (props) => {
    */
 
   const initialiseSocket: InitialiseSocket = () => {
-    const socket: SocketIOClient.Socket = socketIOClient();
+    const socket: Socket = socketIOClient();
 
     setSocket(socket);
   };
