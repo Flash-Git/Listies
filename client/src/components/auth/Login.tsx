@@ -26,8 +26,8 @@ const Login: FC = () => {
   useEffect(() => {
     if (!isAuthenticated) return;
     clearAlerts();
-    navigate("/");
-  }, [isAuthenticated, history]);
+    navigate(-1);
+  }, [isAuthenticated]);
 
   useEffect(() => {
     if (!error) return;
