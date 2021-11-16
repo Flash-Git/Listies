@@ -76,7 +76,7 @@ const App: FC = () => (
                 <Route path="/about" element={<About />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
-                <Route element={<NotFound />} />
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </Router>
           </ItemState>
