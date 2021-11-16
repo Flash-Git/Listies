@@ -24,21 +24,14 @@ const Home: FC = () => {
   const { initialiseSocket, identifySelf } = appContext;
 
   const authContext: IAuthContext = useContext(AuthContext);
-  const { user, isAuthenticated, loading, loadUser } = authContext;
+  const { user } = authContext;
 
   const listContext: IListContext = useContext(ListContext);
-  const {
-    hidden,
-    currentList,
-    toggleHidden,
-    setHidden,
-    setCurrentList,
-    clearCurrentList,
-  } = listContext;
+  const { hidden, currentList, toggleHidden, setHidden, setCurrentList, clearCurrentList } =
+    listContext;
 
   useMountEffect(() => {
     initialiseSocket();
-    loadUser();
 
     setHidden(localStorage.getItem("hidden") === "true" ? true : false);
   });
@@ -54,7 +47,7 @@ const Home: FC = () => {
     const lastUser = localStorage.getItem("lastUser");
     if (lastUser === user._id.toString()) setCurrentList(parsedList);
     else clearCurrentList();
-  }, [loading, isAuthenticated, user]);
+  }, [user]);
 
   const toggleList = () => {
     toggleHidden();
