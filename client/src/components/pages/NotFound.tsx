@@ -6,9 +6,12 @@ const NotFound: FC = () => {
     <div className="container">
       <h1>Not Found</h1>
       <p className="lead">The page you are looking for does not exist.</p>
-      <p>
+      <p className="lead">
         Click
-        <Link to={"/"}> Here</Link> to return home.
+        <strong>
+          <Link to={"/"}>&nbsp;here&nbsp;</Link>
+        </strong>
+        to return home.
       </p>
     </div>
   );
