@@ -4,18 +4,23 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 import ListItem from "./ListItem";
 import Spinner from "../layout/Spinner";
 
+import AppContext from "../../context/app/AppContext";
 import AlertContext from "../../context/alert/AlertContext";
 import AuthContext from "../../context/auth/AuthContext";
 import ListContext from "../../context/list/ListContext";
 
 import {
+  AppContext as IAppContext,
+  AlertContext as IAlertContext,
+  AuthContext as IAuthContext,
   List,
   ListContext as IListContext,
-  AuthContext as IAuthContext,
-  AlertContext as IAlertContext,
 } from "context";
 
 const Lists: FC = () => {
+  const appContext: IAppContext = useContext(AppContext);
+  const { socket } = appContext;
+
   const alertContext: IAlertContext = useContext(AlertContext);
   const { addAlert } = alertContext;
 
@@ -23,7 +28,23 @@ const Lists: FC = () => {
   const { loading: authLoading, isAuthenticated } = authContext;
 
   const listContext: IListContext = useContext(ListContext);
-  const { error, loading, lists, getLists, setLists, clearErrors } = listContext;
+  const { error, loading, lists, getLists, setLists, clearErrors, addList, deleteList } =
+    listContext;
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on("addList", (list: List) => {
+      addList(list);
+    });
+    socket.on("deleteList", (listId: string) => {
+      deleteList(listId);
+    });
+
+    return () => {
+      socket.removeAllListeners();
+    };
+  }, [socket]);
 
   useEffect(() => {
     if (!error) return;
@@ -62,26 +83,25 @@ const Lists: FC = () => {
     setDraggedList(null);
   };
 
-  if (!loading) {
-    return (
-      <TransitionGroup>
-        {lists.map((list: List, i: number) => (
-          <CSSTransition key={list.id} timeout={200}>
-            <div
-              className="drag"
-              draggable
-              onDragStart={(e) => onDragStart(e, i, list.name)}
-              onDragEnd={onDragEnd}
-              onDragOver={() => onDragOver(i)}
-            >
-              <ListItem list={list} />
-            </div>
-          </CSSTransition>
-        ))}
-      </TransitionGroup>
-    );
-  }
-  return <Spinner />;
+  if (loading) return <Spinner />;
+
+  return (
+    <TransitionGroup>
+      {lists.map((list: List, i: number) => (
+        <CSSTransition key={list.id} timeout={200}>
+          <div
+            className="drag"
+            draggable
+            onDragStart={(e) => onDragStart(e, i, list.name)}
+            onDragEnd={onDragEnd}
+            onDragOver={() => onDragOver(i)}
+          >
+            <ListItem list={list} />
+          </div>
+        </CSSTransition>
+      ))}
+    </TransitionGroup>
+  );
 };
 
 export default Lists;

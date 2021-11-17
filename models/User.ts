@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import { User } from ".";
 
-const UserSchema: Schema = new Schema({
+const UserSchema: Schema<User> = new Schema({
   name: {
     type: String,
     required: true,
@@ -21,10 +21,10 @@ const UserSchema: Schema = new Schema({
     required: true,
   },
   date: {
-    type: Date,
+    type: Number,
     default: Date.now,
   },
-  accessCodes: {
+  accessIds: {
     type: [String],
     default: [],
   },

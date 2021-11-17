@@ -1,7 +1,5 @@
 declare module "context" {
   import { AxiosError } from "axios";
-  import { Socket } from "socket.io-client";
-
   export interface Action {
     payload?: any;
     type: string;
@@ -16,14 +14,17 @@ declare module "context" {
   export type InitialiseSocket = () => void;
   export type CloseSocket = () => void;
   export type ClearSocket = () => void;
-  export type SetSocket = (socket: Socket) => void;
+  export type SetSocket = (socket: SocketIOClient.Socket) => void;
+  export type IdentifySelf = (user: User) => void;
+  export type UpdateSocketList = (listId: string) => void;
   export type ResetSocket = () => void;
   export type ToggleDarkMode = () => void;
   export type SetDarkMode = (darkMode: boolean) => void;
 
   export interface AppState {
-    socket: Socket | null;
+    socket: SocketIOClient.Socket | null;
     darkMode: boolean;
+    identifed: boolean;
   }
 
   export interface AppContext extends AppState {
@@ -31,6 +32,8 @@ declare module "context" {
     closeSocket: CloseSocket;
     clearSocket: ClearSocket;
     setSocket: SetSocket;
+    identifySelf: IdentifySelf;
+    updateSocketList: UpdateSocketList;
     resetSocket: ResetSocket;
     toggleDarkMode: ToggleDarkMode;
     setDarkMode: SetDarkMode;
@@ -88,10 +91,14 @@ declare module "context" {
 
   export interface List {
     _id?: string;
-    name: string;
-    accessCode: string;
     id: string;
-    user?: string;
+    owner: string;
+    name: string;
+    private: boolean;
+    accessId: string;
+    password: string;
+    users: string[];
+    date: number;
   }
   export type Lists = List[];
 
@@ -105,6 +112,7 @@ declare module "context" {
 
   export type GetLists = () => void;
   export type SetLists = (lists: Lists) => void;
+  export type ConnectList = (accessId: string, password: string) => void;
   export type AddList = (list: List) => void;
   export type DeleteList = (id: string) => void;
   export type SetCurrentList = (list: List) => void;
@@ -117,7 +125,10 @@ declare module "context" {
   export interface ListContext extends ListState {
     getLists: GetLists;
     setLists: SetLists;
+    pushList: AddList;
+    connectList: ConnectList;
     addList: AddList;
+    pushDeleteList: DeleteList;
     deleteList: DeleteList;
     setCurrentList: SetCurrentList;
     clearCurrentList: ClearCurrentList;

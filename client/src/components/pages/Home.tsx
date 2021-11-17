@@ -1,4 +1,6 @@
-import { FC, useContext } from "react";
+import { FC, useContext, useEffect } from "react";
+import { useNavigate } from "react-router";
+import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { useMountEffect } from "../../functions/hooks";
@@ -20,27 +22,40 @@ import {
 } from "context";
 
 const Home: FC = () => {
+  const navigate = useNavigate();
+  const { accessId } = useParams();
+
   const appContext: IAppContext = useContext(AppContext);
-  const { initialiseSocket } = appContext;
+  const { initialiseSocket, identifySelf } = appContext;
 
   const authContext: IAuthContext = useContext(AuthContext);
-  const { loadUser } = authContext;
+  const { user } = authContext;
 
   const listContext: IListContext = useContext(ListContext);
-  const { hidden, toggleHidden, setHidden, currentList, setCurrentList } = listContext;
+  const { hidden, currentList, toggleHidden, setHidden, setCurrentList, clearCurrentList } =
+    listContext;
 
   useMountEffect(() => {
     initialiseSocket();
-    // setLoading(true);
-    loadUser();
+
+    setHidden(localStorage.getItem("hidden") === "true" ? true : false);
+  });
+
+  useEffect(() => {
+    if (!user) return;
+
+    // Route to "/" from the connectList url
+    navigate("/");
+
+    identifySelf(user);
 
     const currentList = localStorage.getItem("currentList");
     if (!currentList) return;
     const parsedList: List = JSON.parse(currentList);
-    parsedList && setCurrentList(parsedList);
-
-    setHidden(localStorage.getItem("hidden") === "true" ? true : false);
-  });
+    const lastUser = localStorage.getItem("lastUser");
+    if (lastUser === user._id.toString()) setCurrentList(parsedList);
+    else clearCurrentList();
+  }, [user]);
 
   const toggleList = () => {
     toggleHidden();
@@ -73,21 +88,19 @@ const Home: FC = () => {
         <div
           className="px-1 mbot-2"
           style={{
-            // maxHeight: "40rem",
             overflowY: "auto",
             scrollbarWidth: "thin",
             flexBasis: "23rem",
             maxWidth: "30rem",
           }}
         >
-          <ListForm />
+          <ListForm initialAccessId={accessId} />
           <Lists />
         </div>
       )}
       <div
         className="px-1 mx-auto mbot-4"
         style={{
-          // maxHeight: "60rem",
           overflowY: "auto",
           scrollbarWidth: "thin",
           flexBasis: "23rem",

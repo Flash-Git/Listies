@@ -1,6 +1,9 @@
 import { Router, Response } from "express";
 import { check } from "express-validator";
 import { Request } from "express-validator/src/base";
+import bcrypt from "bcryptjs";
+import crypto from "crypto";
+import { Socket } from "socket.io";
 
 import handleErrors from "./handleErrors";
 
@@ -11,120 +14,162 @@ import List from "../../models/List";
 import User from "../../models/User";
 
 import { List as IList } from "models";
+import { GetFilteredSockets } from "server/server";
 
 const router = Router();
 
-// @route   GET api/lists
-// @desc    Get all user's lists
-// @access  PRIVATE
-router.get("/", auth, async (req: Request, res: Response) => {
-  if (handleErrors(req, res)) return;
-
-  try {
-    // Get lists by most recent
-    const user = await User.findById(req.user.id);
-    if (!user) return res.status(404).send({ msg: "User not found" });
-    let lists = await Promise.all(
-      user.accessCodes.map((accessCode) => {
-        return List.findOne({ accessCode }).sort({
-          date: -1,
-        });
-      })
-    );
-    const personalLists = await List.find({ user: req.user.id });
-
-    res.json([...lists.filter((list) => list), ...personalLists]);
-  } catch (e) {
-    console.error(e.message);
-    res.status(500).send({ msg: "Server Error" });
-  }
-});
-
-// @route   POST api/lists
-// @desc    Create a list
-// @access  PRIVATE
-router.post(
-  "/",
-  auth,
-  [check("name", "Please enter a name").not().isEmpty()],
-  async (req: Request, res: Response) => {
+const ListRoutes = (getSockets: GetFilteredSockets) => {
+  // @route   GET api/lists
+  // @desc    Get all user's lists
+  // @access  PRIVATE
+  router.get("/", auth, async (req: Request, res: Response) => {
     if (handleErrors(req, res)) return;
 
-    const { name, accessCode }: IList = req.body;
-
     try {
-      const newList = new List({
-        name,
-        accessCode,
-        user: req.user.id,
-      });
+      // Get lists by most recent
+      const user = await User.findById(req.user.id);
+      if (!user) return res.status(404).send({ msg: "User not found" });
+      const lists = await List.find({ accessId: { $in: user.accessIds } }); //.sort({date:-1});
 
-      const getPublicList = async (accessCode) => {
-        if (accessCode === "") return null;
-        return await List.findOne({ accessCode });
-      };
-
-      const publicList = await getPublicList(accessCode);
-
-      // Existing public list
-      if (publicList) {
-        res.json(publicList);
-        await (await User.findById(req.user.id)).updateOne({
-          $push: { accessCodes: publicList.accessCode },
-        });
-
-        await List.findByIdAndUpdate(publicList.id, {
-          count: ++publicList.count,
-        });
-        return;
-      }
-
-      const list = await newList.save();
-      res.json(list);
-
-      // New private list
-      if (accessCode === "") return;
-
-      // New public list
-      await (await User.findById(req.user.id)).updateOne({
-        $push: { accessCodes: accessCode },
-      });
+      res.json(lists);
     } catch (e) {
       console.error(e.message);
       res.status(500).send({ msg: "Server Error" });
     }
-  }
-);
+  });
 
-// @route   DELETE api/lists
-// @desc    Delete a user's list
-// @access  PRIVATE
-router.delete("/:listId", auth, async (req: Request, res: Response) => {
-  if (handleErrors(req, res)) return;
-  const { listId }: { listId?: string } = req.params;
+  // @route   POST api/lists
+  // @desc    Create a list
+  // @access  PRIVATE
+  router.post(
+    "/",
+    auth,
+    [check("name", "Please enter a name").not().isEmpty()],
+    async (req: Request, res: Response) => {
+      if (handleErrors(req, res)) return;
 
-  try {
-    const list = await List.findById(listId);
-    if (!list) return res.status(404).send({ msg: "List not found" });
+      const { name, password }: IList = req.body;
 
-    const accessCode = list.accessCode;
+      try {
+        const user = await User.findById(req.user.id);
+        if (!user) return res.status(404).send({ msg: "User not found" });
 
-    // Local list
-    if (!accessCode || list.count - 1 < 1) {
-      await List.findByIdAndRemove(listId);
-      // Shared list
-    } else {
-      await User.findByIdAndUpdate(req.user.id, {
-        $pull: { accessCodes: accessCode },
-      });
-      await List.findByIdAndUpdate(listId, { count: --list.count });
+        const accessId = crypto
+          .createHash("sha256")
+          .update(name + user.id)
+          .digest("hex");
+
+        if (user.accessIds.includes(accessId))
+          return res.status(403).send({ msg: "User already has a List with this id" });
+
+        const newList = new List({
+          owner: user.id,
+          name,
+          accessId,
+          users: [user.id],
+        });
+
+        if (password) {
+          const salt = await bcrypt.genSalt(10);
+          newList.password = await bcrypt.hash(password, salt);
+        }
+
+        await user.updateOne({
+          $push: { accessIds: accessId },
+        });
+
+        // const existingList = await List.findOne({ accessId });
+        // if (existingList) {
+        //   // Emit
+        //   getSockets(user.id).map((socket: Socket) => socket.emit("addList", existingList));
+        //   return res.status(201).send(existingList);
+        // }
+
+        const list = await newList.save();
+
+        // Emit
+        getSockets(user.id).map((socket: Socket) => socket.emit("addList", list));
+
+        return res.status(201).send(list);
+      } catch (e) {
+        console.error(e.message);
+        res.status(500).send({ msg: "Server Error" });
+      }
     }
+  );
 
-    res.send({ msg: "List removed" });
-  } catch (e) {
-    console.error(e.message);
-    res.status(500).send({ msg: "Server Error" });
-  }
-});
+  // @route   POST api/lists:accessId
+  // @desc    Adds a list accessId to a user
+  // @access  PRIVATE
+  router.post("/:accessId", auth, async (req: Request, res: Response) => {
+    if (handleErrors(req, res)) return;
+    const { accessId }: { accessId?: string } = await req.params;
+    const { password }: IList = await req.body;
 
-export default router;
+    try {
+      const user = await User.findById(req.user.id);
+      if (!user) return res.status(404).send({ msg: "User not found" });
+
+      const list = await List.findOne({ accessId });
+      if (!list || list.private) return res.status(404).send({ msg: "List not found" });
+
+      if (user.accessIds.includes(accessId))
+        return res.status(403).send({ msg: "User already has a List with this id" });
+
+      if (list.password) {
+        const isMatch = await bcrypt.compare(password, list.password);
+        if (!isMatch) return res.status(400).send({ msg: "Invalid credentials" });
+      }
+
+      await list.updateOne({
+        $push: { users: user.id },
+      });
+
+      await user.updateOne({
+        $push: { accessIds: accessId },
+      });
+
+      // Emit
+      getSockets(user.id).map((socket: Socket) => socket.emit("addList", list));
+
+      return res.status(201).send(list);
+    } catch (e) {
+      console.error(e.message);
+      res.status(500).send({ msg: "Server Error" });
+    }
+  });
+
+  // @route   DELETE api/lists
+  // @desc    Delete a user's list
+  // @access  PRIVATE
+  router.delete("/:listId", auth, async (req: Request, res: Response) => {
+    if (handleErrors(req, res)) return;
+    const { listId }: { listId?: string } = req.params;
+
+    try {
+      const [user, list] = await Promise.all([User.findById(req.user.id), List.findById(listId)]);
+      if (!user) return res.status(404).send({ msg: "User not found" });
+      if (!list) return res.status(404).send({ msg: "List not found" });
+      if (!user.accessIds.includes(list.accessId))
+        return res.status(403).send({ msg: "Missing access id, permission denied" });
+
+      // TODO Actual deletion does not yet exist
+      // await list.remove();
+
+      await user.updateOne({
+        $pull: { accessIds: list.accessId },
+      });
+
+      // Emit
+      getSockets(user.id).map((socket) => socket.emit("deleteList", list.id));
+
+      res.send({ msg: "List removed" });
+    } catch (e) {
+      console.error(e.message);
+      res.status(500).send({ msg: "Server Error" });
+    }
+  });
+
+  return router;
+};
+export default ListRoutes;

@@ -1,5 +1,5 @@
-import { FC, ReactNode, useContext } from "react";
-import { Route, Navigate, RouteProps } from "react-router-dom";
+import { FC, useContext } from "react";
+import { Navigate } from "react-router-dom";
 
 import AuthContext from "../../context/auth/AuthContext";
 
@@ -14,7 +14,7 @@ const PrivateRoute: FC<Props> = ({ children, redirectTo }) => {
   const authContext: IAuthContext = useContext(AuthContext);
   const { isAuthenticated, loading } = authContext;
 
-  return isAuthenticated && !loading ? children : <Navigate to={redirectTo} />;
+  return isAuthenticated || loading ? children : <Navigate to={redirectTo} />;
 };
 
 export default PrivateRoute;

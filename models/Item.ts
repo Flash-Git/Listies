@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import { Item } from ".";
 
-const ItemSchema: Schema = new Schema({
+const ItemSchema: Schema<Item> = new Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "users",
@@ -27,7 +27,7 @@ const ItemSchema: Schema = new Schema({
     default: "",
   },
   date: {
-    type: Date,
+    type: Number,
     default: Date.now,
   },
 });

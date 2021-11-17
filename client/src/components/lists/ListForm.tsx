@@ -1,102 +1,122 @@
-import { useState, useContext, FC, ChangeEvent, FormEvent } from "react";
+import { FC, useState, useContext, useEffect, ChangeEvent, FormEvent } from "react";
 
 import ListContext from "../../context/list/ListContext";
 
-import { List, ListContext as IListContext } from "context";
+import { ListContext as IListContext } from "context";
 
-const ListForm: FC = () => {
+interface Props {
+  initialAccessId?: string;
+}
+
+const ListForm: FC<Props> = ({ initialAccessId }) => {
   const listContext: IListContext = useContext(ListContext);
-  const { addList, clearCurrentList } = listContext;
+  const { connectList, pushList } = listContext;
 
-  const emptyList: List = {
-    name: "",
-    accessCode: "",
+  /*
+   * State
+   *
+   * */
+
+  const emptyList = {
     id: "",
+    owner: "",
+    listName: "",
+    private: false,
+    accessId: "",
+    listPassword: "",
+    users: [],
+    date: 0,
   };
 
-  const [toggled, setToggled] = useState(false);
   const [list, setList] = useState(emptyList);
-  const { name, accessCode } = list;
+  const { listName, accessId, listPassword } = list;
 
-  const toggleForm = () => {
-    setToggled((toggled) => !toggled);
+  const [connectForm, setConnectForm] = useState(false);
+
+  useEffect(() => {
+    if (!initialAccessId) return;
+
+    setConnectForm(true);
+    setList({ ...list, accessId: initialAccessId });
+  }, [initialAccessId]);
+
+  /*
+   * Input
+   *
+   * */
+
+  // Flip between add and connect
+  const flipConnectForm = () => {
+    setConnectForm((connectForm) => !connectForm);
   };
 
-  // Input
   const onChange = (e: ChangeEvent<HTMLInputElement>) =>
     setList({ ...list, [e.target.name]: e.target.value });
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    addList({ ...list, name: name.trim() });
-    clearAll();
-  };
-
-  const clearAll = () => {
+    if (connectForm) connectList(accessId, listPassword);
+    else pushList({ ...list, password: listPassword, name: listName.trim() });
     setList(emptyList);
-    clearCurrentList();
   };
 
-  const inputFields = () => (
-    <form
-      onSubmit={onSubmit}
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: "0.7rem",
-        marginBottom: "0.7rem",
-      }}
-    >
-      <input
-        style={{
-          minWidth: "5rem",
-          maxWidth: "15rem",
-          margin: "0",
-          marginBottom: "0.7rem",
-        }}
-        type="text"
-        placeholder="Name"
-        name="name"
-        value={name}
-        onChange={onChange}
-      />
-      <input
-        style={{
-          minWidth: "5rem",
-          maxWidth: "15rem",
-          margin: "0",
-          marginBottom: "0.7rem",
-        }}
-        type="text"
-        placeholder="Access Code"
-        name="accessCode"
-        value={accessCode}
-        onChange={onChange}
-      />
-      <input
-        style={{
-          maxWidth: "8.5rem",
-          margin: "0",
-          marginBottom: "0.7rem",
-          padding: "0.1rem",
-        }}
-        type="submit"
-        value="Add New List"
-        className="btn btn-primary btn-block"
-      />
-    </form>
-  );
-
-  // Render
   return (
     <div className="grow-shrink">
-      <h2 onClick={toggleForm} className="text-primary">
-        {toggled ? "Add Existing List" : "Add New List"}
-      </h2>
-      {inputFields()}
+      <button className="btn-block btn-white" onClick={flipConnectForm} style={{ border: "0" }}>
+        <h2 className="text-primary">{connectForm ? "Connect To List" : "Add New List"}</h2>
+      </button>
+      <form
+        onSubmit={onSubmit}
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: "0.7rem",
+          marginBottom: "0.7rem",
+        }}
+      >
+        <input
+          id="listFormName"
+          style={{
+            minWidth: "5rem",
+            maxWidth: "15rem",
+            margin: "0",
+            marginBottom: "0.7rem",
+          }}
+          type="text"
+          placeholder={connectForm ? "List Access Code" : "List Name"}
+          name={connectForm ? "accessId" : "listName"}
+          value={connectForm ? accessId : listName}
+          autoComplete="off"
+          onChange={onChange}
+        />
+        <input
+          style={{
+            minWidth: "5rem",
+            maxWidth: "15rem",
+            margin: "0",
+            marginBottom: "0.7rem",
+          }}
+          type="password"
+          placeholder="List Password"
+          name="listPassword"
+          value={listPassword}
+          autoComplete="off"
+          onChange={onChange}
+        />
+        <input
+          style={{
+            maxWidth: "8.5rem",
+            margin: "0",
+            marginBottom: "0.7rem",
+            padding: "0.1rem",
+          }}
+          type="submit"
+          value={connectForm ? "Connect To List" : "Add New List"}
+          className="btn btn-primary btn-block"
+        />
+      </form>
     </div>
   );
 };

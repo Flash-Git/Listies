@@ -1,5 +1,5 @@
 import { useReducer, FC, useContext } from "react";
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 
 import AuthContext from "../auth/AuthContext";
 
@@ -33,6 +33,7 @@ import {
   HandleForbidden,
   GetLists,
   SetLists,
+  ConnectList,
   AddList,
   DeleteList,
 } from "context";
@@ -49,7 +50,7 @@ const ListState: FC = (props) => {
   const [state, dispatch] = useReducer(ListReducer, initialState);
 
   const authContext: IAuthContext = useContext(AuthContext);
-  const { logout } = authContext;
+  const { user, logout } = authContext;
 
   const handleForbidden: HandleForbidden = (e) => {
     if (!e.response) return;
@@ -73,20 +74,18 @@ const ListState: FC = (props) => {
     }
   };
 
-  const setLists: SetLists = async (lists) => {
-    dispatch({ type: SET_LISTS, payload: lists });
-  };
+  const setLists: SetLists = async (lists) => dispatch({ type: SET_LISTS, payload: lists });
 
-  const addList: AddList = async (list) => {
-    const config: any = {
-      header: {
+  const pushList: AddList = async (list) => {
+    const config: AxiosRequestConfig = {
+      headers: {
         "Content-Type": "application/json",
       },
     };
 
     try {
       const res = await axios.post("/api/lists", list, config);
-      dispatch({ type: ADD_LIST, payload: res.data });
+      addList(res.data);
       setCurrentList(res.data);
     } catch (e) {
       if (!axios.isAxiosError(e) || !e.response?.data.msg) return;
@@ -95,45 +94,52 @@ const ListState: FC = (props) => {
     }
   };
 
-  const deleteList: DeleteList = async (id: string) => {
-    try {
-      // Delete items in list
-      // const res = await axios.get(`/api/items/${id}`);
-      // Deletes all associated items
-      // res.data.map(
-      //   (item: Item) => item._id && axios.delete(`/api/items/${item._id}`)
-      // );
+  const connectList: ConnectList = async (accessId: string, password: string) => {
+    const config: AxiosRequestConfig = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
 
-      // Delete list
-      await axios.delete(`/api/lists/${id}`);
-      dispatch({ type: DELETE_LIST, payload: id });
+    try {
+      const res = await axios.post(`/api/lists/${accessId}`, { password }, config);
+      addList(res.data);
+      setCurrentList(res.data);
     } catch (e) {
       if (!axios.isAxiosError(e) || !e.response?.data.msg) return;
       dispatch({ type: LIST_ERROR, payload: e.response.data.msg });
-      dispatch({ type: DELETE_LIST, payload: id });
       handleForbidden(e);
     }
   };
 
-  const setCurrentList: SetCurrentList = (currentList) => {
-    dispatch({ type: SET_CURRENT, payload: currentList });
+  const addList: AddList = async (list) => dispatch({ type: ADD_LIST, payload: list });
+
+  const pushDeleteList: DeleteList = async (id: string) => {
+    deleteList(id);
+
+    try {
+      await axios.delete(`/api/lists/${id}`);
+    } catch (e) {
+      if (!axios.isAxiosError(e) || !e.response?.data.msg) return;
+      dispatch({ type: LIST_ERROR, payload: e.response.data.msg });
+      handleForbidden(e);
+    }
   };
 
-  const clearCurrentList: ClearCurrentList = () => {
-    dispatch({ type: CLEAR_CURRENT });
-  };
+  const deleteList: DeleteList = async (id) => dispatch({ type: DELETE_LIST, payload: id });
+
+  const setCurrentList: SetCurrentList = (currentList) =>
+    dispatch({ type: SET_CURRENT, payload: { user, currentList } });
+
+  const clearCurrentList: ClearCurrentList = () => dispatch({ type: CLEAR_CURRENT });
 
   const clearLists: ClearLists = () => dispatch({ type: CLEAR_LISTS });
 
   const clearErrors: ClearErrors = () => dispatch({ type: CLEAR_ERRORS });
 
-  const toggleHidden: ToggleHidden = () => {
-    dispatch({ type: TOGGLE_HIDDEN });
-  };
+  const toggleHidden: ToggleHidden = () => dispatch({ type: TOGGLE_HIDDEN });
 
-  const setHidden: SetHidden = (hidden) => {
-    dispatch({ type: SET_HIDDEN, payload: hidden });
-  };
+  const setHidden: SetHidden = (hidden) => dispatch({ type: SET_HIDDEN, payload: hidden });
 
   return (
     <ListContext.Provider
@@ -145,7 +151,10 @@ const ListState: FC = (props) => {
         hidden: state.hidden,
         getLists,
         setLists,
+        pushList,
+        connectList,
         addList,
+        pushDeleteList,
         deleteList,
         setCurrentList,
         clearCurrentList,

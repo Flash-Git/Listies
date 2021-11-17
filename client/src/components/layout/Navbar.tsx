@@ -7,6 +7,8 @@ import AuthContext from "../../context/auth/AuthContext";
 
 import { AuthContext as IAuthContext } from "context";
 
+import { useMountEffect } from "../../functions/hooks";
+
 interface Props {
   title: string;
   icon: IconProp;
@@ -15,7 +17,11 @@ interface Props {
 const Navbar: FC<Props> = ({ title, icon }) => {
   const authContext: IAuthContext = useContext(AuthContext);
 
-  const { isAuthenticated, user, logout } = authContext;
+  const { isAuthenticated, user, logout, loadUser } = authContext;
+
+  useMountEffect(() => {
+    loadUser();
+  });
 
   const onLogout = () => {
     logout();

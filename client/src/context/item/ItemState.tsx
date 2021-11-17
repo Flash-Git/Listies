@@ -1,5 +1,5 @@
 import { FC, useContext, useReducer } from "react";
-import axios, { AxiosError } from "axios";
+import axios, { AxiosError, AxiosRequestConfig } from "axios";
 
 import AuthContext from "../auth/AuthContext";
 
@@ -85,8 +85,8 @@ const ItemState: FC = (props) => {
   };
 
   const pushItem = async (item: { name: string }, listId: string) => {
-    const config: any = {
-      header: {
+    const config: AxiosRequestConfig = {
+      headers: {
         "Content-Type": "application/json",
       },
     };
@@ -106,8 +106,8 @@ const ItemState: FC = (props) => {
   };
 
   const pushEditItem = async (item: Item) => {
-    const config: any = {
-      header: {
+    const config: AxiosRequestConfig = {
+      headers: {
         "Content-Type": "application/json",
       },
     };

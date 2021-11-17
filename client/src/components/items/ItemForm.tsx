@@ -12,6 +12,7 @@ import {
 
 import Exporter from "../layout/Exporter";
 import Sorter from "../layout/Sorter";
+import ListMenu from "../layout/ListMenu";
 
 import ItemContext from "../../context/item/ItemContext";
 
@@ -22,11 +23,15 @@ interface Props {
 }
 
 const ItemForm: FC<Props> = ({ currentList }) => {
-  const itemContext: IItemContext = useContext(ItemContext); //IItemContext
+  const itemContext: IItemContext = useContext(ItemContext);
   const { items, pushItem, sortItems } = itemContext;
 
   const [listId, setListId] = useState("");
   const [listName, setListName] = useState("No List Selected");
+
+  const [open, setOpen] = useState(false);
+
+  const toggleOpen = () => setOpen((open) => !open);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -52,7 +57,6 @@ const ItemForm: FC<Props> = ({ currentList }) => {
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     pushItem({ ...item, name: name.trim() }, listId);
     clearAll();
   };
@@ -104,23 +108,20 @@ const ItemForm: FC<Props> = ({ currentList }) => {
     </form>
   );
 
-  // Render
   return (
-    <div
-      className="grow-shrink"
-      style={
-        {
-          // minHeight: "1.5rem"
-        }
-      }
-    >
+    <div className="grow-shrink">
       {currentList && (
         <Fragment>
-          <Exporter currentList={currentList} items={items} />
-          <Sorter sortItems={sortItems} />
+          <ListMenu open={open} toggleOpen={toggleOpen} />
+          {open && (
+            <Fragment>
+              <Exporter currentList={currentList} items={items} />
+              <Sorter sortItems={sortItems} />
+            </Fragment>
+          )}
         </Fragment>
       )}
-      <h2 className="text-primary" style={{ marginLeft: "2.5rem" }}>
+      <h2 className="text-primary" style={{ marginLeft: currentList ? "2.5rem" : "0" }}>
         {listName}
       </h2>
       {currentList && inputFields}

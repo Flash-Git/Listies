@@ -1,11 +1,16 @@
 import { FC, useReducer } from "react";
-import { Socket } from "socket.io-client";
-import socketIOClient from "socket.io-client";
+import socketIOClient, { Socket } from "socket.io-client";
 
 import AppContext from "./AppContext";
 import AppReducer from "./AppReducer";
 
-import { SET_SOCKET, CLEAR_SOCKET, TOGGLE_DARK_MODE, SET_DARK_MODE } from "../types";
+import {
+  SET_SOCKET,
+  CLEAR_SOCKET,
+  IDENTIFIED_USER,
+  TOGGLE_DARK_MODE,
+  SET_DARK_MODE,
+} from "../types";
 
 import {
   AppState as IAppState,
@@ -16,12 +21,15 @@ import {
   ResetSocket,
   ToggleDarkMode,
   SetDarkMode,
+  IdentifySelf,
+  UpdateSocketList,
 } from "context";
 
 const AppState: FC = (props) => {
   const initialState: IAppState = {
     socket: null,
     darkMode: false,
+    identifed: false,
   };
 
   const [state, dispatch] = useReducer(AppReducer, initialState);
@@ -31,7 +39,7 @@ const AppState: FC = (props) => {
    */
 
   const initialiseSocket: InitialiseSocket = () => {
-    const socket = socketIOClient();
+    const socket: Socket = socketIOClient();
 
     setSocket(socket);
   };
@@ -47,13 +55,25 @@ const AppState: FC = (props) => {
       type: CLEAR_SOCKET,
     });
   };
-  const setSocket: SetSocket = (socket: Socket) => {
+
+  const setSocket: SetSocket = (socket) => {
     closeSocket();
 
     dispatch({
       type: SET_SOCKET,
       payload: socket,
     });
+  };
+
+  const identifySelf: IdentifySelf = (user) => {
+    if (!state.socket) return;
+    state.socket.emit("identify", user);
+    dispatch({ type: IDENTIFIED_USER });
+  };
+
+  const updateSocketList: UpdateSocketList = (list) => {
+    if (!state.socket) return;
+    state.socket.emit("updateList", list);
   };
 
   const resetSocket: ResetSocket = () => {
@@ -80,9 +100,12 @@ const AppState: FC = (props) => {
       value={{
         socket: state.socket,
         darkMode: state.darkMode,
+        identifed: state.identifed,
         initialiseSocket,
         clearSocket,
         setSocket,
+        identifySelf,
+        updateSocketList,
         resetSocket,
         toggleDarkMode,
         setDarkMode,

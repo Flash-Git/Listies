@@ -5,16 +5,18 @@ export interface User extends Document {
   email: string;
   verified: boolean;
   password: string;
-  date: Date;
-  accessCodes: string[];
+  date: number;
+  accessIds: string[];
 }
 
 export interface List extends Document {
-  user: User["_id"];
-  accessCode: string;
+  owner: User["_id"];
+  accessId: string;
+  password?: string;
   name: string;
-  date: Date;
-  count: number;
+  private: boolean;
+  users: User["_id"][];
+  date: number;
 }
 
 export interface Item extends Document {
@@ -24,5 +26,5 @@ export interface Item extends Document {
   checked: boolean;
   importance: number;
   note: string;
-  date: Date;
+  date: number;
 }

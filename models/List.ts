@@ -1,26 +1,33 @@
 import mongoose, { Schema } from "mongoose";
 import { List } from ".";
 
-const ListSchema: Schema = new Schema({
-  user: {
+const ListSchema: Schema<List> = new Schema({
+  owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "users",
   },
-  accessCode: {
+  accessId: {
     type: String,
-    default: "",
+  },
+  password: {
+    type: String,
   },
   name: {
     type: String,
     required: true,
   },
-  date: {
-    type: Date,
-    default: Date.now,
+  private: {
+    type: Boolean,
+    required: true,
+    default: false,
   },
-  count: {
+  users: {
+    type: [[mongoose.Schema.Types.ObjectId]],
+    required: true,
+  },
+  date: {
     type: Number,
-    default: 1,
+    default: Date.now,
   },
 });
 
