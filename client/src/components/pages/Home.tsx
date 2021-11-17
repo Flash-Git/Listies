@@ -1,4 +1,6 @@
 import { FC, useContext, useEffect } from "react";
+import { useNavigate } from "react-router";
+import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { useMountEffect } from "../../functions/hooks";
@@ -18,9 +20,9 @@ import {
   List,
   ListContext as IListContext,
 } from "context";
-import { useParams } from "react-router-dom";
 
 const Home: FC = () => {
+  const navigate = useNavigate();
   const { accessId } = useParams();
 
   const appContext: IAppContext = useContext(AppContext);
@@ -41,6 +43,9 @@ const Home: FC = () => {
 
   useEffect(() => {
     if (!user) return;
+
+    // Route to "/" from the connectList url
+    navigate("/");
 
     identifySelf(user);
 
@@ -83,7 +88,6 @@ const Home: FC = () => {
         <div
           className="px-1 mbot-2"
           style={{
-            // maxHeight: "40rem",
             overflowY: "auto",
             scrollbarWidth: "thin",
             flexBasis: "23rem",
@@ -97,7 +101,6 @@ const Home: FC = () => {
       <div
         className="px-1 mx-auto mbot-4"
         style={{
-          // maxHeight: "60rem",
           overflowY: "auto",
           scrollbarWidth: "thin",
           flexBasis: "23rem",

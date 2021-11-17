@@ -1,62 +1,63 @@
-import { useState, useContext, FC, ChangeEvent, FormEvent, useEffect } from "react";
+import { FC, useState, useContext, useEffect, ChangeEvent, FormEvent } from "react";
 
 import ListContext from "../../context/list/ListContext";
 
 import { ListContext as IListContext } from "context";
-import { useNavigate } from "react-router";
 
 interface Props {
   initialAccessId?: string;
 }
 
 const ListForm: FC<Props> = ({ initialAccessId }) => {
-  const navigate = useNavigate();
-
   const listContext: IListContext = useContext(ListContext);
-  const { connectList, pushList, clearCurrentList } = listContext;
+  const { connectList, pushList } = listContext;
 
-  const [connectForm, setConnectForm] = useState(false);
+  /*
+   * State
+   *
+   * */
 
   const emptyList = {
     id: "",
     owner: "",
-    name: "",
+    listName: "",
     private: false,
     accessId: "",
-    password: "",
+    listPassword: "",
     users: [],
     date: 0,
   };
 
   const [list, setList] = useState(emptyList);
-  const { name, accessId, password } = list;
+  const { listName, accessId, listPassword } = list;
+
+  const [connectForm, setConnectForm] = useState(false);
 
   useEffect(() => {
     if (!initialAccessId) return;
-    navigate("/");
+
     setConnectForm(true);
     setList({ ...list, accessId: initialAccessId });
   }, [initialAccessId]);
+
+  /*
+   * Input
+   *
+   * */
 
   // Flip between add and connect
   const flipConnectForm = () => {
     setConnectForm((connectForm) => !connectForm);
   };
 
-  // Input
   const onChange = (e: ChangeEvent<HTMLInputElement>) =>
     setList({ ...list, [e.target.name]: e.target.value });
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (connectForm) connectList(accessId, password);
-    else pushList({ ...list, name: name.trim() });
-    clearAll();
-  };
-
-  const clearAll = () => {
+    if (connectForm) connectList(accessId, listPassword);
+    else pushList({ ...list, password: listPassword, name: listName.trim() });
     setList(emptyList);
-    clearCurrentList();
   };
 
   return (
@@ -85,8 +86,8 @@ const ListForm: FC<Props> = ({ initialAccessId }) => {
           }}
           type="text"
           placeholder={connectForm ? "List Access Code" : "List Name"}
-          name={connectForm ? "accessId" : "name"}
-          value={connectForm ? accessId : name}
+          name={connectForm ? "accessId" : "listName"}
+          value={connectForm ? accessId : listName}
           autoComplete="off"
           onChange={onChange}
         />
@@ -99,9 +100,9 @@ const ListForm: FC<Props> = ({ initialAccessId }) => {
           }}
           type="password"
           placeholder="List Password"
-          name="password"
-          value={password}
-          autoComplete="new-password"
+          name="listPassword"
+          value={listPassword}
+          autoComplete="off"
           onChange={onChange}
         />
         <input
