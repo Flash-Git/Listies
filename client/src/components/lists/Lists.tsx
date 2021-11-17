@@ -28,16 +28,8 @@ const Lists: FC = () => {
   const { loading: authLoading, isAuthenticated } = authContext;
 
   const listContext: IListContext = useContext(ListContext);
-  const {
-    error,
-    loading,
-    lists,
-    getLists,
-    setLists,
-    clearErrors,
-    addList,
-    deleteList,
-  } = listContext;
+  const { error, loading, lists, getLists, setLists, clearErrors, addList, deleteList } =
+    listContext;
 
   useEffect(() => {
     if (!socket) return;
@@ -91,26 +83,25 @@ const Lists: FC = () => {
     setDraggedList(null);
   };
 
-  if (!loading) {
-    return (
-      <TransitionGroup>
-        {lists.map((list: List, i: number) => (
-          <CSSTransition key={list.id} timeout={200}>
-            <div
-              className="drag"
-              draggable
-              onDragStart={(e) => onDragStart(e, i, list.name)}
-              onDragEnd={onDragEnd}
-              onDragOver={() => onDragOver(i)}
-            >
-              <ListItem list={list} />
-            </div>
-          </CSSTransition>
-        ))}
-      </TransitionGroup>
-    );
-  }
-  return <Spinner />;
+  if (loading) return <Spinner />;
+
+  return (
+    <TransitionGroup>
+      {lists.map((list: List, i: number) => (
+        <CSSTransition key={list.id} timeout={200}>
+          <div
+            className="drag"
+            draggable
+            onDragStart={(e) => onDragStart(e, i, list.name)}
+            onDragEnd={onDragEnd}
+            onDragOver={() => onDragOver(i)}
+          >
+            <ListItem list={list} />
+          </div>
+        </CSSTransition>
+      ))}
+    </TransitionGroup>
+  );
 };
 
 export default Lists;
