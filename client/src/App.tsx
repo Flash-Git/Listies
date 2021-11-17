@@ -15,6 +15,7 @@ import {
   faListUl,
   faTimes,
   faSortUp,
+  faCaretLeft,
   faMoon,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -50,6 +51,7 @@ library.add(
   faListUl,
   faTimes,
   faSortUp,
+  faCaretLeft,
   faMoon
 );
 
@@ -67,6 +69,14 @@ const App: FC = () => (
               <Routes>
                 <Route
                   path="/"
+                  element={
+                    <PrivateRoute redirectTo="/login">
+                      <Home />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/connect/:accessId"
                   element={
                     <PrivateRoute redirectTo="/login">
                       <Home />
