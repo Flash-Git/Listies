@@ -77,7 +77,6 @@ const AuthState: FC = (props) => {
     try {
       const res = await axios.post("/api/verification", { email }, config);
       dispatch({ type: AUTH_EMAIL_SENT, payload: res.data.msg });
-      console.log(res.data);
     } catch (e) {
       if (!axios.isAxiosError(e) || !e.response?.data.msg) return;
       dispatch({ type: AUTH_ERROR, payload: e.response.data.msg });
