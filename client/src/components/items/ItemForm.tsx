@@ -12,6 +12,7 @@ import {
 
 import Exporter from "../layout/Exporter";
 import Sorter from "../layout/Sorter";
+import ListMenu from "../layout/ListMenu";
 
 import ItemContext from "../../context/item/ItemContext";
 
@@ -116,6 +117,7 @@ const ItemForm: FC<Props> = ({ currentList }) => {
     >
       {currentList && (
         <Fragment>
+          <ListMenu />
           <Exporter currentList={currentList} items={items} />
           <Sorter sortItems={sortItems} />
         </Fragment>

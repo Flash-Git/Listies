@@ -18,8 +18,11 @@ import {
   List,
   ListContext as IListContext,
 } from "context";
+import { useParams } from "react-router-dom";
 
 const Home: FC = () => {
+  const { accessId } = useParams();
+
   const appContext: IAppContext = useContext(AppContext);
   const { initialiseSocket, identifySelf } = appContext;
 
@@ -87,7 +90,7 @@ const Home: FC = () => {
             maxWidth: "30rem",
           }}
         >
-          <ListForm />
+          <ListForm initialAccessId={accessId} />
           <Lists />
         </div>
       )}

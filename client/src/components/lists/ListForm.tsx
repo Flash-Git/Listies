@@ -1,21 +1,47 @@
-import { useState, useContext, FC, ChangeEvent, FormEvent } from "react";
+import { useState, useContext, FC, ChangeEvent, FormEvent, useEffect } from "react";
 
 import ListContext from "../../context/list/ListContext";
 
-import { List, ListContext as IListContext } from "context";
+import { ListContext as IListContext } from "context";
+import { useNavigate } from "react-router";
 
-const ListForm: FC = () => {
+interface Props {
+  initialAccessId?: string;
+}
+
+const ListForm: FC<Props> = ({ initialAccessId }) => {
+  const navigate = useNavigate();
+
   const listContext: IListContext = useContext(ListContext);
-  const { pushList, clearCurrentList } = listContext;
+  const { connectList, pushList, clearCurrentList } = listContext;
 
-  const emptyList: List = {
-    name: "",
-    password: "",
+  const [connectForm, setConnectForm] = useState(false);
+
+  const emptyList = {
     id: "",
+    owner: "",
+    name: "",
+    private: false,
+    accessId: "",
+    password: "",
+    users: [],
+    date: 0,
   };
 
   const [list, setList] = useState(emptyList);
-  const { name, password } = list;
+  const { name, accessId, password } = list;
+
+  useEffect(() => {
+    if (!initialAccessId) return;
+    navigate("/");
+    setConnectForm(true);
+    setList({ ...list, accessId: initialAccessId });
+  }, [initialAccessId]);
+
+  // Flip between add and connect
+  const flipConnectForm = () => {
+    setConnectForm((connectForm) => !connectForm);
+  };
 
   // Input
   const onChange = (e: ChangeEvent<HTMLInputElement>) =>
@@ -23,8 +49,8 @@ const ListForm: FC = () => {
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    pushList({ ...list, name: name.trim() });
+    if (connectForm) connectList(accessId, password);
+    else pushList({ ...list, name: name.trim() });
     clearAll();
   };
 
@@ -35,7 +61,9 @@ const ListForm: FC = () => {
 
   return (
     <div className="grow-shrink">
-      <h2 className="text-primary">Add New List</h2>
+      <button className="btn-block btn-white" onClick={flipConnectForm} style={{ border: "0" }}>
+        <h2 className="text-primary">{connectForm ? "Connect To List" : "Add New List"}</h2>
+      </button>
       <form
         onSubmit={onSubmit}
         style={{
@@ -56,9 +84,9 @@ const ListForm: FC = () => {
             marginBottom: "0.7rem",
           }}
           type="text"
-          placeholder="List Name"
-          name="name"
-          value={name}
+          placeholder={connectForm ? "List Access Code" : "List Name"}
+          name={connectForm ? "accessId" : "name"}
+          value={connectForm ? accessId : name}
           autoComplete="off"
           onChange={onChange}
         />
@@ -84,7 +112,7 @@ const ListForm: FC = () => {
             padding: "0.1rem",
           }}
           type="submit"
-          value="Add New List"
+          value={connectForm ? "Connect To List" : "Add New List"}
           className="btn btn-primary btn-block"
         />
       </form>
