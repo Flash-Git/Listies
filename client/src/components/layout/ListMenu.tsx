@@ -20,31 +20,36 @@ const ListMenu: FC<Props> = ({ open, toggleOpen }) => {
     toggleOpen();
   };
 
-  const toggler = (
-    <button
-      className="btn btn-link"
-      style={{
-        float: "right",
-        marginRight: "1rem",
-        height: "2.4rem",
-      }}
-      onClick={toggleOpen}
-    >
-      <FontAwesomeIcon
-        style={{ height: "2rem", width: "2rem" }}
-        icon={["fas", open ? "caret-left" : "sort-up"]}
-      />
-    </button>
-  );
   return (
-    <Fragment>
-      {toggler}
+    <div className="text-center">
       {open && (
-        <button className="btn btn-white btn-block " onClick={copy}>
-          Share Link
+        <button
+          className="btn btn-discreet text-center"
+          style={{
+            marginBottom: "1rem",
+            marginLeft: "1.2rem",
+            borderStyle: "solid",
+            borderRadius: "0.5em",
+          }}
+          onClick={copy}
+        >
+          Copy Link
         </button>
       )}
-    </Fragment>
+      <button
+        className="btn btn-link"
+        style={{
+          float: "right",
+          height: "2.4rem",
+        }}
+        onClick={toggleOpen}
+      >
+        <FontAwesomeIcon
+          style={{ height: "2rem", width: "2rem" }}
+          icon={["fas", open ? "caret-left" : "sort-up"]}
+        />
+      </button>
+    </div>
   );
 };
 

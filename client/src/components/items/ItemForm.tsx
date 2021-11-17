@@ -109,23 +109,25 @@ const ItemForm: FC<Props> = ({ currentList }) => {
   );
 
   return (
-    <div className="grow-shrink">
-      {currentList && (
-        <Fragment>
-          <ListMenu open={open} toggleOpen={toggleOpen} />
-          {open && (
-            <Fragment>
-              <Exporter currentList={currentList} items={items} />
-              <Sorter sortItems={sortItems} />
-            </Fragment>
-          )}
-        </Fragment>
-      )}
-      <h2 className="text-primary" style={{ marginLeft: currentList ? "2.5rem" : "0" }}>
-        {listName}
-      </h2>
-      {currentList && inputFields}
-    </div>
+    <Fragment>
+      <ListMenu open={open} toggleOpen={toggleOpen} />
+      <div className="grow-shrink">
+        {currentList && (
+          <Fragment>
+            {open && (
+              <Fragment>
+                <Exporter currentList={currentList} items={items} />
+                <Sorter sortItems={sortItems} />
+              </Fragment>
+            )}
+          </Fragment>
+        )}
+        <h2 className="text-primary" style={{ marginLeft: currentList ? "2.5rem" : "0" }}>
+          {listName}
+        </h2>
+        {currentList && inputFields}
+      </div>
+    </Fragment>
   );
 };
 
