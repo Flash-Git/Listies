@@ -56,17 +56,19 @@ const ListRoutes = (getSockets: GetFilteredSockets) => {
 
         const accessId = crypto
           .createHash("sha256")
-          .update(name + user.id.toString())
+          .update(name + user.id)
           .digest("hex");
 
         if (user.accessIds.includes(accessId))
-          return res.status(403).send({ msg: "List with this accessId already exists" });
+          return res.status(403).send({ msg: "User already has a List with this id" });
 
         const newList = new List({
+          owner: user.id,
           name,
           accessId,
-          user: user.id,
+          users: [user.id],
         });
+
         if (password) {
           const salt = await bcrypt.genSalt(10);
           newList.password = await bcrypt.hash(password, salt);
@@ -76,14 +78,12 @@ const ListRoutes = (getSockets: GetFilteredSockets) => {
           $push: { accessIds: accessId },
         });
 
-        const existingList = await List.findOne({ accessId });
-
-        if (existingList) {
-          // Emit
-          getSockets(user.id).map((socket: Socket) => socket.emit("addList", existingList));
-
-          return res.status(201).send(existingList);
-        }
+        // const existingList = await List.findOne({ accessId });
+        // if (existingList) {
+        //   // Emit
+        //   getSockets(user.id).map((socket: Socket) => socket.emit("addList", existingList));
+        //   return res.status(201).send(existingList);
+        // }
 
         const list = await newList.save();
 
@@ -103,6 +103,40 @@ const ListRoutes = (getSockets: GetFilteredSockets) => {
   // @access  PRIVATE
   router.post("/:accessId", auth, async (req: Request, res: Response) => {
     if (handleErrors(req, res)) return;
+    const { accessId }: { accessId?: string } = await req.params;
+    const { password }: IList = await req.body;
+
+    try {
+      const user = await User.findById(req.user.id);
+      if (!user) return res.status(404).send({ msg: "User not found" });
+
+      const list = await List.findOne({ accessId });
+      if (!list || list.private) return res.status(404).send({ msg: "List not found" });
+
+      if (user.accessIds.includes(accessId))
+        return res.status(403).send({ msg: "User already has a List with this id" });
+
+      if (list.password) {
+        const isMatch = await bcrypt.compare(password, list.password);
+        if (!isMatch) return res.status(400).send({ msg: "Invalid credentials" });
+      }
+
+      await list.updateOne({
+        $push: { users: user.id },
+      });
+
+      await user.updateOne({
+        $push: { accessIds: accessId },
+      });
+
+      // Emit
+      getSockets(user.id).map((socket: Socket) => socket.emit("addList", list));
+
+      return res.status(201).send(list);
+    } catch (e) {
+      console.error(e.message);
+      res.status(500).send({ msg: "Server Error" });
+    }
   });
 
   // @route   DELETE api/lists
