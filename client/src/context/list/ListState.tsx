@@ -33,6 +33,7 @@ import {
   HandleForbidden,
   GetLists,
   SetLists,
+  ConnectList,
   AddList,
   DeleteList,
 } from "context";
@@ -93,6 +94,24 @@ const ListState: FC = (props) => {
     }
   };
 
+  const connectList: ConnectList = async (accessId: string, password: string) => {
+    const config: AxiosRequestConfig = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    try {
+      const res = await axios.post(`/api/lists/${accessId}`, { password }, config);
+      addList(res.data);
+      setCurrentList(res.data);
+    } catch (e) {
+      if (!axios.isAxiosError(e) || !e.response?.data.msg) return;
+      dispatch({ type: LIST_ERROR, payload: e.response.data.msg });
+      handleForbidden(e);
+    }
+  };
+
   const addList: AddList = async (list) => dispatch({ type: ADD_LIST, payload: list });
 
   const pushDeleteList: DeleteList = async (id: string) => {
@@ -133,6 +152,7 @@ const ListState: FC = (props) => {
         getLists,
         setLists,
         pushList,
+        connectList,
         addList,
         pushDeleteList,
         deleteList,

@@ -91,11 +91,14 @@ declare module "context" {
 
   export interface List {
     _id?: string;
-    name: string;
-    accessId?: string;
-    password?: string;
     id: string;
-    user?: string;
+    owner: string;
+    name: string;
+    private: boolean;
+    accessId: string;
+    password: string;
+    users: string[];
+    date: number;
   }
   export type Lists = List[];
 
@@ -109,6 +112,7 @@ declare module "context" {
 
   export type GetLists = () => void;
   export type SetLists = (lists: Lists) => void;
+  export type ConnectList = (accessId: string, password: string) => void;
   export type AddList = (list: List) => void;
   export type DeleteList = (id: string) => void;
   export type SetCurrentList = (list: List) => void;
@@ -122,6 +126,7 @@ declare module "context" {
     getLists: GetLists;
     setLists: SetLists;
     pushList: AddList;
+    connectList: ConnectList;
     addList: AddList;
     pushDeleteList: DeleteList;
     deleteList: DeleteList;
