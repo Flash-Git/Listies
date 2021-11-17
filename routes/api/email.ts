@@ -34,8 +34,8 @@ const sendEmail = async (req: Request, res: Response, { name, email }: User): Pr
     await transporter.sendMail({
       from: `"Quinn" <contact@${process.env.EMAIL_BASE}>`, // sender address
       to: email, // list of receivers
-      subject: "Account Verification", // Subject line
-      text: `Hello ${name},\n\nPlease verify your account: (test)[https://${req.headers.host}/api/verification/${email}/${verificationToken}]\n\nThanks,\nListies`, // plain text body
+      subject: "Listies Account Verification", // Subject line
+      text: `Hello ${name},\n\nPlease verify your account: (click here)[https://${req.headers.host}/api/verification/${email}/${verificationToken}]\n\nThanks,\nListies`, // plain text body
       html: `Hello ${name},<br><br>Please <a href="https://${req.headers.host}/api/verification/${email}/${verificationToken}">click here</a> to verify your account.<br><br>Thanks,<br>Listies`, // html body
       // html: "<b>Hello world?</b>", // html body
     });
