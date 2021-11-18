@@ -58,8 +58,9 @@ const Lists: FC = () => {
   }, [authLoading, isAuthenticated]);
 
   /*
-  / Dragging
-  */
+   * Dragging
+   *
+   */
 
   const [draggedList, setDraggedList] = useState<List | null>(null);
 
