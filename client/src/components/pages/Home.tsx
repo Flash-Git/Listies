@@ -76,9 +76,11 @@ const Home: FC = () => {
         className="btn btn-sm btn-primary mx"
         style={{
           position: "absolute",
-          left: "1rem",
+          left: "0.5rem",
           paddingLeft: "0.8rem",
           paddingRight: "0.8rem",
+          marginTop: "-0.5rem",
+          zIndex: "1",
         }}
       >
         <FontAwesomeIcon icon={["fas", "bars"]} />
@@ -99,7 +101,7 @@ const Home: FC = () => {
         </div>
       )}
       <div
-        className="px-1 mx-auto mbot-4"
+        className="px-1 mx-auto px-2 mbot-4"
         style={{
           overflowY: "auto",
           scrollbarWidth: "thin",
