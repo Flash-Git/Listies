@@ -122,7 +122,7 @@ const ItemForm: FC<Props> = ({ currentList }) => {
             )}
           </Fragment>
         )}
-        <h2 className="text-primary" style={{ marginLeft: currentList ? "2.5rem" : "0" }}>
+        <h2 className="text-primary" style={{ margin: currentList ? "0 1.5rem" : "0" }}>
           {listName}
         </h2>
         {currentList && inputFields}
