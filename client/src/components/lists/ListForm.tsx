@@ -62,9 +62,21 @@ const ListForm: FC<Props> = ({ initialAccessId }) => {
 
   return (
     <div className="grow-shrink">
-      <button className="btn-block btn-white" onClick={flipConnectForm} style={{ border: "0" }}>
-        <h2 className="text-primary">{connectForm ? "Connect To List" : "Add New List"}</h2>
-      </button>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          margin: "0 2rem",
+        }}
+      >
+        <button
+          className="btn btn-white text-center"
+          onClick={flipConnectForm}
+          style={{ border: "0" }}
+        >
+          <h2 className="text-primary">{connectForm ? "Connect To List" : "Add New List"}</h2>
+        </button>
+      </div>
       <form
         onSubmit={onSubmit}
         style={{
