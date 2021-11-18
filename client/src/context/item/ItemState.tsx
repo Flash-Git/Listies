@@ -2,11 +2,17 @@ import { FC, useContext, useReducer } from "react";
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 
 import AuthContext from "../auth/AuthContext";
+import ListContext from "../list/ListContext";
 
 import ItemContext from "./ItemContext";
 import ItemReducer from "./ItemReducer";
 
-import { Item, ItemState as IItemState, AuthContext as IAuthContext } from "context";
+import {
+  Item,
+  ItemState as IItemState,
+  ListContext as IListContext,
+  AuthContext as IAuthContext,
+} from "context";
 
 import {
   LOADING,
@@ -22,6 +28,12 @@ import {
 } from "../types";
 
 const ItemState: FC = (props) => {
+  const authContext: IAuthContext = useContext(AuthContext);
+  const { logout } = authContext;
+
+  const listContext: IListContext = useContext(ListContext);
+  const { clearCurrentList } = listContext;
+
   const initialState: IItemState = {
     items: [],
     error: null,
@@ -29,9 +41,6 @@ const ItemState: FC = (props) => {
   };
 
   const [state, dispatch] = useReducer(ItemReducer, initialState);
-
-  const authContext: IAuthContext = useContext(AuthContext);
-  const { logout } = authContext;
 
   const handleForbidden = (e: AxiosError) => {
     if (!e.response) return;
@@ -72,6 +81,7 @@ const ItemState: FC = (props) => {
     } catch (e) {
       if (!axios.isAxiosError(e) || !e.response?.data.msg) return;
       dispatch({ type: ITEM_ERROR, payload: e.response.data.msg });
+      clearCurrentList();
       handleForbidden(e);
     }
   };
