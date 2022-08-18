@@ -25,7 +25,7 @@ import {
   UpdateSocketList,
 } from "context";
 
-const AppState: FC = (props) => {
+const AppState = (props: any) => {
   const initialState: IAppState = {
     socket: null,
     darkMode: false,

@@ -5,7 +5,7 @@ declare module "context" {
     type: string;
   }
 
-  export type HandleForbidden = (e: AxiosError) => void;
+  export type HandleForbidden = (e: AxiosError<any>) => void;
 
   /*
    * App

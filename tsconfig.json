@@ -8,7 +8,8 @@
     "esModuleInterop": true,
     "lib": ["es6"],
     "allowJs": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "useUnknownInCatchVariables": false
   },
   "include": ["**.ts"]
 }

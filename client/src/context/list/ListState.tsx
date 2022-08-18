@@ -1,5 +1,5 @@
 import { useReducer, FC, useContext } from "react";
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { AxiosError, AxiosRequestConfig } from "axios";
 
 import AuthContext from "../auth/AuthContext";
 
@@ -38,7 +38,7 @@ import {
   DeleteList,
 } from "context";
 
-const ListState: FC = (props) => {
+const ListState = (props: any) => {
   const initialState: IListState = {
     lists: [],
     currentList: null,
@@ -68,7 +68,7 @@ const ListState: FC = (props) => {
       const res = await axios.get("/api/lists");
       dispatch({ type: GET_LISTS, payload: res.data });
     } catch (e) {
-      if (!axios.isAxiosError(e) || !e.response?.data.msg) return;
+      if (!e.response?.data.msg) return;
       dispatch({ type: LIST_ERROR, payload: e.response.data.msg });
       handleForbidden(e);
     }
@@ -88,7 +88,7 @@ const ListState: FC = (props) => {
       addList(res.data);
       setCurrentList(res.data);
     } catch (e) {
-      if (!axios.isAxiosError(e) || !e.response?.data.msg) return;
+      if (!e.response?.data.msg) return;
       dispatch({ type: LIST_ERROR, payload: e.response.data.msg });
       handleForbidden(e);
     }
@@ -106,7 +106,7 @@ const ListState: FC = (props) => {
       addList(res.data);
       setCurrentList(res.data);
     } catch (e) {
-      if (!axios.isAxiosError(e) || !e.response?.data.msg) return;
+      if (!e.response?.data.msg) return;
       dispatch({ type: LIST_ERROR, payload: e.response.data.msg });
       handleForbidden(e);
     }
@@ -120,7 +120,7 @@ const ListState: FC = (props) => {
     try {
       await axios.delete(`/api/lists/${id}`);
     } catch (e) {
-      if (!axios.isAxiosError(e) || !e.response?.data.msg) return;
+      if (!e.response?.data.msg) return;
       dispatch({ type: LIST_ERROR, payload: e.response.data.msg });
       handleForbidden(e);
     }

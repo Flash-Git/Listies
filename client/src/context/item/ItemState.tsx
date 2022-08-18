@@ -12,6 +12,7 @@ import {
   ItemState as IItemState,
   ListContext as IListContext,
   AuthContext as IAuthContext,
+  HandleForbidden,
 } from "context";
 
 import {
@@ -27,7 +28,7 @@ import {
   CLEAR_ERRORS,
 } from "../types";
 
-const ItemState: FC = (props) => {
+const ItemState = (props: any) => {
   const authContext: IAuthContext = useContext(AuthContext);
   const { logout } = authContext;
 
@@ -42,7 +43,7 @@ const ItemState: FC = (props) => {
 
   const [state, dispatch] = useReducer(ItemReducer, initialState);
 
-  const handleForbidden = (e: AxiosError) => {
+  const handleForbidden: HandleForbidden = (e) => {
     if (!e.response) return;
     if (e.response.status === 401) logout(e.response.data.message);
   };
@@ -79,7 +80,7 @@ const ItemState: FC = (props) => {
       }
       dispatch({ type: GET_ITEMS, payload: newItems.concat(items) });
     } catch (e) {
-      if (!axios.isAxiosError(e) || !e.response?.data.msg) return;
+      if (!e.response?.data.msg) return;
       dispatch({ type: ITEM_ERROR, payload: e.response.data.msg });
       clearCurrentList();
       handleForbidden(e);
@@ -105,7 +106,7 @@ const ItemState: FC = (props) => {
       const res = await axios.post(`/api/items/${listId}`, { item, listId }, config);
       addItem(res.data, listId);
     } catch (e) {
-      if (!axios.isAxiosError(e) || !e.response?.data.msg) return;
+      if (!e.response?.data.msg) return;
       dispatch({ type: ITEM_ERROR, payload: e.response.data.msg });
       handleForbidden(e);
     }
@@ -126,7 +127,7 @@ const ItemState: FC = (props) => {
     try {
       await axios.put(`/api/items/${item.id}`, item, config);
     } catch (e) {
-      if (!axios.isAxiosError(e) || !e.response?.data.msg) return;
+      if (!e.response?.data.msg) return;
       dispatch({ type: ITEM_ERROR, payload: e.response.data.msg });
       handleForbidden(e);
     }
@@ -142,7 +143,7 @@ const ItemState: FC = (props) => {
     try {
       await axios.delete(`/api/items/${itemId}`);
     } catch (e) {
-      if (!axios.isAxiosError(e) || !e.response?.data.msg) return;
+      if (!e.response?.data.msg) return;
       dispatch({ type: ITEM_ERROR, payload: e.response.data.msg });
       handleForbidden(e);
     }

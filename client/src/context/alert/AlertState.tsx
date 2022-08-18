@@ -8,7 +8,7 @@ import { ADD_ALERT, REMOVE_ALERT, CLEAR_ALERTS } from "../types";
 
 import { Alerts, AddAlert, RemoveAlert, ClearAlerts } from "context";
 
-const AlertState: FC = (props) => {
+const AlertState = (props: any) => {
   const initialState: Alerts = [];
 
   const [state, dispatch] = useReducer(AlertReducer, initialState);
