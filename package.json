@@ -48,7 +48,7 @@
         "type": "git"
     },
     "engines": {
-        "node": "18.7",
+        "node": "^16",
         "yarn": "^1.22"
     }
 }
