@@ -25,6 +25,7 @@ import {
   HandleForbidden,
   LoadUser,
   Login,
+  Reset,
   Logout,
   Register,
   SendVerificationEmail,
@@ -86,8 +87,8 @@ const AuthState = (props: any) => {
   const setLoading: SetLoading = async (loading) =>
     dispatch({ type: SET_LOADING, payload: loading });
 
-  const loadUser: LoadUser = async () => {
-    updateAuthTokenHeader(localStorage.token);
+  const loadUser: LoadUser = async (token?: string) => {
+    updateAuthTokenHeader(token ?? localStorage.token);
 
     try {
       const res = await axios.get("/api/auth");
@@ -106,11 +107,31 @@ const AuthState = (props: any) => {
     };
     try {
       const res: AxiosResponse<{ token: string }> = await axios.post("/api/auth", formData, config);
+      updateAuthTokenHeader(res.data.token);
       dispatch({ type: LOGIN_SUCCESS, payload: res.data });
-      loadUser();
+      loadUser(res.data.token);
     } catch (e) {
       if (!e.response?.data.msg) return;
       dispatch({ type: LOGIN_FAIL, payload: e.response.data.msg });
+      handleForbidden(e);
+    }
+  };
+
+  const reset: Reset = async (formData) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    try {
+      const res: AxiosResponse<{ token: string }> = await axios.post("/api/reset", formData, config);
+      updateAuthTokenHeader(res.data.token);
+      dispatch({ type: LOGIN_SUCCESS, payload: res.data });
+      loadUser(res.data.token);
+    } catch (e) {
+      if (!e.response?.data.msg) return;
+      // TODO
+      // dispatch({ type: LOGIN_FAIL, payload: e.response.data.msg });
       handleForbidden(e);
     }
   };
@@ -129,6 +150,7 @@ const AuthState = (props: any) => {
         error: state.error,
         register,
         login,
+        reset,
         sendVerificationEmail,
         setLoading,
         loadUser,

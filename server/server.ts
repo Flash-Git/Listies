@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import connectDB from "../config/db";
 
 import usersRoutes from "../routes/api/users";
+import resetRoutes from "../routes/api/reset";
 import authRoutes from "../routes/api/auth";
 import verificationRoutes from "../routes/api/verification";
 import listsRoutes from "../routes/api/lists";
@@ -41,6 +42,7 @@ class Server {
 
     // Define Routes
     this.app.use("/api/users", usersRoutes);
+    this.app.use("/api/reset", resetRoutes);
     this.app.use("/api/auth", authRoutes);
     this.app.use("/api/verification", verificationRoutes);
     this.app.use(
@@ -52,7 +54,7 @@ class Server {
       itemsRoutes((listId) => this.getSockets(listId, "listId"))
     );
 
-    // Serve static assets in production
+    // Serve static client assets in production
     if (process.env.NODE_ENV === "production") {
       this.app.use(express.static("build/client/"));
       this.app.get("/*", (_req: Request, res: Response): void =>
