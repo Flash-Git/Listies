@@ -56,8 +56,8 @@ router.post(
       };
 
       const token = jwt.sign(payload, jwtSecret, {
-        // half day
-        expiresIn: 43200,
+        // expiresIn: 43200, // half day
+        expiresIn: 604800, // 1 week
       });
 
       await sendEmail(req, res, user);
