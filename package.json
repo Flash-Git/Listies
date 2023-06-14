@@ -4,7 +4,7 @@
   "main": "index.ts",
   "author": "Quinn",
   "license": "MIT",
-  "private": false,
+  "private": true,
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "config": "^3.3.6",
@@ -34,12 +34,12 @@
     "server": "nodemon index.ts",
     "serverInstall": "yarn",
     "serverBuild": "npx tsc",
-    "client": "yarn --cwd ./client start",
-    "clientInstall": "yarn --cwd ./client/",
-    "clientBuild": "yarn --cwd ./client/ build",
+    "client": "yarn workspace @client start",
+    "clientInstall": "yarn workspace @client",
+    "clientBuild": "yarn workspace @client build",
     "dev": "concurrently \"yarn server\" \"yarn client\"",
     "devInstall": "yarn serverInstall && yarn clientInstall",
-    "devUpgrade": "yarn upgrade && yarn --cwd ./client/ upgrade",
+    "devUpgrade": "yarn upgrade && yarn workspace @client upgrade",
     "devBuild": "yarn serverBuild && yarn clientBuild",
     "heroku-postbuild": "yarn devInstall && yarn devBuild",
     "format": "npx prettier --write  {,*/**/}*.{ts,tsx,js,json}"
@@ -50,5 +50,9 @@
   "engines": {
     "node": "^18",
     "yarn": "^1.22"
-  }
+  },
+  "workspaces": [
+    "server",
+    "client"
+  ]
 }
