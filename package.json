@@ -32,14 +32,12 @@
   "scripts": {
     "start": "NODE_ENV=production node build/index.js",
     "server": "nodemon index.ts",
-    "serverInstall": "yarn",
     "serverBuild": "npx tsc",
-    "client": "yarn workspace @client start",
-    "clientInstall": "yarn workspace @client",
-    "clientBuild": "yarn workspace @client build",
+    "client": "yarn workspace client start",
+    "clientBuild": "yarn workspace client build",
     "dev": "concurrently \"yarn server\" \"yarn client\"",
-    "devInstall": "yarn serverInstall && yarn clientInstall",
-    "devUpgrade": "yarn upgrade && yarn workspace @client upgrade",
+    "devInstall": "yarn",
+    "devUpgrade": "yarn upgrade && yarn workspace client upgrade",
     "devBuild": "yarn serverBuild && yarn clientBuild",
     "heroku-postbuild": "yarn devInstall && yarn devBuild",
     "format": "npx prettier --write  {,*/**/}*.{ts,tsx,js,json}"
@@ -52,7 +50,7 @@
     "yarn": "^1.22"
   },
   "workspaces": [
-    "server",
     "client"
-  ]
+  ],
+  "packageManager": "yarn@3.6.0"
 }
