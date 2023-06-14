@@ -13,7 +13,7 @@ const Login: FC = () => {
   const { addAlert, clearAlerts } = alertContext;
 
   const authContext: IAuthContext = useContext(AuthContext);
-  const { isAuthenticated, error, login, sendVerificationEmail, clearErrors } = authContext;
+  const { isAuthenticated, error, login, reset, sendVerificationEmail, clearErrors } = authContext;
 
   const [user, setUser] = useState({
     email: "",
@@ -26,7 +26,7 @@ const Login: FC = () => {
   useEffect(() => {
     if (!isAuthenticated) return;
     clearAlerts();
-    navigate(-1);
+    navigate("/");
   }, [isAuthenticated]);
 
   useEffect(() => {
@@ -59,6 +59,17 @@ const Login: FC = () => {
     setNeedsVerification(false);
   };
 
+  const onReset = () => {
+    if (email === "" || password === "") {
+      addAlert("Please fill in all fields", "danger");
+    } else {
+      reset({
+        email,
+        password,
+      });
+    }
+  };
+
   return (
     <div className="form-container">
       <h1>
@@ -87,6 +98,9 @@ const Login: FC = () => {
           Resend Email
         </button>
       )}
+      <button className="btn btn-primary btn-block" onClick={onReset}>
+          Reset Password
+        </button>
     </div>
   );
 };

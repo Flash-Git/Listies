@@ -184,15 +184,17 @@ declare module "context" {
 
   export type Register = (formData: { name: string; email: string; password: string }) => void;
   export type Login = (formData: { email: string; password: string }) => void;
+  export type Reset = (formData: { email: string; password: string }) => void;
   export type SendVerificationEmail = (email: string) => void;
   export type SetLoading = (loading: boolean) => void;
-  export type LoadUser = () => void;
+  export type LoadUser = (token?:string) => void;
   export type Logout = (msg?: string) => void;
   export type ClearErrors = () => void;
 
   export interface AuthContext extends AuthState {
     register: Register;
     login: Login;
+    reset: Reset;
     sendVerificationEmail: SendVerificationEmail;
     setLoading: SetLoading;
     loadUser: LoadUser;
