@@ -28,7 +28,7 @@
 - Express server
 - MongoDB
 - Account management with bcrypt password hashing
-- Token
+- Built-in token authorization
 
 ### Frontend
 
@@ -39,7 +39,7 @@
 
 ### Hosting
 
-- Heroku
+- ~~Heroku~~
 - Cloudflare
 
 ## Installation
