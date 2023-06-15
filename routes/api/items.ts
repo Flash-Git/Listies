@@ -87,6 +87,7 @@ const ItemRoutes = (getSockets: GetFilteredSockets) => {
     name?: string;
     checked?: boolean;
     importance?: number;
+    marked?: boolean;
     note?: string;
   };
 
@@ -100,13 +101,14 @@ const ItemRoutes = (getSockets: GetFilteredSockets) => {
     async (req: Request, res: Response) => {
       if (handleErrors(req, res)) return;
       const { itemId }: { itemId?: string } = req.params;
-      const { name, checked, importance, note }: IItem = req.body;
+      const { name, checked, importance, marked, note }: IItem = req.body;
 
       // Build item object
       const itemFields: Fields = {};
       if (name !== undefined) itemFields.name = name;
       if (checked !== undefined) itemFields.checked = checked;
       if (importance !== undefined) itemFields.importance = importance;
+      if (marked !== undefined) itemFields.marked = marked;
       if (note !== undefined) itemFields.note = note;
 
       try {
