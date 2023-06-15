@@ -3,6 +3,7 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import Item from "./Item";
 import Spinner from "../layout/Spinner";
+import Modal from "../layout/Modal";
 
 import AppContext from "../../context/app/AppContext";
 import AlertContext from "../../context/alert/AlertContext";
@@ -38,6 +39,8 @@ const Items: FC<Props> = ({ currentList }) => {
     editItem,
     setItems,
     deleteItem,
+    pushEditItem,
+    pushDeleteItem,
     getItems,
     clearItems,
     clearErrors,
@@ -45,6 +48,8 @@ const Items: FC<Props> = ({ currentList }) => {
 
   const alertContext: IAlertContext = useContext(AlertContext);
   const { addAlert } = alertContext;
+
+  const [confirmModal, setConfirmModal] = useState(false);
 
   useEffect(() => {
     if (!socket || !currentList || !identifed) return;
@@ -115,24 +120,57 @@ const Items: FC<Props> = ({ currentList }) => {
     setDraggedItem(null);
   };
 
+  /*
+   * Modal
+   *
+   */
+
+  const confirmDialog = () => {
+    setConfirmModal(true);
+  };
+
+  const confirmDelete = () => {
+    items.filter((item) => item.marked).map((item) => pushDeleteItem(item.id));
+  };
+
+  const unMarkDelete = () => {
+    items.filter((item) => item.marked).map((item) => pushEditItem({ ...item, marked: false }));
+  };
+
+  const closeModal = () => {
+    setConfirmModal(false);
+  };
+
   if (loading) return <Spinner />;
 
   return (
-    <TransitionGroup>
-      {items.map((item: IItem, i: number) => (
-        <CSSTransition key={item.id} timeout={200}>
-          <div
-            className="drag"
-            draggable
-            onDragStart={(e) => onDragStart(e, i, item.name)}
-            onDragEnd={onDragEnd}
-            onDragOver={() => onDragOver(i)}
-          >
-            <Item item={item} />
-          </div>
-        </CSSTransition>
-      ))}
-    </TransitionGroup>
+    <>
+      <TransitionGroup>
+        {items.map((item: IItem, i: number) => (
+          <CSSTransition key={item.id} timeout={200}>
+            <div
+              className="drag"
+              draggable
+              onDragStart={(e) => onDragStart(e, i, item.name)}
+              onDragEnd={onDragEnd}
+              onDragOver={() => onDragOver(i)}>
+              <Item item={item} confirmDialog={confirmDialog} />
+            </div>
+          </CSSTransition>
+        ))}
+      </TransitionGroup>
+      {confirmModal && (
+        <div>
+          <Modal
+            action={confirmDelete}
+            undoAction={unMarkDelete}
+            content="Do you want to delete these items?"
+            title="Confirm"
+            closeModal={closeModal}
+          />
+        </div>
+      )}
+    </>
   );
 };
 

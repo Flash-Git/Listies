@@ -25,6 +25,7 @@ export interface Item extends Document {
   name: string;
   checked: boolean;
   importance: number;
+  marked?: boolean;
   note: string;
   date: number;
 }

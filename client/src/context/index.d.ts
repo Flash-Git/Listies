@@ -50,6 +50,7 @@ declare module "context" {
     checked: boolean;
     importance: number;
     note: string;
+    marked?: boolean;
   }
   export type Items = Item[];
 
@@ -187,7 +188,7 @@ declare module "context" {
   export type Reset = (formData: { email: string; password: string }) => void;
   export type SendVerificationEmail = (email: string) => void;
   export type SetLoading = (loading: boolean) => void;
-  export type LoadUser = (token?:string) => void;
+  export type LoadUser = (token?: string) => void;
   export type Logout = (msg?: string) => void;
   export type ClearErrors = () => void;
 

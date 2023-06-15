@@ -22,6 +22,10 @@ const ItemSchema: Schema<Item> = new Schema({
     type: Number,
     default: 0,
   },
+  marked: {
+    type: Boolean,
+    default: undefined,
+  },
   note: {
     type: String,
     default: "",
