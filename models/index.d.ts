@@ -16,6 +16,7 @@ export interface List extends Document {
   name: string;
   private: boolean;
   users: User["_id"][];
+  tags: String[];
   date: number;
 }
 

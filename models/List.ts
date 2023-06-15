@@ -25,6 +25,10 @@ const ListSchema: Schema<List> = new Schema({
     type: [[mongoose.Schema.Types.ObjectId]],
     required: true,
   },
+  tags: {
+    type: [[String]],
+    required: false,
+  },
   date: {
     type: Number,
     default: Date.now,
