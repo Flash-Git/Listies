@@ -9,16 +9,16 @@ interface Props {
 }
 
 const Modal: FC<Props> = (props) => {
-  const [hovering, setHovering] = useState(true);
+  const [hovering, setHovering] = useState(false);
 
   return (
     <div
-      className="dialog-container dialog-overlay"
+      className="modal-container modal-overlay"
       onClick={() => {
         !hovering && props.closeModal();
       }}>
       <div
-        className="card bg-light my dialog-content"
+        className="card bg-light my modal-content"
         style={{
           display: "flex",
           flexDirection: "column",
@@ -29,7 +29,7 @@ const Modal: FC<Props> = (props) => {
         onMouseEnter={() => setHovering(true)}
         onMouseLeave={() => setHovering(false)}
         title={props.title}>
-        <p className="dialog-content text-primary text-left grow-shrink p">{props.content}</p>
+        <p className="modal-content text-primary text-left grow-shrink p">{props.content}</p>
         <div
           style={{
             flexDirection: "row",
