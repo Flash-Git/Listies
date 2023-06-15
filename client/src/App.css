@@ -572,3 +572,29 @@ table th {
   -ms-user-select: none;
   user-select: none;
 } */
+
+/* Full page modal */
+.modal-container,
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.modal-container {
+  z-index: 2;
+  display: flex;
+}
+
+.modal-overlay {
+  background-color: rgb(43 46 56 / 0.9);
+}
+
+.modal-content {
+  margin: auto;
+  z-index: 2;
+  position: relative;
+}
