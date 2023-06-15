@@ -2850,7 +2850,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/express@npm:*, @types/express@npm:^4.17.13":
+"@types/express@npm:*, @types/express@npm:^4.17.13, @types/express@npm:^4.17.17":
   version: 4.17.17
   resolution: "@types/express@npm:4.17.17"
   dependencies:
@@ -2868,13 +2868,6 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: c3070ccdc9ca0f40df747bced1c96c71a61992d6f7c767e8fd24bb6a3c2de26e8b84135ede000b7e79db530a23e7e88dcd9db60eee6395d0f4ce1dae91369dd4
-  languageName: node
-  linkType: hard
-
-"@types/history@npm:^4.7.11":
-  version: 4.7.11
-  resolution: "@types/history@npm:4.7.11"
-  checksum: c92e2ba407dcab0581a9afdf98f533aa41b61a71133420a6d92b1ca9839f741ab1f9395b17454ba5b88cb86020b70b22d74a1950ccfbdfd9beeaa5459fdc3464
   languageName: node
   linkType: hard
 
@@ -2933,12 +2926,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jsonwebtoken@npm:^8.5.6":
-  version: 8.5.9
-  resolution: "@types/jsonwebtoken@npm:8.5.9"
+"@types/jsonwebtoken@npm:^9.0.2":
+  version: 9.0.2
+  resolution: "@types/jsonwebtoken@npm:9.0.2"
   dependencies:
     "@types/node": "*"
-  checksum: 33815ab02d1371b423118316b7706d2f2ec03eeee5e1494be72da50425d2384e5e0a09ea193f7a5ab4b4f6a9c5847147305f50e965f3d927a95bdf8adb471b2a
+  checksum: 3bb8d40e78d7eb53e427db6e9f0f22e0890cfee80965dcf741d08341814913afb211306de6e9847c6d241cc8e36f8a59090cbfdcc510ab7c81af9d650c5afe0e
   languageName: node
   linkType: hard
 
@@ -2956,17 +2949,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:>=10.0.0":
+"@types/node@npm:*, @types/node@npm:>=10.0.0, @types/node@npm:^20.3.1":
   version: 20.3.1
   resolution: "@types/node@npm:20.3.1"
   checksum: 63a393ab6d947be17320817b35d7277ef03728e231558166ed07ee30b09fd7c08861be4d746f10fdc63ca7912e8cd023939d4eab887ff6580ff704ff24ed810c
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:^18.7, @types/node@npm:^18.7.6":
-  version: 18.16.18
-  resolution: "@types/node@npm:18.16.18"
-  checksum: d32d8a0a04cd3f5ecb361bcb42f3a07623881ac90d680e06bf626defb3c663a94860d11690babe607cfe67265eceeb8a59ba5fe40c0e49f5a1b01e0088640469
   languageName: node
   linkType: hard
 
@@ -3039,28 +3025,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-router-dom@npm:^5.3.3":
-  version: 5.3.3
-  resolution: "@types/react-router-dom@npm:5.3.3"
-  dependencies:
-    "@types/history": ^4.7.11
-    "@types/react": "*"
-    "@types/react-router": "*"
-  checksum: 28c4ea48909803c414bf5a08502acbb8ba414669b4b43bb51297c05fe5addc4df0b8fd00e0a9d1e3535ec4073ef38aaafac2c4a2b95b787167d113bc059beff3
-  languageName: node
-  linkType: hard
-
-"@types/react-router@npm:*":
-  version: 5.1.20
-  resolution: "@types/react-router@npm:5.1.20"
-  dependencies:
-    "@types/history": ^4.7.11
-    "@types/react": "*"
-  checksum: 128764143473a5e9457ddc715436b5d49814b1c214dde48939b9bef23f0e77f52ffcdfa97eb8d3cc27e2c229869c0cdd90f637d887b62f2c9f065a87d6425419
-  languageName: node
-  linkType: hard
-
-"@types/react-transition-group@npm:^4.4.4":
+"@types/react-transition-group@npm:^4.4.6":
   version: 4.4.6
   resolution: "@types/react-transition-group@npm:4.4.6"
   dependencies:
@@ -4610,12 +4575,11 @@ __metadata:
     "@fortawesome/free-brands-svg-icons": ^6.1.2
     "@fortawesome/free-solid-svg-icons": ^6.1.2
     "@fortawesome/react-fontawesome": ^0.2.0
-    "@types/node": ^18.7
+    "@types/node": ^20.3.1
     "@types/react": ^18.2.12
     "@types/react-dom": ^18.2.5
     "@types/react-responsive": ^8.0.5
-    "@types/react-router-dom": ^5.3.3
-    "@types/react-transition-group": ^4.4.4
+    "@types/react-transition-group": ^4.4.6
     "@types/uuid": ^8.3.1
     axios: ^1.4.0
     react: ^18.2.0
@@ -4623,11 +4587,11 @@ __metadata:
     react-responsive: ^9.0.2
     react-router-dom: ^6.12.1
     react-scripts: ^5.0.1
-    react-transition-group: ^4.4.2
-    socket.io-client: ^4.3.2
-    ts-node: ^10.4.0
+    react-transition-group: ^4.4.5
+    socket.io-client: ^4.6.2
+    ts-node: ^10.9.1
     typescript: ^5.1.3
-    uuid: ^8.3.2
+    uuid: ^9.0.0
   languageName: unknown
   linkType: soft
 
@@ -4822,27 +4786,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"concurrently@npm:^7.0.0":
-  version: 7.6.0
-  resolution: "concurrently@npm:7.6.0"
+"concurrently@npm:^8.2.0":
+  version: 8.2.0
+  resolution: "concurrently@npm:8.2.0"
   dependencies:
-    chalk: ^4.1.0
-    date-fns: ^2.29.1
+    chalk: ^4.1.2
+    date-fns: ^2.30.0
     lodash: ^4.17.21
-    rxjs: ^7.0.0
-    shell-quote: ^1.7.3
-    spawn-command: ^0.0.2-1
-    supports-color: ^8.1.0
+    rxjs: ^7.8.1
+    shell-quote: ^1.8.1
+    spawn-command: 0.0.2
+    supports-color: ^8.1.1
     tree-kill: ^1.2.2
-    yargs: ^17.3.1
+    yargs: ^17.7.2
   bin:
     conc: dist/bin/concurrently.js
     concurrently: dist/bin/concurrently.js
-  checksum: f705c9a7960f1b16559ca64958043faeeef6385c0bf30a03d1375e15ab2d96dba4f8166f1bbbb1c85e8da35ca0ce3c353875d71dff2aa132b2357bb533b3332e
+  checksum: eafe6a4d9b7fda87f55ea285cfc6acd937a5286ceec8991ab48e6cc27c45fce6a5c6f45e18d7555defa15dc7d7e8941bc5a9d1ceaf182e31441d420e00333434
   languageName: node
   linkType: hard
 
-"config@npm:^3.3.6":
+"config@npm:^3.3.9":
   version: 3.3.9
   resolution: "config@npm:3.3.9"
   dependencies:
@@ -5303,7 +5267,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^2.29.1":
+"date-fns@npm:^2.30.0":
   version: 2.30.0
   resolution: "date-fns@npm:2.30.0"
   dependencies:
@@ -6391,17 +6355,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express-validator@npm:^6.13.0":
-  version: 6.15.0
-  resolution: "express-validator@npm:6.15.0"
+"express-validator@npm:^7.0.1":
+  version: 7.0.1
+  resolution: "express-validator@npm:7.0.1"
   dependencies:
     lodash: ^4.17.21
     validator: ^13.9.0
-  checksum: 05c6883c7c4313bed11acd77cf81b3f25516418c27283d897e8f245f9591c11757511430d0c65a073a70fcd85346afd8fb23070a498020809bfe8cbbf62d3772
+  checksum: 34431c106533e761c7875fea023940fb35b426509c5f3b21e30a4bd2f82833494ad047d4c0cc2626788964a720dd049b38156b13a1a9906243c66c68d32819a2
   languageName: node
   linkType: hard
 
-"express@npm:^4.17.1, express@npm:^4.17.3":
+"express@npm:^4.17.3, express@npm:^4.18.2":
   version: 4.18.2
   resolution: "express@npm:4.18.2"
   dependencies:
@@ -8801,20 +8765,20 @@ __metadata:
   dependencies:
     "@types/bcryptjs": ^2.4.2
     "@types/config": ^3.3.0
-    "@types/express": ^4.17.13
-    "@types/jsonwebtoken": ^8.5.6
-    "@types/node": ^18.7.6
+    "@types/express": ^4.17.17
+    "@types/jsonwebtoken": ^9.0.2
+    "@types/node": ^20.3.1
     "@types/nodemailer": ^6.4.4
     bcryptjs: ^2.4.3
-    concurrently: ^7.0.0
-    config: ^3.3.6
+    concurrently: ^8.2.0
+    config: ^3.3.9
     dotenv: ^16.1.4
-    express: ^4.17.1
-    express-validator: ^6.13.0
+    express: ^4.18.2
+    express-validator: ^7.0.1
     jsonwebtoken: ^9.0.0
     mongoose: ^7.2.4
-    nodemailer: ^6.7.1
-    nodemon: ^2.0.15
+    nodemailer: ^6.9.3
+    nodemon: ^2.0.22
     path: ^0.12.7
     socket.io: ^4.3.2
     ts-node: ^10.9.1
@@ -9498,14 +9462,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nodemailer@npm:^6.7.1":
+"nodemailer@npm:^6.9.3":
   version: 6.9.3
   resolution: "nodemailer@npm:6.9.3"
   checksum: 3bea8316652c0578515d9146d2f24660e4855807520153f061d39af76b440a4f61b4e70f10fed35f8f12f115f6aea1aeb483ea7ba0337c0e3e675f117c41c611
   languageName: node
   linkType: hard
 
-"nodemon@npm:^2.0.15":
+"nodemon@npm:^2.0.22":
   version: 2.0.22
   resolution: "nodemon@npm:2.0.22"
   dependencies:
@@ -11297,7 +11261,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-transition-group@npm:^4.4.2":
+"react-transition-group@npm:^4.4.5":
   version: 4.4.5
   resolution: "react-transition-group@npm:4.4.5"
   dependencies:
@@ -11662,7 +11626,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^7.0.0":
+"rxjs@npm:^7.8.1":
   version: 7.8.1
   resolution: "rxjs@npm:7.8.1"
   dependencies:
@@ -11990,7 +11954,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"shell-quote@npm:^1.7.3":
+"shell-quote@npm:^1.7.3, shell-quote@npm:^1.8.1":
   version: 1.8.1
   resolution: "shell-quote@npm:1.8.1"
   checksum: 5f01201f4ef504d4c6a9d0d283fa17075f6770bfbe4c5850b074974c68062f37929ca61700d95ad2ac8822e14e8c4b990ca0e6e9272e64befd74ce5e19f0736b
@@ -12075,7 +12039,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"socket.io-client@npm:^4.3.2":
+"socket.io-client@npm:^4.6.2":
   version: 4.6.2
   resolution: "socket.io-client@npm:4.6.2"
   dependencies:
@@ -12219,7 +12183,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"spawn-command@npm:^0.0.2-1":
+"spawn-command@npm:0.0.2":
   version: 0.0.2
   resolution: "spawn-command@npm:0.0.2"
   checksum: e35c5d28177b4d461d33c88cc11f6f3a5079e2b132c11e1746453bbb7a0c0b8a634f07541a2a234fa4758239d88203b758def509161b651e81958894c0b4b64b
@@ -12543,7 +12507,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"supports-color@npm:^8.0.0, supports-color@npm:^8.1.0":
+"supports-color@npm:^8.0.0, supports-color@npm:^8.1.1":
   version: 8.1.1
   resolution: "supports-color@npm:8.1.1"
   dependencies:
@@ -12903,7 +12867,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-node@npm:^10.4.0, ts-node@npm:^10.9.1":
+"ts-node@npm:^10.9.1":
   version: 10.9.1
   resolution: "ts-node@npm:10.9.1"
   dependencies:
@@ -13267,6 +13231,15 @@ __metadata:
   bin:
     uuid: dist/bin/uuid
   checksum: 5575a8a75c13120e2f10e6ddc801b2c7ed7d8f3c8ac22c7ed0c7b2ba6383ec0abda88c905085d630e251719e0777045ae3236f04c812184b7c765f63a70e58df
+  languageName: node
+  linkType: hard
+
+"uuid@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "uuid@npm:9.0.0"
+  bin:
+    uuid: dist/bin/uuid
+  checksum: 8dd2c83c43ddc7e1c71e36b60aea40030a6505139af6bee0f382ebcd1a56f6cd3028f7f06ffb07f8cf6ced320b76aea275284b224b002b289f89fe89c389b028
   languageName: node
   linkType: hard
 
@@ -14028,7 +14001,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yargs@npm:^17.3.1":
+"yargs@npm:^17.7.2":
   version: 17.7.2
   resolution: "yargs@npm:17.7.2"
   dependencies:
