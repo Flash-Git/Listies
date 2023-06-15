@@ -27,6 +27,7 @@ import Login from "./components/auth/Login";
 import Alerts from "./components/layout/Alerts";
 import Home from "./components/pages/Home";
 import About from "./components/pages/About";
+import Settings from "./components/pages/Settings";
 import NotFound from "./components/pages/NotFound";
 import PrivateRoute from "./components/routing/PrivateRoute";
 
@@ -84,6 +85,7 @@ const App: FC = () => (
                   }
                 />
                 <Route path="/about" element={<About />} />
+                <Route path="/settings" element={<Settings />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="*" element={<NotFound />} />
