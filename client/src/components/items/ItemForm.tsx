@@ -67,6 +67,7 @@ const ItemForm: FC<Props> = ({ currentList }) => {
 
   const inputFields = (
     <form
+      autoComplete="new-password"
       onSubmit={onSubmit}
       style={{
         display: "flex",
@@ -75,8 +76,7 @@ const ItemForm: FC<Props> = ({ currentList }) => {
         justifyContent: "center",
         marginTop: "0.7rem",
         marginBottom: "0.7rem",
-      }}
-    >
+      }}>
       <input
         id="itemFormName"
         style={{
