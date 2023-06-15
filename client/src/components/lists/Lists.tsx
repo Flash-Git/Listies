@@ -3,6 +3,7 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import ListItem from "./ListItem";
 import Spinner from "../layout/Spinner";
+import Modal from "../layout/Modal";
 
 import AppContext from "../../context/app/AppContext";
 import AlertContext from "../../context/alert/AlertContext";
@@ -28,8 +29,19 @@ const Lists: FC = () => {
   const { loading: authLoading, isAuthenticated } = authContext;
 
   const listContext: IListContext = useContext(ListContext);
-  const { error, loading, lists, getLists, setLists, clearErrors, addList, deleteList } =
-    listContext;
+  const {
+    error,
+    loading,
+    lists,
+    pushDeleteList,
+    getLists,
+    setLists,
+    clearErrors,
+    addList,
+    deleteList,
+  } = listContext;
+
+  const [confirmModal, setConfirmModal] = useState<List | undefined>(undefined);
 
   useEffect(() => {
     if (!socket) return;
@@ -84,24 +96,52 @@ const Lists: FC = () => {
     setDraggedList(null);
   };
 
+  /*
+   * Modal
+   *
+   */
+
+  const openConfirmModal = (list: List) => {
+    setConfirmModal(list);
+  };
+
+  const closeModal = () => {
+    setConfirmModal(undefined);
+  };
+
+  const confirmDelete = () => {
+    confirmModal && pushDeleteList(confirmModal.id);
+  };
+
   if (loading) return <Spinner />;
 
   return (
-    <TransitionGroup>
-      {lists.map((list: List, i: number) => (
-        <CSSTransition key={list.id} timeout={200}>
-          <div
-            className="drag"
-            draggable
-            onDragStart={(e) => onDragStart(e, i, list.name)}
-            onDragEnd={onDragEnd}
-            onDragOver={() => onDragOver(i)}
-          >
-            <ListItem list={list} />
-          </div>
-        </CSSTransition>
-      ))}
-    </TransitionGroup>
+    <>
+      <TransitionGroup>
+        {lists.map((list: List, i: number) => (
+          <CSSTransition key={list.id} timeout={200}>
+            <div
+              className="drag"
+              draggable
+              onDragStart={(e) => onDragStart(e, i, list.name)}
+              onDragEnd={onDragEnd}
+              onDragOver={() => onDragOver(i)}>
+              <ListItem list={list} openConfirmModal={openConfirmModal} />
+            </div>
+          </CSSTransition>
+        ))}
+      </TransitionGroup>
+      {confirmModal && (
+        <div>
+          <Modal
+            action={confirmDelete}
+            content={`Do you want to delete the ${confirmModal.name} list?`}
+            title="Confirm"
+            closeModal={closeModal}
+          />
+        </div>
+      )}
+    </>
   );
 };
 
