@@ -1,4 +1,4 @@
-import { FC, useContext, useEffect } from "react";
+import { FC, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import ItemContext from "../../context/item/ItemContext";
@@ -11,13 +11,10 @@ interface Props {
 }
 
 const Item: FC<Props> = ({ item, confirmDialog }) => {
-  const { id, name, checked, importance, marked } = item;
-
-  // TODO trigger rerender on edit
-  useEffect(() => {}, [checked, importance, marked, id, item]);
+  const { name, checked, importance, marked } = item;
 
   const itemContext: IItemContext = useContext(ItemContext);
-  const { pushEditItem, pushDeleteItem } = itemContext;
+  const { pushEditItem } = itemContext;
 
   const toggleCheck = () => {
     pushEditItem({ ...item, checked: !checked, marked: false });
@@ -30,7 +27,6 @@ const Item: FC<Props> = ({ item, confirmDialog }) => {
   const onMarkDelete = () => {
     // TODO option to skip mark delete in preferences - instant - double click - individual confirm - mass confirm
     // pushDeleteItem(id);
-
     if (!marked) pushEditItem({ ...item, checked: true, marked: true });
     else confirmDialog();
   };
@@ -94,7 +90,7 @@ const Item: FC<Props> = ({ item, confirmDialog }) => {
           style={{
             fontSize: "90%",
             wordWrap: "break-word",
-            textDecoration: `${marked && "line-through"}`,
+            textDecoration: `${marked ? "line-through" : "none"}`,
           }}>
           {name}
         </h3>
