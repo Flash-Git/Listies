@@ -120,7 +120,10 @@ const Items: FC<Props> = ({ currentList }) => {
     setDraggedItem(null);
   };
 
-  if (loading) return <Spinner />;
+  /*
+   * Modal
+   *
+   */
 
   const confirmDialog = () => {
     setConfirmModal(true);
@@ -137,6 +140,8 @@ const Items: FC<Props> = ({ currentList }) => {
   const closeModal = () => {
     setConfirmModal(false);
   };
+
+  if (loading) return <Spinner />;
 
   return (
     <>
