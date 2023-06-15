@@ -27,7 +27,7 @@ const Register: FC = () => {
   useEffect(() => {
     if (!isAuthenticated) return;
     clearAlerts();
-    navigate(-1);
+    navigate("/");
   }, [isAuthenticated]);
 
   useEffect(() => {
