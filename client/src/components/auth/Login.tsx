@@ -98,9 +98,9 @@ const Login: FC = () => {
           Resend Email
         </button>
       )}
-      <button className="btn btn-primary btn-block" onClick={onReset}>
+      {/* <button className="btn btn-primary btn-block" onClick={onReset}>
           Reset Password
-        </button>
+        </button> */}
     </div>
   );
 };
