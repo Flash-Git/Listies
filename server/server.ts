@@ -14,7 +14,8 @@ import itemsRoutes from "../routes/api/items";
 
 import { User } from "models";
 
-if (process.env.NODE_ENV !== "production") dotenv.config();
+// if (process.env.NODE_ENV !== "production")
+dotenv.config();
 
 interface SocketObj {
   socket: Socket;
