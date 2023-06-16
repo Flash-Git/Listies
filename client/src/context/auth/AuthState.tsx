@@ -107,7 +107,6 @@ const AuthState = (props: any) => {
     };
     try {
       const res: AxiosResponse<{ token: string }> = await axios.post("/api/auth", formData, config);
-      updateAuthTokenHeader(res.data.token);
       dispatch({ type: LOGIN_SUCCESS, payload: res.data });
       loadUser(res.data.token);
     } catch (e) {
@@ -125,7 +124,6 @@ const AuthState = (props: any) => {
     };
     try {
       const res: AxiosResponse<{ token: string }> = await axios.post("/api/reset", formData, config);
-      updateAuthTokenHeader(res.data.token);
       dispatch({ type: LOGIN_SUCCESS, payload: res.data });
       loadUser(res.data.token);
     } catch (e) {
