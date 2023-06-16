@@ -598,3 +598,14 @@ table th {
   z-index: 2;
   position: relative;
 }
+
+.strike-diag {
+  background: linear-gradient(
+    to left top,
+    transparent 40%,
+    currentColor 49.5%,
+    currentColor 50.5%,
+    transparent 60%
+  );
+  /* color: red; */
+}

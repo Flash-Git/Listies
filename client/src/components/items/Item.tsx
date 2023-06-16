@@ -85,15 +85,13 @@ const Item: FC<Props> = ({ item, confirmDialog }) => {
           flexShrink: 1,
           maxWidth: "14.8rem",
         }}>
-        <h3
-          className="text-primary text-left"
+        <span
+          className={`text-primary ${marked && "strike-diag"}`}
           style={{
-            fontSize: "90%",
             wordWrap: "break-word",
-            textDecoration: `${marked ? "line-through" : "none"}`,
           }}>
           {name}
-        </h3>
+        </span>
       </button>
       <div>
         <button
