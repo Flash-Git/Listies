@@ -29,20 +29,23 @@ const Navbar: FC<Props> = ({ title, icon }) => {
 
   const authLinks = (
     <Fragment>
-      <li>
-        Hello <strong>{user && user.name}&nbsp;&nbsp;</strong>
+      <li className="mx-1 sm-left">
+        Hello <strong>{user && user.name}</strong>
       </li>
       <li>
-        <Link to="/">Home</Link>
+        <Link className="nav-link nav-link-fade" to="/">
+          Home
+        </Link>
       </li>
       <li>
-        <Link to="/about">About</Link>
+        <Link className="nav-link nav-link-fade" to="/about">
+          About
+        </Link>
       </li>
       <li>
-        <a onClick={onLogout} href="#!">
+        <a className="nav-link nav-link-fade" onClick={onLogout} href="#!">
           <FontAwesomeIcon icon={["fas", "sign-out-alt"]} />
-          &nbsp;
-          <span className="hide-sm">Logout</span>
+          <span className="hide-sm">&nbsp; Logout</span>
         </a>
       </li>
     </Fragment>
@@ -51,20 +54,26 @@ const Navbar: FC<Props> = ({ title, icon }) => {
   const guestLinks = (
     <Fragment>
       <li>
-        <Link to="/about">About</Link>
+        <Link className="nav-link nav-link-fade" to="/about">
+          About
+        </Link>
       </li>
       <li>
-        <Link to="/login">Login</Link>
+        <Link className="nav-link nav-link-fade" to="/login">
+          Login
+        </Link>
       </li>
       <li>
-        <Link to="/register">Register</Link>
+        <Link className="nav-link nav-link-fade" to="/register">
+          Register
+        </Link>
       </li>
     </Fragment>
   );
 
   return (
     <nav className="navbar bg-primary">
-      <h1>
+      <h1 className="hide-sm">
         <Link to="/">
           <FontAwesomeIcon icon={icon} /> {title}
         </Link>
