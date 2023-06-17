@@ -22,7 +22,7 @@ const ListSchema: Schema<List> = new Schema({
     default: false,
   },
   users: {
-    type: [[mongoose.Schema.Types.ObjectId]],
+    type: [mongoose.Schema.Types.ObjectId],
     required: true,
   },
   date: {
