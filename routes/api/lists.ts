@@ -31,6 +31,17 @@ const ListRoutes = (getSockets: GetFilteredSockets) => {
       if (!user) return res.status(404).send({ msg: "User not found" });
       const lists = await List.find({ accessId: { $in: user.accessIds } }); //.sort({date:-1});
 
+      // List.updateMany({ accessId: { $in: user.accessIds },  }, ) // Definitely a better query possible
+
+      // Verify that these lists all contain the user in their user list
+      lists
+        .filter((list) => !list.users.includes(user._id))
+        .forEach((list) => {
+          list.updateOne({
+            $push: { users: user._id },
+          });
+        });
+
       res.json(lists);
     } catch (e) {
       console.error(e.message);
@@ -56,22 +67,37 @@ const ListRoutes = (getSockets: GetFilteredSockets) => {
 
         const accessId = crypto
           .createHash("sha256")
-          .update(name + user.id)
+          .update(name + user._id)
           .digest("hex");
 
-        if (user.accessIds.includes(accessId))
-          return res.status(403).send({ msg: "User already has a List with this id" });
+        let list = await List.findOne({ accessId });
+
+        // return res.status(403).send({ msg: "User already has a List with this id" });
+        if (user.accessIds.includes(accessId)) {
+          if (list) {
+            if (list.users.includes(user._id)) return res.status(202).send(list);
+          } else {
+          }
+        } else {
+          await user.updateOne({
+            $push: { accessIds: accessId },
+          });
+
+          if (list) return res.status(202).send(list);
+        }
 
         const newList = new List({
-          owner: user.id,
+          owner: user._id,
           name,
           accessId,
-          users: [user.id],
+          users: [user._id],
         });
 
         if (password) {
           const salt = await bcrypt.genSalt(10);
           newList.password = await bcrypt.hash(password, salt);
+        } else {
+          newList.private = true;
         }
 
         await user.updateOne({
@@ -81,14 +107,14 @@ const ListRoutes = (getSockets: GetFilteredSockets) => {
         // const existingList = await List.findOne({ accessId });
         // if (existingList) {
         //   // Emit
-        //   getSockets(user.id).map((socket: Socket) => socket.emit("addList", existingList));
+        //   getSockets(user._id).map((socket: Socket) => socket.emit("addList", existingList));
         //   return res.status(201).send(existingList);
         // }
 
-        const list = await newList.save();
+        list = await newList.save();
 
         // Emit
-        getSockets(user.id).map((socket: Socket) => socket.emit("addList", list));
+        getSockets(user._id).map((socket: Socket) => socket.emit("addList", list));
 
         return res.status(201).send(list);
       } catch (e) {
@@ -103,7 +129,7 @@ const ListRoutes = (getSockets: GetFilteredSockets) => {
   // @access  PRIVATE
   router.post("/:accessId", auth, async (req: Request, res: Response) => {
     if (handleErrors(req, res)) return;
-    const { accessId }: { accessId?: string } = await req.params;
+    const { accessId }: { accessId?: string } = req.params;
     const { password }: IList = await req.body;
 
     try {
@@ -113,16 +139,18 @@ const ListRoutes = (getSockets: GetFilteredSockets) => {
       const list = await List.findOne({ accessId });
       if (!list || list.private) return res.status(404).send({ msg: "List not found" });
 
-      if (user.accessIds.includes(accessId))
-        return res.status(403).send({ msg: "User already has a List with this id" });
+      // return res.status(403).send({ msg: "User already has a List with this id" });
+      if (user.accessIds.includes(accessId)) return res.status(202).send(list);
 
       if (list.password) {
         const isMatch = await bcrypt.compare(password, list.password);
         if (!isMatch) return res.status(400).send({ msg: "Invalid credentials" });
+      } else {
+        return res.status(400).send({ msg: "List has no password" }); //todo
       }
 
       await list.updateOne({
-        $push: { users: user.id },
+        $push: { users: user._id },
       });
 
       await user.updateOne({
@@ -130,7 +158,7 @@ const ListRoutes = (getSockets: GetFilteredSockets) => {
       });
 
       // Emit
-      getSockets(user.id).map((socket: Socket) => socket.emit("addList", list));
+      getSockets(user._id).map((socket: Socket) => socket.emit("addList", list));
 
       return res.status(201).send(list);
     } catch (e) {
@@ -153,15 +181,19 @@ const ListRoutes = (getSockets: GetFilteredSockets) => {
       if (!user.accessIds.includes(list.accessId))
         return res.status(403).send({ msg: "Missing access id, permission denied" });
 
-      // TODO Actual deletion does not yet exist
-      // await list.remove();
+      await Promise.all([
+        user.updateOne({
+          $pull: { accessIds: list.accessId },
+        }),
+        list.updateOne({
+          $pull: { users: user._id },
+        }),
+      ]);
 
-      await user.updateOne({
-        $pull: { accessIds: list.accessId },
-      });
+      if (list.users.length === 1) await list.deleteOne();
 
       // Emit
-      getSockets(user.id).map((socket) => socket.emit("deleteList", list.id));
+      getSockets(user._id).map((socket) => socket.emit("deleteList", list.id));
 
       res.send({ msg: "List removed" });
     } catch (e) {
@@ -172,4 +204,5 @@ const ListRoutes = (getSockets: GetFilteredSockets) => {
 
   return router;
 };
+
 export default ListRoutes;

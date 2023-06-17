@@ -34,18 +34,20 @@ router.post(
     try {
       const user = await User.findOne({ email });
       if (!user) return res.status(401).send({ msg: "User not found" });
- 
+
       const salt = await bcrypt.genSalt(10);
       user.password = await bcrypt.hash(password, salt);
       await user.save();
 
       const jwtSecret: Secret =
-        process.env.NODE_ENV == "production" ? process.env.REACT_APP_JWT_SECRET : config.get("jwtSecret");
+        process.env.NODE_ENV == "production"
+          ? process.env.REACT_APP_JWT_SECRET
+          : config.get("jwtSecret");
 
       // Token
       const payload = {
         user: {
-          id: user.id,
+          id: user._id,
         },
       };
 
@@ -53,7 +55,6 @@ router.post(
         // expiresIn: 43200, // half day
         expiresIn: 604800, // 1 week
       });
-
 
       // TODO new email type
       // await sendEmail(req, res, user);

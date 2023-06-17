@@ -67,7 +67,7 @@ const ItemRoutes = (getSockets: GetFilteredSockets) => {
 
         const newItem = new Item({
           name,
-          user: user.id,
+          user: user._id,
           list: listId,
         });
 
