@@ -48,6 +48,7 @@ const ListReducer = (state: ListState, { type, payload }: Action): ListState => 
         loading: false,
       };
     case DELETE_LIST:
+      if (state.currentList?.id === payload) localStorage.removeItem("currentList");
       return {
         ...state,
         lists: state.lists.filter((list) => list.id !== payload),
