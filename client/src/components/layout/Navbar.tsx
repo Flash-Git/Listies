@@ -72,7 +72,7 @@ const Navbar: FC<Props> = ({ title, icon }) => {
   );
 
   return (
-    <nav className="navbar bg-primary">
+    <nav className="navbar bg-primary shadow">
       <h1 className="hide-sm">
         <Link to="/">
           <FontAwesomeIcon icon={icon} /> {title}

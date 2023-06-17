@@ -69,11 +69,10 @@ const Home: FC = () => {
         justifyContent: "space-evenly",
         flexWrap: "wrap",
         marginTop: "0.7rem",
-      }}
-    >
+      }}>
       <button
         onClick={toggleList}
-        className="btn btn-sm btn-primary mx"
+        className="btn btn-sm btn-primary mx shadow"
         style={{
           position: "absolute",
           left: "0.5rem",
@@ -81,8 +80,7 @@ const Home: FC = () => {
           paddingRight: "0.8rem",
           marginTop: "-0.5rem",
           zIndex: "1",
-        }}
-      >
+        }}>
         <FontAwesomeIcon icon={["fas", "bars"]} />
       </button>
 
@@ -94,8 +92,7 @@ const Home: FC = () => {
             scrollbarWidth: "thin",
             flexBasis: "23rem",
             maxWidth: "30rem",
-          }}
-        >
+          }}>
           <ListForm initialAccessId={accessId} />
           <Lists />
         </div>
@@ -107,8 +104,7 @@ const Home: FC = () => {
           scrollbarWidth: "thin",
           flexBasis: "23rem",
           maxWidth: "30rem",
-        }}
-      >
+        }}>
         <ItemForm currentList={currentList} />
         <Items currentList={currentList} />
       </div>
