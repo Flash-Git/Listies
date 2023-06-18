@@ -12,11 +12,10 @@ const Sorter: FC<Props> = ({ sortItems }) => (
     className="btn btn-link"
     style={{
       float: "right",
-      marginRight: "1rem",
-      height: "2.4rem",
+      marginRight: "0.6rem",
+      height: "1.4rem",
     }}
-    onClick={sortItems}
-  >
+    onClick={sortItems}>
     <FontAwesomeIcon style={{ height: "100%" }} icon={["fas", "sort-up"]} />
   </button>
 );

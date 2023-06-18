@@ -26,13 +26,12 @@ const ListMenu: FC<Props> = ({ open, toggleOpen }) => {
         <button
           className="btn btn-discreet text-center"
           style={{
-            marginBottom: "1rem",
+            marginBottom: "0.4rem",
             marginLeft: "1.2rem",
             borderStyle: "solid",
             borderRadius: "0.5em",
           }}
-          onClick={copy}
-        >
+          onClick={copy}>
           Copy Link
         </button>
       )}
@@ -40,12 +39,11 @@ const ListMenu: FC<Props> = ({ open, toggleOpen }) => {
         className="btn btn-link"
         style={{
           float: "right",
-          height: "2.4rem",
+          height: "1.4rem",
         }}
-        onClick={toggleOpen}
-      >
+        onClick={toggleOpen}>
         <FontAwesomeIcon
-          style={{ height: "2rem", width: "2rem" }}
+          style={{ height: "1.2rem", width: "1.2rem" }}
           icon={["fas", open ? "caret-left" : "sort-up"]}
         />
       </button>

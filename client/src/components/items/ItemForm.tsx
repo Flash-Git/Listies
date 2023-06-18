@@ -117,14 +117,27 @@ const ItemForm: FC<Props> = ({ currentList }) => {
             {open && (
               <Fragment>
                 <Exporter currentList={currentList} items={items} />
-                <Sorter sortItems={sortItems} />
+                {/* <Sorter sortItems={sortItems} /> */}
               </Fragment>
             )}
           </Fragment>
         )}
-        <h2 className="text-primary" style={{ margin: currentList ? "0 1.5rem" : "0" }}>
-          {listName}
-        </h2>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            margin: "0 2rem",
+          }}>
+          <button
+            className="btn btn-white text-center"
+            onClick={toggleOpen}
+            style={{ border: "0" }}>
+            <h2 className="text-primary" style={{ margin: currentList ? "0 1.5rem" : "0" }}>
+              {listName}
+            </h2>
+          </button>
+        </div>
+
         {currentList && inputFields}
       </div>
     </Fragment>
