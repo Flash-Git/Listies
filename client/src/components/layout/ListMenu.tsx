@@ -27,7 +27,7 @@ const ListMenu: FC<Props> = ({ open, toggleOpen }) => {
           className="btn btn-discreet text-center"
           style={{
             marginBottom: "0.4rem",
-            marginLeft: "1.2rem",
+            marginLeft: "1.4rem",
             borderStyle: "solid",
             borderRadius: "0.5em",
           }}

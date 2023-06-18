@@ -24,7 +24,7 @@ const Exporter: FC<Props> = ({ currentList, items }) => {
   return (
     <button
       className="btn btn-link"
-      style={{ float: "right", height: "1.2rem" }}
+      style={{ float: "right", height: "1.4rem" }}
       onClick={exportList}>
       <FontAwesomeIcon style={{ height: "100%" }} icon={["fas", "download"]} />
     </button>
