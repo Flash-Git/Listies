@@ -38,7 +38,7 @@ const ItemState = (props: any) => {
   const initialState: IItemState = {
     items: [],
     error: null,
-    loading: false,
+    loading: true,
   };
 
   const [state, dispatch] = useReducer(ItemReducer, initialState);
@@ -174,8 +174,7 @@ const ItemState = (props: any) => {
         sortItems,
         clearItems,
         clearErrors,
-      }}
-    >
+      }}>
       {props.children}
     </ItemContext.Provider>
   );

@@ -58,7 +58,7 @@ const Items: FC<Props> = ({ currentList }) => {
   }, [identifed, currentList, socket]);
 
   useEffect(() => {
-    if (!socket || !currentList) return;
+    if (!socket || !currentList || authLoading || !isAuthenticated) return;
 
     socket.on("addItem", (item: IItem, listId: string) => {
       if (currentList.id !== listId) return;

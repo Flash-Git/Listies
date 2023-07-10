@@ -27,6 +27,7 @@ const AuthReducer = (state: AuthState, { type, payload }: Action): AuthState => 
         ...state,
         ...payload,
         isAuthenticated: true,
+        loading: false,
         error: payload.msg ? payload.msg : null,
       };
     case REGISTER_FAIL:

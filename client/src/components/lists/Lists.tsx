@@ -44,7 +44,7 @@ const Lists: FC = () => {
   const [confirmModal, setConfirmModal] = useState<List | undefined>(undefined);
 
   useEffect(() => {
-    if (!socket) return;
+    if (!socket || authLoading || !isAuthenticated) return;
 
     socket.on("addList", (list: List) => {
       addList(list);

@@ -84,6 +84,7 @@ const ListReducer = (state: ListState, { type, payload }: Action): ListState => 
       return {
         ...state,
         lists: [],
+        loading: false,
       };
     case CLEAR_ERRORS:
       return {
