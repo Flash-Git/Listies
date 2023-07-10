@@ -105,6 +105,7 @@ const ItemReducer = (state: ItemState, action: Action): ItemState => {
       return {
         ...state,
         items: [],
+        loading: false,
       };
     case CLEAR_ERRORS:
       return {
