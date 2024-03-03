@@ -117,7 +117,7 @@ const ItemForm: FC<Props> = ({ currentList }) => {
             {open && (
               <Fragment>
                 <Exporter currentList={currentList} items={items} />
-                {/* <Sorter sortItems={sortItems} /> */}
+                <Sorter sortItems={sortItems} />
               </Fragment>
             )}
           </Fragment>
