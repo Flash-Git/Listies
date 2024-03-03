@@ -59,7 +59,9 @@ router.post(
       };
 
       const jwtSecret: Secret =
-        process.env.NODE_ENV == "production" ? process.env.JWT_SECRET : config.get("jwtSecret");
+        process.env.NODE_ENV == "production"
+          ? process.env.REACT_APP_JWT_SECRET
+          : config.get("jwtSecret");
 
       jwt.sign(
         payload,

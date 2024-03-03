@@ -24,7 +24,7 @@ router.get("/:email/:token", async (req: Request, res: Response) => {
     if (!user) return res.status(401).send({ msg: "User not found" });
 
     const jwtSecret: Secret =
-      process.env.NODE_ENV == "production" ? process.env.JWT_SECRET : config.get("jwtSecret");
+      process.env.NODE_ENV == "production" ? process.env.REACT_APP_JWT_SECRET : config.get("jwtSecret");
 
     jwt.verify(token, jwtSecret, (e, _decoded) => {
       if (e) res.status(403).send({ msg: "Invalid token" });
