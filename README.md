@@ -13,12 +13,14 @@
 - Dark Mode
 - Accounts
 - Automatic login
-- Email confirmation
-- List Sharing
-- Importing/Exporting
+- Email Confirmation
+- Realtime List Sharing
+- List Importing/Exporting
 - Dynamic User Interface
-- Custom Ordering
+- Custom Drag and Drop Item Ordering
 - Alerts
+- Animated css
+- Animations
 
 ## Technologies
 
@@ -29,13 +31,18 @@
 - MongoDB
 - Account management with bcrypt password hashing
 - Built-in token authorization
+- Sockets
 
 ### Frontend
 
 - Typescript
-- React.js version num (hooks)
-- Routing
+- React.js
+  - React Hooks
+  - React Context
+  - React Reducer
+- Private Routing
 - Authentication
+- Modals
 
 ### Hosting
 
